@@ -1,0 +1,86 @@
+@font-face {
+    font-family: CyberpunkWaifus;
+    src: url(CyberpunkWaifus.ttf);
+  }
+
+  body {
+    font-family: "CyberpunkWaifus", serif;
+    background-color: #1F1A2D;
+   
+  }
+
+  #borderIMG {
+    border: 45px solid transparent;
+    border-image-slice:28 20 22 20;
+    border-image-width:20px 20px 20px 20px;
+    border-image-outset:0px 0px 0px 0px;
+    border-image-repeat:repeat;
+    border-image-source: url(borderIMG.png);
+    background-color: #1e0c1b;
+    color: aliceblue;
+  }
+
+  #borderCALI {
+    border: 20px solid transparent;
+    border-image-slice:9 7 11 7;
+    border-image-width:20px 20px 20px 20px;
+    border-image-outset:0px 0px 0px 0px;
+    border-image-repeat:stretch;
+    border-image-source: url(borderCALI.png);
+    background-color: black;
+    color: aliceblue;
+  }
+
+  #borderTECH {
+    border: 20px solid transparent;
+    border-image-slice:29 19 21 21;
+    border-image-width:20px 20px 20px 20px;
+    border-image-outset:0px 0px 0px 0px;
+    border-image-repeat:repeat;
+    border-image-source: url(borderTECH.png);
+    background-color: black;
+    color: aliceblue;
+  }
+
+  .btn-val {
+    font-size: large;
+    background-image: url(Button.png);
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+  }
+
+  .btn-val:hover {
+    -webkit-box-shadow: 0 5px 15px rgba(105, 215, 211, 0.4);
+    box-shadow: 0 5px 15px rgba(105, 215, 211, 0.4);
+  }
+
+  .btn-val:focus {
+    background-image: url(Button2.png);
+    -webkit-box-shadow: 0 5px 15px rgba(255, 66, 138, 0.400);
+    box-shadow: 0 5px 15px rgba(255, 66, 138, 0.400);
+  }
+
+  mark.Adelhyde {
+    color:#f21637;
+    background: none;
+  }
+
+  mark.Delta {
+      color:#87acf3;
+      background: none;
+  }
+
+  mark.Bronson {
+    color:#ffd230;
+    background: none;
+  }
+
+  mark.Flanergide {
+      color:#a6d26d;
+      background: none;
+  }
+
+  mark.Karmotrine {
+    color:#47d4d4;
+    background: none;
+  }
