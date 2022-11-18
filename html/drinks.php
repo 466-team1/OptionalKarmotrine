@@ -90,10 +90,13 @@
         <button class="nav-link active" id="all-tab" data-bs-toggle="tab" data-bs-target="#all-tab-pane" type="button" role="tab">All Drinks</button>
       </li>
       <li class="nav-item" role="presentation">
+        <button class="nav-link" id="flavor-tab" data-bs-toggle="tab" data-bs-target="#flavor-tab-pane" type="button" role="tab">Drinks by Flavor</button>
+      </li>
+      <li class="nav-item" role="presentation">
         <button class="nav-link" id="type-tab" data-bs-toggle="tab" data-bs-target="#type-tab-pane" type="button" role="tab">Drinks by Type</button>
       </li>
       <li class="nav-item" role="presentation">
-        <button class="nav-link" id="flavor-tab" data-bs-toggle="tab" data-bs-target="#flavor-tab-pane" type="button" role="tab">Drinks by Flavor</button>
+        <button class="nav-link" id="catagory-tab" data-bs-toggle="tab" data-bs-target="#catagory-tab-pane" type="button" role="tab">Drinks by Catagory</button>
       </li>
     </ul>
     <div class="tab-content" id="borderTECH">
@@ -101,12 +104,60 @@
         <h2 class="p-2 m-2">All Drinks (Alphabetical)</h2>
         <div class="table-responsive" id="borderIMG">
           <?php
-            $result = $pdo->query("SELECT NAME FROM DRINKS WHERE NAME != 'Flaming Moai';");
-            draw_table($result->fetchAll(PDO::FETCH_ASSOC));
+            $result = $pdo->query("SELECT * FROM DRINKS WHERE CATAGORY != 'Secret';");
+            drawCards($result->fetchAll(PDO::FETCH_ASSOC));
           ?>
         </div>
       </div>
 
+      <div class="tab-pane fade" id="flavor-tab-pane" role="tabpanel">
+        <h2 class="p-2 m-2">Drinks by Flavor</h2>
+        <ul class="nav nav-tabs" role="tablist">
+          <li class="nav-item" role="presentation">
+            <button class="nav-link" id="bitter-tab" data-bs-toggle="tab" data-bs-target="#bitter-tab-pane" type="button" role="tab">Bitter</button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button class="nav-link" id="bubbly-tab" data-bs-toggle="tab" data-bs-target="#bubbly-tab-pane" type="button" role="tab">Bubbly</button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button class="nav-link" id="sour-tab" data-bs-toggle="tab" data-bs-target="#sour-tab-pane" type="button" role="tab">Sour</button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button class="nav-link" id="spicy-tab" data-bs-toggle="tab" data-bs-target="#spicy-tab-pane" type="button" role="tab">Spicy</button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button class="nav-link" id="sweet-tab" data-bs-toggle="tab" data-bs-target="#sweet-tab-pane" type="button" role="tab">Sweet</button>
+          </li>
+        </ul>
+        <div class="tab-content">
+          <div class="tab-pane fade" id="bitter-tab-pane" role="tabpanel">
+            <div id="borderIMG">
+              <?php selectFlavor($pdo, 'Bitter')?>
+            </div>
+          </div>
+          <div class="tab-pane fade" id="bubbly-tab-pane" role="tabpanel">
+            <div id="borderIMG">
+              <?php selectFlavor($pdo, 'Bubbly')?>
+            </div>
+          </div>
+          <div class="tab-pane fade" id="sour-tab-pane" role="tabpanel">
+            <div id="borderIMG">
+              <?php selectFlavor($pdo, 'Sour')?>
+            </div>
+          </div>
+          <div class="tab-pane fade" id="spicy-tab-pane" role="tabpanel">
+            <div id="borderIMG">
+              <?php selectFlavor($pdo, 'Spicy')?>
+            </div>
+          </div>
+          <div class="tab-pane fade" id="sweet-tab-pane" role="tabpanel">
+            <div id="borderIMG">
+              <?php selectFlavor($pdo, 'Sweet')?>
+            </div>
+          </div>
+        </div>
+      </div>
+      
       <div class="tab-pane fade" id="type-tab-pane" role="tabpanel">
         <h2 class="p-2 m-2">Drinks by Type</h2>
         <ul class="nav nav-tabs" role="tablist">
@@ -155,53 +206,78 @@
         </div>
       </div>
 
-      <div class="tab-pane fade" id="flavor-tab-pane" role="tabpanel">
-        <h2 class="p-2 m-2">Drinks by Flavor</h2>
+      <div class="tab-pane fade" id="catagory-tab-pane" role="tabpanel">
+        <h2 class="p-2 m-2">Drinks by Catagory</h2>
         <ul class="nav nav-tabs" role="tablist">
           <li class="nav-item" role="presentation">
-            <button class="nav-link" id="bitter-tab" data-bs-toggle="tab" data-bs-target="#bitter-tab-pane" type="button" role="tab">Bitter</button>
+            <button class="nav-link" id="bland-tab" data-bs-toggle="tab" data-bs-target="#bland-tab-pane" type="button" role="tab">Bland</button>
           </li>
           <li class="nav-item" role="presentation">
-            <button class="nav-link" id="bubbly-tab" data-bs-toggle="tab" data-bs-target="#bubbly-tab-pane" type="button" role="tab">Bubbly</button>
+            <button class="nav-link" id="burning-tab" data-bs-toggle="tab" data-bs-target="#burning-tab-pane" type="button" role="tab">Burning</button>
           </li>
           <li class="nav-item" role="presentation">
-            <button class="nav-link" id="sour-tab" data-bs-toggle="tab" data-bs-target="#sour-tab-pane" type="button" role="tab">Sour</button>
+            <button class="nav-link" id="happy-tab" data-bs-toggle="tab" data-bs-target="#happy-tab-pane" type="button" role="tab">Happy</button>
           </li>
           <li class="nav-item" role="presentation">
-            <button class="nav-link" id="spicy-tab" data-bs-toggle="tab" data-bs-target="#spicy-tab-pane" type="button" role="tab">Spicy</button>
+            <button class="nav-link" id="secret-tab" data-bs-toggle="tab" data-bs-target="#secret-tab-pane" type="button" role="tab">Secret</button>
           </li>
           <li class="nav-item" role="presentation">
-            <button class="nav-link" id="sweet-tab" data-bs-toggle="tab" data-bs-target="#sweet-tab-pane" type="button" role="tab">Sweet</button>
+            <button class="nav-link" id="sobering-tab" data-bs-toggle="tab" data-bs-target="#sobering-tab-pane" type="button" role="tab">Sobering</button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button class="nav-link" id="soft-tab" data-bs-toggle="tab" data-bs-target="#soft-tab-pane" type="button" role="tab">Soft</button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button class="nav-link" id="strong-tab" data-bs-toggle="tab" data-bs-target="#strong-tab-pane" type="button" role="tab">Strong</button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button class="nav-link" id="vintage-tab" data-bs-toggle="tab" data-bs-target="#vintage-tab-pane" type="button" role="tab">Vintage</button>
           </li>
         </ul>
         <div class="tab-content" id="myTabContent">
-          <div class="tab-pane fade" id="bitter-tab-pane" role="tabpanel">
+          <div class="tab-pane fade" id="bland-tab-pane" role="tabpanel">
             <div id="borderIMG">
-              <?php selectFlavor($pdo, 'Bitter')?>
+              <?php selectCatagory($pdo, 'Bland')?>
             </div>
           </div>
-          <div class="tab-pane fade" id="bubbly-tab-pane" role="tabpanel">
+          <div class="tab-pane fade" id="burning-tab-pane" role="tabpanel">
             <div id="borderIMG">
-              <?php selectFlavor($pdo, 'Bubbly')?>
+              <?php selectCatagory($pdo, 'Burning')?>
             </div>
           </div>
-          <div class="tab-pane fade" id="sour-tab-pane" role="tabpanel">
+          <div class="tab-pane fade" id="happy-tab-pane" role="tabpanel">
             <div id="borderIMG">
-              <?php selectFlavor($pdo, 'Sour')?>
+              <?php selectCatagory($pdo, 'Happy')?>
             </div>
           </div>
-          <div class="tab-pane fade" id="spicy-tab-pane" role="tabpanel">
+          <div class="tab-pane fade" id="secret-tab-pane" role="tabpanel">
             <div id="borderIMG">
-              <?php selectFlavor($pdo, 'Spicy')?>
+              <p>01000110 01101100 01100001 01101101 01101001 01101110 01100111 01001101 01101111 01100001 01101001</p>
             </div>
           </div>
-          <div class="tab-pane fade" id="sweet-tab-pane" role="tabpanel">
+          <div class="tab-pane fade" id="sobering-tab-pane" role="tabpanel">
             <div id="borderIMG">
-              <?php selectFlavor($pdo, 'Sweet')?>
+              <?php selectCatagory($pdo, 'Sobering')?>
+            </div>
+          </div>
+          <div class="tab-pane fade" id="soft-tab-pane" role="tabpanel">
+            <div id="borderIMG">
+              <?php selectCatagory($pdo, 'Soft')?>
+            </div>
+          </div>
+          <div class="tab-pane fade" id="strong-tab-pane" role="tabpanel">
+            <div id="borderIMG">
+              <?php selectCatagory($pdo, 'Strong')?>
+            </div>
+          </div>
+          <div class="tab-pane fade" id="vintage-tab-pane" role="tabpanel">
+            <div id="borderIMG">
+              <?php selectCatagory($pdo, 'Vintage')?>
             </div>
           </div>
         </div>
       </div>
+
     </div>
     <footer class="pt-2 mt-4 text-muted border-top">
       Copyright (c) Keeree Joe Group. 2064.

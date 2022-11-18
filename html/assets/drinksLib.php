@@ -3,46 +3,27 @@
 $username = 'z1951125';
 $password = '2000Mar30';
 
-function draw_table($rows){
-  echo "<table border=1 cellspacing=1>";
-  echo "<tr>";
-  foreach($rows[0] as $key => $item ){
-    echo "<th>$key</th>";
-  }
-  echo "</tr>";
-  foreach($rows as $row){
-    echo "<tr>";
-    foreach($row as $key => $item){
-      echo "<td><a href=\"#\">$item</a></td>";
-    }
-    echo "</tr>";
-  }
-  echo "</table>";
-}?>
-
-<?php
-function drawTable($rows)
+function printQuote()
 {
-    if(empty($rows)) { echo "<p>No results found.</p>"; }
-    else 
+    return "\"It's like drinking ethylic alcohol with a spoonful of sugar.\"";
+}
+
+function selectFlavor($pdo, $flavor)
+{
+    try
     {
-        echo "<table class=\"table table-sm table-bordered table-dark table-striped table-hover\">";
-        echo "<thead><tr>";
-        foreach($rows[0] as $key => $value)
-        {
-            echo "<th>$key</th>";
-        }
-        echo "</tr></thead><tbody class=\"table-group-divider\">";
-        foreach($rows as $row)
-        {
-            echo "<tr>";
-            foreach($row as $key => $value)
-            {
-                echo "<td>$value</td>";
-            }
-            echo "</tr>";
-        }
-        echo "</tbody></table>";
+        $result = $pdo->query("SELECT * FROM DRINKS WHERE CATAGORY != 'Secret' AND FLAVOR = '$flavor';");
+    }
+    catch(PDOexception $e)
+    {
+    echo "Query Failure: " . $e->getMessage();
+    }
+
+    if(empty($result)) { echo "<p>No results found.</p>"; }
+    else
+    {
+        $rows = $result->fetchAll(PDO::FETCH_ASSOC);
+        drawCards($rows);
     }
 }
 
@@ -50,7 +31,7 @@ function selectType($pdo, $type)
 {
     try
     {
-        $result = $pdo->query("SELECT NAME FROM DRINKS WHERE NAME != 'Flaming Moai' AND TYPE = '$type';");
+        $result = $pdo->query("SELECT * FROM DRINKS WHERE CATAGORY != 'Secret' AND TYPE = '$type';");
     }
     catch(PDOexception $e)
     {
@@ -61,15 +42,15 @@ function selectType($pdo, $type)
     else
     {
         $rows = $result->fetchAll(PDO::FETCH_ASSOC);
-        draw_table($rows);
+        drawCards($rows);
     }
 }
 
-function selectFlavor($pdo, $flavor)
+function selectCatagory($pdo, $catagory)
 {
     try
     {
-        $result = $pdo->query("SELECT NAME FROM DRINKS WHERE NAME != 'Flaming Moai' AND FLAVOR = '$flavor';");
+        $result = $pdo->query("SELECT * FROM DRINKS WHERE CATAGORY = '$catagory';");
     }
     catch(PDOexception $e)
     {
@@ -80,7 +61,36 @@ function selectFlavor($pdo, $flavor)
     else
     {
         $rows = $result->fetchAll(PDO::FETCH_ASSOC);
-        draw_table($rows);
+        drawCards($rows);
     }
 }
 
+function drawCards($rows)
+{
+    if(empty($rows)) { echo "<p>No results found.</p>"; }
+    else 
+    {
+        echo "<div class=\"row row-cols-1 row-cols-md-3 g-4\">";
+        foreach($rows as $row)
+        {
+            $quote = printQuote();
+            $fileName = str_replace(' ', '', $row['NAME']);
+
+            echo "<div class=\"col h-100 card mb-3\" style=\"max-width: 600px;\" id=\"borderCALI\">";
+            echo "<div class=\"row g-0\"><div class=\"col-md-4\">";
+            echo "<img src=\"assets/drinks/$fileName\" class=\"img-fluid rounded-start\"></div>";
+            echo "<div class=\"col-md-8\"><div class=\"card-body\">";
+            echo "<h5 class=\"card-title\">$row[NAME]</h5>";
+            echo "<p class=\"card-text\">$quote</p><div class=\"row\">";
+            echo "<span class=\"badge rounded-pill col-3 text-bg-info\">$row[FLAVOR]</span>";
+            echo "<span class=\"badge rounded-pill col-3 text-bg-info\">$row[TYPE]</span>";
+            echo "<span class=\"badge rounded-pill col-3 text-bg-info\">$row[CATAGORY]</span></div>";
+            echo "<div class=\"row py-2\"><a href=\"https://students.cs.niu.edu/~z1951125/OptionalKarmotrine/html/FringeWeaver\" class=\"btn btn-val col-5 fs-5\">Details</a>";
+            echo "<p class=\"col-3 m-0 fs-3\">$$row[PRICE]</p><p class=\"col-4 m-0 p-2\"><small class=\"text-muted\">$row[STOCK] stocked</small></p>";
+            echo "</div></div></div></div></div>";
+        }
+        echo "</div>";
+    }
+}
+
+?>
