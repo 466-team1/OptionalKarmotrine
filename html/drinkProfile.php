@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>Fringe Weaver</title>
+  <title>Drink Details</title>
   <link rel="icon" type="image/x-icon" href="assets/favicon.ico">
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -59,23 +59,90 @@
     </nav>
   </header>
 
+  <?php
+    include("assets/drinksLib.php");
+
+    try
+    {
+        $dsn = "mysql:host=courses;dbname=z1951125";
+        $pdo = new PDO($dsn, $username, $password, [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
+    }
+    catch(PDOexception $e)
+    {
+        echo "Connection to database failed: " . $e->getMessage();
+        die();
+    }
+    if(!isset($_GET["Drink"]))
+    {
+        drinkERROR();
+    }
+    else
+    {
+        $name = str_replace('-', ' ', $_GET["Drink"]);
+
+        $sql = <<<SQL
+        SELECT *
+            FROM DRINKS
+            WHERE NAME = ?;
+        SQL;
+
+        try
+        {
+            $prepared = $pdo->prepare($sql);
+        }
+        catch(PDOexception $e)
+        {
+          echo "Prepare Failure: " . $e->getMessage();
+        }
+        if(!$prepared) { die("Error in prepare."); }
+
+        try
+        {
+            $result = $prepared->execute(array($name));
+        }
+        catch(PDOexception $e)
+        {
+            echo "Execute Failure: " . $e->getMessage();
+        }
+        if(!$result) { die("Error in query."); }
+        else
+        {
+            $rows = $prepared->fetchAll(PDO::FETCH_ASSOC);
+            if(empty($rows)) { drinkERROR(); }
+            else
+            {
+                foreach($rows as $row)
+                {
+                    $name = $row['NAME'];
+                    $price = $row['PRICE'];
+                    $filename = str_replace(' ', '', $row['NAME']);
+                }
+            }
+        }
+    }
+  ?>
+
   <main>
     <div class="container py-4">
       <div class="row align-items-md-stretch">
         <div class="col-md-4">
           <div class="h-100 d-flex justify-content-center flex-column" id="borderCALI">
-            <img class="img-fluid" src="assets/drinks/FringeWeaver.png" alt="Fringe Weaver">
-            <h2 class="text-center">Fringe Weaver</h2>
+            <?php
+                echo "<img class=\"img-fluid\" src=\"assets/drinks/$filename\" alt=\"$name\">";
+                echo "<h2 class=\"text-center\">$name</h2>";
+            ?>
           </div>
         </div>
         <div class="col-md-8">
           <div class="h-50 p-3">
-            <h1 class="display-5 fw-bold Stella">Fringe Weaver</h1>
-            <p class="h1 Karmotrine">$260</p>
-            <div id="borderIMG">
-              <p class="fs-5">A Fringe Weaver is bubbly, classy, and <b>strong</b> drink, perhaps even the strongest we sell.
-              At its strongest, 18 parts karmotrine will be giving you something to regret in the morning.</p>
-            </div>
+            <?php
+                $quote = printQuote();
+                $desc = printDesc();
+
+                echo "<h1 class=\"display-5 fw-bold Stella\">$name</h1>";
+                echo "<p class=\"h1 Karmotrine\">$$price</p>";
+                echo"<div id=\"borderIMG\"><p class=\"fs-5\">$desc</p></div>";
+            ?>
             <form class="row px-5" action="" method="POST" validate>
               <div class="col-3">
                 <input class="form-control" type="number" placeholder="Enter Quantity" value=1 name="QTY" required>
@@ -86,9 +153,7 @@
             </form>
             <div style="height: 200px;"></div>
             <div class="Stella">
-              <p>
-                Contains 1 part <span class="Adelhyde">Adelhyde</span>, 9 parts <span class="Karmotrine">Karmotrine</span>. All aged and mixed. 
-              </p>
+              <?php echo printIngred(); ?>
             </div>
           </div>
         </div>

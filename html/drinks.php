@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
   <title>Drinks</title>
+  <link rel="icon" type="image/x-icon" href="assets/favicon.ico">
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
@@ -69,7 +70,7 @@
               <i class="fas fa-door-closed"></i> Employee Portal</a>
             </li>
           </ul>
-          <a class="nav-link justify-content-end fs-5 Delta active" href="https://students.cs.niu.edu/~z1951125/OptionalKarmotrine/html/cart">
+          <a class="nav-link justify-content-end fs-5 Delta" href="https://students.cs.niu.edu/~z1951125/OptionalKarmotrine/html/cart">
             <i class="fas fa-shopping-cart"></i> My Cart
           </a>
         </div>
@@ -260,7 +261,8 @@
             </div>
           </div>
           <div class="tab-pane fade" id="secret-tab-pane" role="tabpanel">
-            <div id="borderIMG">
+            <div class="text-center" id="borderIMG">
+              <img class="d-block mx-auto mb-2" src="assets/annagraem.gif" id="borderTECH" onclick="this.src='assets/nosignal.png'">
               <p>01000110 01101100 01100001 01101101 01101001 01101110 01100111 01001101 01101111 01100001 01101001</p>
             </div>
           </div>
