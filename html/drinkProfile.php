@@ -136,8 +136,8 @@
         <div class="col-md-8">
           <div class="h-50 p-3">
             <?php
-                $quote = printQuote();
-                $desc = printDesc();
+                $quote = printQuote($filename);
+                $desc = printDesc($filename);
 
                 echo "<h1 class=\"display-5 fw-bold Stella\">$name</h1>";
                 echo "<p class=\"h1 Karmotrine\">$$price</p>";
@@ -153,14 +153,14 @@
             </form>
             <div style="height: 200px;"></div>
             <div class="Stella">
-              <?php echo printIngred(); ?>
+              <?php echo printIngred($filename); ?>
             </div>
           </div>
         </div>
       </div>
       <div class="py-1">
         <div class="container-fluid py-4">
-          <p class="col-md-8 fs-4" id="borderIMG">"It's like drinking ethylic alcohol with a spoonful of sugar."</p>
+          <p class="col-md-8 fs-4" id="borderIMG"><?php echo "$quote"; ?></p>
         </div>
       </div>
       <footer class="pt-2 mt-4 text-muted border-top">
