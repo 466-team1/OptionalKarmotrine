@@ -2,7 +2,6 @@
 <html lang="en">
 <head>
   <title>My Cart</title>
-  <!-- Required meta tags -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
@@ -20,16 +19,18 @@
     body {
       color: aliceblue;
     }
-    .card
+
+    .nav-link:hover
     {
-      --bs-card-bg:black;
+      --bs-nav-link-hover-color:#fc1783;
     }
+
   </style>
 </head>
 
 <body>
   <header>
-    <nav class="navbar navbar-expand-sm navbar-dark">
+    <nav class="navbar navbar-expand-lg navbar-dark">
       <div class="container-fluid" id="borderCALI">
         <a class="navbar-brand" href="#">
           <img src="assets/Logo.png" alt="CALICOMP" width="69" height="57">
@@ -37,19 +38,23 @@
         <div class="collapse navbar-collapse" id="collapsibleNavId">
           <ul class="navbar-nav me-auto mt-2 mt-lg-0">
             <li class="nav-item">
-              <a class="nav-link fs-5" href="https://students.cs.niu.edu/~z1951125/OptionalKarmotrine/html/">Home <span class="visually-hidden">(current)</span></a>
+              <a class="nav-link fs-5 Adelhyde" href="https://students.cs.niu.edu/~z1951125/OptionalKarmotrine/html/">
+              <i class="fas fa-home"></i> Home</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link fs-5" href="#">Drinks</a>
+              <a class="nav-link fs-5 Bronson" href="https://students.cs.niu.edu/~z1951125/OptionalKarmotrine/html/drinks.php">
+              <i class="fas fa-glass-martini"></i> Drinks</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link fs-5" href="#">Find My Order</a>
+              <a class="nav-link fs-5 Flanergide" href="#">
+              <i class="fas fa-truck-plane"></i> Find My Order</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link fs-5" href="#">Employee Portal</a>
+              <a class="nav-link fs-5 Karmotrine" href="#">
+              <i class="fas fa-door-closed"></i> Employee Portal</a>
             </li>
           </ul>
-          <a class="nav-link justify-content-end fs-5 active" href="https://students.cs.niu.edu/~z1951125/OptionalKarmotrine/html/cart">
+          <a class="nav-link justify-content-end fs-5 Delta fw-bold text-decoration-underline" href="https://students.cs.niu.edu/~z1951125/OptionalKarmotrine/html/cart">
             <i class="fas fa-shopping-cart"></i> My Cart
           </a>
         </div>
@@ -69,12 +74,12 @@
                 <div class="card-body p-4">
                   <div class="row d-flex justify-content-between align-items-center">
                     <div class="col-md-2 col-lg-2 col-xl-2">
-                      <img src="assets/FringeWeaver.png">
+                      <img src="assets/drinks/FringeWeaver.png">
                     </div>
                     <div class="col-md-3 col-lg-3 col-xl-3">
-                      <p class="fw-normal mb-2 Delta">Fringe Weaver</p>
-                      <p class="Flanergide"><span class="Bronson">Type: </span>Classy <span class="Bronson">Flavor: </span>Bubbly
-                      <br>Price: $<span class="price">260.00</span></p>
+                      <p class="fw-normal mb-2 fs-5 Adelhyde">Fringe Weaver</p>
+                      <p class="Flanergide"><span class="Bronson">Flavor: </span>Bubbly <span class="Bronson">Type: </span>Classy
+                      <br><span class="Bronson">Catagory: </span>Strong <span class="Karmotrine">Price: $</span><span class="Karmotrine price">260.00</span></p>
                     </div>
                     <div class="col-md-3 col-lg-3 col-xl-2 d-flex">
                       <button class="btn btn-link px-2" 
@@ -96,7 +101,7 @@
                     </div>
 
                     <div class="col-md-1 col-lg-1 col-xl-1 text-end">
-                      <button class="btn btn-link px-2" onclick="removeCart(this)"> <i class="fas fa-trash fa-lg Adelhyde"></i></button>
+                      <button class="btn btn-link px-2" onclick="removeCart(this)"> <i class="fas fa-trash fa-lg Stella"></i></button>
                     </div>
                   </div>
                 </div> 
@@ -108,12 +113,12 @@
                 <div class="card-body p-4">
                   <div class="row d-flex justify-content-between align-items-center">
                     <div class="col-md-2 col-lg-2 col-xl-2">
-                      <img src="assets/Marsblast.png">
+                      <img src="assets/drinks/Marsblast.png">
                     </div>
                     <div class="col-md-3 col-lg-3 col-xl-3">
-                      <p class=" fw-normal mb-2 Delta">Marsblast</p>
-                      <p class="Flanergide"><span class="Bronson">Type: </span>Manly <span class="Bronson">Flavor: </span>Spicy
-                      <br>Price: $<span class="price">170.00</span></p>
+                      <p class=" fw-normal mb-2 fs-5 Adelhyde">Marsblast</p>
+                      <p class="Flanergide"><span class="Bronson">Flavor: </span>Spicy <span class="Bronson">Type: </span>Manly
+                      <br><span class="Bronson">Catagory: </span>Strong <span class="Karmotrine">Price: $</span><span class="Karmotrine price">170.00</span></p>
                     </div>
                     <div class="col-md-3 col-lg-3 col-xl-2 d-flex">
                       <button class="btn btn-link px-2" 
@@ -135,7 +140,7 @@
                     </div>
 
                     <div class="col-md-1 col-lg-1 col-xl-1 text-end">
-                      <button class="btn btn-link px-2" onclick="removeCart(this)"> <i class="fas fa-trash fa-lg Adelhyde"></i></button>
+                      <button class="btn btn-link px-2" onclick="removeCart(this)"> <i class="fas fa-trash fa-lg Stella"></i></button>
                     </div>
                   </div>
                 </div>
@@ -253,7 +258,6 @@
   <script type="text/javascript">
     calculateTotal()
   </script>
-
 </body>
 
 </html>

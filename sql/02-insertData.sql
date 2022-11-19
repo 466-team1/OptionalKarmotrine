@@ -1,4 +1,4 @@
-INSERT INTO `DRINKS`(`NAME`, `TYPE`, `CATAGORY`, `FLAVOR`, `PRICE`) VALUES
+INSERT INTO `DRINKS`(`NAME`, `TYPE`, `CATEGORY`, `FLAVOR`, `PRICE`) VALUES
     ('Bad Touch',     'Classy',  'Vintage',  'Sour',   250.00),
     ('Beer',          'Classic', 'Vintage',  'Bubbly', 200.00),
     ('Bleeding Jane', 'Classic', 'Sobering', 'Spicy',  200.00),

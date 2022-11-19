@@ -20,6 +20,11 @@
       color: aliceblue;
     }
 
+    .navbar
+    {
+      --bs-navbar-hover-color:#fc1783;
+    }
+
     .nav
     {
       --bs-nav-link-color: #fc1783;
@@ -39,7 +44,7 @@
 </head>
 
 <body>
-  <header>
+<header>
     <nav class="navbar navbar-expand-lg navbar-dark">
       <div class="container-fluid" id="borderCALI">
         <a class="navbar-brand" href="#">
@@ -48,19 +53,23 @@
         <div class="collapse navbar-collapse" id="collapsibleNavId">
           <ul class="navbar-nav me-auto mt-2 mt-lg-0">
             <li class="nav-item">
-              <a class="nav-link fs-5" href="https://students.cs.niu.edu/~z1951125/OptionalKarmotrine/html/">Home <span class="visually-hidden">(current)</span></a>
+              <a class="nav-link fs-5 Adelhyde" href="https://students.cs.niu.edu/~z1951125/OptionalKarmotrine/html/">
+              <i class="fas fa-home"></i> Home</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link fs-5 active" href="#">Drinks</a>
+              <a class="nav-link fs-5 Bronson fw-bold text-decoration-underline" href="https://students.cs.niu.edu/~z1951125/OptionalKarmotrine/html/drinks.php">
+              <i class="fas fa-glass-martini"></i> Drinks</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link fs-5" href="#">Find My Order</a>
+              <a class="nav-link fs-5 Flanergide" href="#">
+              <i class="fas fa-truck-plane"></i> Find My Order</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link fs-5" href="#">Employee Portal</a>
+              <a class="nav-link fs-5 Karmotrine" href="#">
+              <i class="fas fa-door-closed"></i> Employee Portal</a>
             </li>
           </ul>
-          <a class="nav-link justify-content-end fs-5" href="https://students.cs.niu.edu/~z1951125/OptionalKarmotrine/html/cart">
+          <a class="nav-link justify-content-end fs-5 Delta active" href="https://students.cs.niu.edu/~z1951125/OptionalKarmotrine/html/cart">
             <i class="fas fa-shopping-cart"></i> My Cart
           </a>
         </div>
@@ -87,16 +96,16 @@
 
     <ul class="nav nav-tabs" id="borderTECH" role="tablist">
       <li class="nav-item" role="presentation">
-        <button class="nav-link active" id="all-tab" data-bs-toggle="tab" data-bs-target="#all-tab-pane" type="button" role="tab">All Drinks</button>
+        <button class="nav-link fs-5 active" id="all-tab" data-bs-toggle="tab" data-bs-target="#all-tab-pane" type="button" role="tab">All Drinks</button>
       </li>
       <li class="nav-item" role="presentation">
-        <button class="nav-link" id="flavor-tab" data-bs-toggle="tab" data-bs-target="#flavor-tab-pane" type="button" role="tab">Drinks by Flavor</button>
+        <button class="nav-link fs-5" id="flavor-tab" data-bs-toggle="tab" data-bs-target="#flavor-tab-pane" type="button" role="tab">Drinks by Flavor</button>
       </li>
       <li class="nav-item" role="presentation">
-        <button class="nav-link" id="type-tab" data-bs-toggle="tab" data-bs-target="#type-tab-pane" type="button" role="tab">Drinks by Type</button>
+        <button class="nav-link fs-5" id="type-tab" data-bs-toggle="tab" data-bs-target="#type-tab-pane" type="button" role="tab">Drinks by Type</button>
       </li>
       <li class="nav-item" role="presentation">
-        <button class="nav-link" id="catagory-tab" data-bs-toggle="tab" data-bs-target="#catagory-tab-pane" type="button" role="tab">Drinks by Catagory</button>
+        <button class="nav-link fs-5" id="category-tab" data-bs-toggle="tab" data-bs-target="#category-tab-pane" type="button" role="tab">Drinks by Category</button>
       </li>
     </ul>
     <div class="tab-content" id="borderTECH">
@@ -104,7 +113,7 @@
         <h2 class="p-2 m-2">All Drinks (Alphabetical)</h2>
         <div class="table-responsive" id="borderIMG">
           <?php
-            $result = $pdo->query("SELECT * FROM DRINKS WHERE CATAGORY != 'Secret';");
+            $result = $pdo->query("SELECT * FROM DRINKS WHERE CATEGORY != 'Secret';");
             drawCards($result->fetchAll(PDO::FETCH_ASSOC));
           ?>
         </div>
@@ -114,19 +123,19 @@
         <h2 class="p-2 m-2">Drinks by Flavor</h2>
         <ul class="nav nav-tabs" role="tablist">
           <li class="nav-item" role="presentation">
-            <button class="nav-link" id="bitter-tab" data-bs-toggle="tab" data-bs-target="#bitter-tab-pane" type="button" role="tab">Bitter</button>
+            <button class="nav-link fs-5" id="bitter-tab" data-bs-toggle="tab" data-bs-target="#bitter-tab-pane" type="button" role="tab">Bitter</button>
           </li>
           <li class="nav-item" role="presentation">
-            <button class="nav-link" id="bubbly-tab" data-bs-toggle="tab" data-bs-target="#bubbly-tab-pane" type="button" role="tab">Bubbly</button>
+            <button class="nav-link fs-5" id="bubbly-tab" data-bs-toggle="tab" data-bs-target="#bubbly-tab-pane" type="button" role="tab">Bubbly</button>
           </li>
           <li class="nav-item" role="presentation">
-            <button class="nav-link" id="sour-tab" data-bs-toggle="tab" data-bs-target="#sour-tab-pane" type="button" role="tab">Sour</button>
+            <button class="nav-link fs-5" id="sour-tab" data-bs-toggle="tab" data-bs-target="#sour-tab-pane" type="button" role="tab">Sour</button>
           </li>
           <li class="nav-item" role="presentation">
-            <button class="nav-link" id="spicy-tab" data-bs-toggle="tab" data-bs-target="#spicy-tab-pane" type="button" role="tab">Spicy</button>
+            <button class="nav-link fs-5" id="spicy-tab" data-bs-toggle="tab" data-bs-target="#spicy-tab-pane" type="button" role="tab">Spicy</button>
           </li>
           <li class="nav-item" role="presentation">
-            <button class="nav-link" id="sweet-tab" data-bs-toggle="tab" data-bs-target="#sweet-tab-pane" type="button" role="tab">Sweet</button>
+            <button class="nav-link fs-5" id="sweet-tab" data-bs-toggle="tab" data-bs-target="#sweet-tab-pane" type="button" role="tab">Sweet</button>
           </li>
         </ul>
         <div class="tab-content">
@@ -162,19 +171,19 @@
         <h2 class="p-2 m-2">Drinks by Type</h2>
         <ul class="nav nav-tabs" role="tablist">
           <li class="nav-item" role="presentation">
-            <button class="nav-link" id="classic-tab" data-bs-toggle="tab" data-bs-target="#classic-tab-pane" type="button" role="tab">Classic</button>
+            <button class="nav-link fs-5" id="classic-tab" data-bs-toggle="tab" data-bs-target="#classic-tab-pane" type="button" role="tab">Classic</button>
           </li>
           <li class="nav-item" role="presentation">
-            <button class="nav-link" id="classy-tab" data-bs-toggle="tab" data-bs-target="#classy-tab-pane" type="button" role="tab">Classy</button>
+            <button class="nav-link fs-5" id="classy-tab" data-bs-toggle="tab" data-bs-target="#classy-tab-pane" type="button" role="tab">Classy</button>
           </li>
           <li class="nav-item" role="presentation">
-            <button class="nav-link" id="girly-tab" data-bs-toggle="tab" data-bs-target="#girly-tab-pane" type="button" role="tab">Girly</button>
+            <button class="nav-link fs-5" id="girly-tab" data-bs-toggle="tab" data-bs-target="#girly-tab-pane" type="button" role="tab">Girly</button>
           </li>
           <li class="nav-item" role="presentation">
-            <button class="nav-link" id="manly-tab" data-bs-toggle="tab" data-bs-target="#manly-tab-pane" type="button" role="tab">Manly</button>
+            <button class="nav-link fs-5" id="manly-tab" data-bs-toggle="tab" data-bs-target="#manly-tab-pane" type="button" role="tab">Manly</button>
           </li>
           <li class="nav-item" role="presentation">
-            <button class="nav-link" id="promo-tab" data-bs-toggle="tab" data-bs-target="#promo-tab-pane" type="button" role="tab">Promo</button>
+            <button class="nav-link fs-5" id="promo-tab" data-bs-toggle="tab" data-bs-target="#promo-tab-pane" type="button" role="tab">Promo</button>
           </li>
         </ul>
         <div class="tab-content" id="myTabContent">
@@ -206,48 +215,48 @@
         </div>
       </div>
 
-      <div class="tab-pane fade" id="catagory-tab-pane" role="tabpanel">
-        <h2 class="p-2 m-2">Drinks by Catagory</h2>
+      <div class="tab-pane fade" id="category-tab-pane" role="tabpanel">
+        <h2 class="p-2 m-2">Drinks by Category</h2>
         <ul class="nav nav-tabs" role="tablist">
           <li class="nav-item" role="presentation">
-            <button class="nav-link" id="bland-tab" data-bs-toggle="tab" data-bs-target="#bland-tab-pane" type="button" role="tab">Bland</button>
+            <button class="nav-link fs-5" id="bland-tab" data-bs-toggle="tab" data-bs-target="#bland-tab-pane" type="button" role="tab">Bland</button>
           </li>
           <li class="nav-item" role="presentation">
-            <button class="nav-link" id="burning-tab" data-bs-toggle="tab" data-bs-target="#burning-tab-pane" type="button" role="tab">Burning</button>
+            <button class="nav-link fs-5" id="burning-tab" data-bs-toggle="tab" data-bs-target="#burning-tab-pane" type="button" role="tab">Burning</button>
           </li>
           <li class="nav-item" role="presentation">
-            <button class="nav-link" id="happy-tab" data-bs-toggle="tab" data-bs-target="#happy-tab-pane" type="button" role="tab">Happy</button>
+            <button class="nav-link fs-5" id="happy-tab" data-bs-toggle="tab" data-bs-target="#happy-tab-pane" type="button" role="tab">Happy</button>
           </li>
           <li class="nav-item" role="presentation">
-            <button class="nav-link" id="secret-tab" data-bs-toggle="tab" data-bs-target="#secret-tab-pane" type="button" role="tab">Secret</button>
+            <button class="nav-link fs-5" id="secret-tab" data-bs-toggle="tab" data-bs-target="#secret-tab-pane" type="button" role="tab">Secret</button>
           </li>
           <li class="nav-item" role="presentation">
-            <button class="nav-link" id="sobering-tab" data-bs-toggle="tab" data-bs-target="#sobering-tab-pane" type="button" role="tab">Sobering</button>
+            <button class="nav-link fs-5" id="sobering-tab" data-bs-toggle="tab" data-bs-target="#sobering-tab-pane" type="button" role="tab">Sobering</button>
           </li>
           <li class="nav-item" role="presentation">
-            <button class="nav-link" id="soft-tab" data-bs-toggle="tab" data-bs-target="#soft-tab-pane" type="button" role="tab">Soft</button>
+            <button class="nav-link fs-5" id="soft-tab" data-bs-toggle="tab" data-bs-target="#soft-tab-pane" type="button" role="tab">Soft</button>
           </li>
           <li class="nav-item" role="presentation">
-            <button class="nav-link" id="strong-tab" data-bs-toggle="tab" data-bs-target="#strong-tab-pane" type="button" role="tab">Strong</button>
+            <button class="nav-link fs-5" id="strong-tab" data-bs-toggle="tab" data-bs-target="#strong-tab-pane" type="button" role="tab">Strong</button>
           </li>
           <li class="nav-item" role="presentation">
-            <button class="nav-link" id="vintage-tab" data-bs-toggle="tab" data-bs-target="#vintage-tab-pane" type="button" role="tab">Vintage</button>
+            <button class="nav-link fs-5" id="vintage-tab" data-bs-toggle="tab" data-bs-target="#vintage-tab-pane" type="button" role="tab">Vintage</button>
           </li>
         </ul>
         <div class="tab-content" id="myTabContent">
           <div class="tab-pane fade" id="bland-tab-pane" role="tabpanel">
             <div id="borderIMG">
-              <?php selectCatagory($pdo, 'Bland')?>
+              <?php selectCategory($pdo, 'Bland')?>
             </div>
           </div>
           <div class="tab-pane fade" id="burning-tab-pane" role="tabpanel">
             <div id="borderIMG">
-              <?php selectCatagory($pdo, 'Burning')?>
+              <?php selectCategory($pdo, 'Burning')?>
             </div>
           </div>
           <div class="tab-pane fade" id="happy-tab-pane" role="tabpanel">
             <div id="borderIMG">
-              <?php selectCatagory($pdo, 'Happy')?>
+              <?php selectCategory($pdo, 'Happy')?>
             </div>
           </div>
           <div class="tab-pane fade" id="secret-tab-pane" role="tabpanel">
@@ -257,22 +266,22 @@
           </div>
           <div class="tab-pane fade" id="sobering-tab-pane" role="tabpanel">
             <div id="borderIMG">
-              <?php selectCatagory($pdo, 'Sobering')?>
+              <?php selectCategory($pdo, 'Sobering')?>
             </div>
           </div>
           <div class="tab-pane fade" id="soft-tab-pane" role="tabpanel">
             <div id="borderIMG">
-              <?php selectCatagory($pdo, 'Soft')?>
+              <?php selectCategory($pdo, 'Soft')?>
             </div>
           </div>
           <div class="tab-pane fade" id="strong-tab-pane" role="tabpanel">
             <div id="borderIMG">
-              <?php selectCatagory($pdo, 'Strong')?>
+              <?php selectCategory($pdo, 'Strong')?>
             </div>
           </div>
           <div class="tab-pane fade" id="vintage-tab-pane" role="tabpanel">
             <div id="borderIMG">
-              <?php selectCatagory($pdo, 'Vintage')?>
+              <?php selectCategory($pdo, 'Vintage')?>
             </div>
           </div>
         </div>
@@ -295,4 +304,5 @@
     integrity="sha384-7VPbUDkoPSGFnVtYi0QogXtr74QeVeeIs99Qfg5YCF+TidwNdjvaKZX19NZ/e6oz" crossorigin="anonymous">
   </script>
 </body>
+
 </html>

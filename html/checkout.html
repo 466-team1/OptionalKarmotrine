@@ -2,7 +2,6 @@
 <html lang="en">
 <head>
   <title>Checkout</title>
-  <!-- Required meta tags -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
@@ -17,10 +16,11 @@
   <link rel="stylesheet" href="assets/stylesheet.css">
 
   <style>
-    .list-group
+    .nav-link:hover
     {
-      --bs-list-group-bg: none;
+      --bs-nav-link-hover-color:#fc1783;
     }
+
   </style>
 </head>
 
@@ -34,19 +34,23 @@
         <div class="collapse navbar-collapse" id="collapsibleNavId">
           <ul class="navbar-nav me-auto mt-2 mt-lg-0">
             <li class="nav-item">
-              <a class="nav-link fs-5" href="https://students.cs.niu.edu/~z1951125/OptionalKarmotrine/html/">Home <span class="visually-hidden">(current)</span></a>
+              <a class="nav-link fs-5 Adelhyde" href="https://students.cs.niu.edu/~z1951125/OptionalKarmotrine/html/">
+              <i class="fas fa-home"></i> Home</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link fs-5" href="#">Drinks</a>
+              <a class="nav-link fs-5 Bronson" href="https://students.cs.niu.edu/~z1951125/OptionalKarmotrine/html/drinks.php">
+              <i class="fas fa-glass-martini"></i> Drinks</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link fs-5" href="#">Find My Order</a>
+              <a class="nav-link fs-5 Flanergide" href="#">
+              <i class="fas fa-truck-plane"></i> Find My Order</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link fs-5" href="#">Employee Portal</a>
+              <a class="nav-link fs-5 Karmotrine" href="#">
+              <i class="fas fa-door-closed"></i> Employee Portal</a>
             </li>
           </ul>
-          <a class="nav-link justify-content-end fs-5" href="https://students.cs.niu.edu/~z1951125/OptionalKarmotrine/html/cart">
+          <a class="nav-link justify-content-end fs-5 Delta active" href="https://students.cs.niu.edu/~z1951125/OptionalKarmotrine/html/cart">
             <i class="fas fa-shopping-cart"></i> My Cart
           </a>
         </div>
@@ -73,7 +77,7 @@
               <h6 class="my-0 Adelhyde">Fringe Weaver</h6>
               <small class="Bronson">Quantity: 1</small>
             </div>
-            <img src="assets/FringeWeaver.png" width="50px" height="60">
+            <img src="assets/drinks/FringeWeaver.png" width="50px" height="60">
             <span class="Karmotrine fs-4">$260.00</span>
           </li><hr>
           <li class="list-group-item d-flex justify-content-between lh-sm">
@@ -81,7 +85,7 @@
               <h6 class="my-0 Adelhyde">Marsblast</h6>
               <small class="Bronson">Quantity: 4</small>
             </div>
-            <img src="assets/Marsblast.png" width="50px" height="60">
+            <img src="assets/drinks/Marsblast.png" width="50px" height="60">
             <span class="Karmotrine fs-4">$680.00</span>
           </li><hr>
           <li class="list-group-item d-flex justify-content-between">
@@ -218,4 +222,5 @@
     integrity="sha384-7VPbUDkoPSGFnVtYi0QogXtr74QeVeeIs99Qfg5YCF+TidwNdjvaKZX19NZ/e6oz" crossorigin="anonymous">
   </script>
 </body>
+
 </html>

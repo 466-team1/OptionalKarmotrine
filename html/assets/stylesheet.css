@@ -6,7 +6,7 @@
 body {
   font-family: "CyberpunkWaifus", serif;
   background-color: #1F1A2D;
- 
+  --bs-nav-link-color: #fc1783!important;
 }
 
 #borderIMG {
@@ -60,47 +60,43 @@ body {
   box-shadow: 0 5px 15px rgba(255, 66, 138, 0.400);
 }
 
-mark.Adelhyde {
-  color:#f21637;
-  background: none;
-}
 
 .Adelhyde {
   color:#f21637;
-}
-
-mark.Delta {
-    color:#87acf3;
-    background: none;
 }
 
 .Delta {
   color:#87acf3;
 }
 
-mark.Bronson {
-  color:#ffd230;
-  background: none;
-}
-
 .Bronson {
   color:#ffd230;
-}
-
-mark.Flanergide {
-    color:#a6d26d;
-    background: none;
 }
 
 .Flanergide {
   color:#a6d26d;
 }
 
-mark.Karmotrine {
-  color:#47d4d4;
-  background: none;
-}
-
 .Karmotrine {
   color:#47d4d4;
+}
+
+.Stella {
+  color:#fc1783;
+}
+
+.text-bg-info
+{
+  color: #000!important;
+  background-color: #a6d26d!important;
+}
+
+.card
+{
+  --bs-card-bg:black;
+}
+
+.list-group
+{
+  --bs-list-group-bg: none;
 }
