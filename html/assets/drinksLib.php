@@ -122,7 +122,114 @@ function printDesc($filename)
 
 function printIngred($filename)
 {
-    return "<p>Contains 1 part <span class=\"Adelhyde\">Adelhyde</span>, 9 parts <span class=\"Karmotrine\">Karmotrine</span>. All aged and mixed.</p>";
+
+    switch ($filename)
+    {
+        case 'BadTouch':
+            return "<p>Contains 2 parts <span class=\"Bronson Extract\">Bronson Extract</span>, 2 parts <span class=\"Powdered Delta\">Powdered Delta</span>, 2 parts <span class=\"Flanergide\">Flanergide</span>, 4 parts <span class=\"Karmotrine\">Karmotrine</span>. All on the rocks and mixed.</p>";
+            break;
+
+        case 'Beer':
+            return "<p>Contains 1 part <span class=\"Adelhyde\">Adelhyde</span>, 2 parts <span class=\"Bronson Extract\">Bronson Extract</span>, 1 part <span class=\"Powdered Delta\">Powdered Delta</span>, 2 parts <span class=\"Flanergide\">Flanergide</span>, 4 parts <span class=\"Karmotrine\">Karmotrine</span>. All mixed.</p>";
+            break;
+
+        case 'BleedingJane':
+            return "<p>Contains 1 part <span class=\"Bronson Extract\">Bronson Extract</span>, 3 parts <span class=\"Powdered Delta\">Powdered Delta</span>, 3 parts <span class=\"Flanergide\">Flanergide</span>. All blended.</p>";
+            break;
+
+        case 'BloomLight':
+            return "<p>Contains 4 parts <span class=\"Adelhyde\">Adelhyde</span>, 1 part <span class=\"Powdered Delta\">Powdered Delta</span>, 2 parts <span class=\"Flanergide\">Flanergide</span>, 3 parts <span class=\"Karmotrine\">Karmotrine</span>. All aged, on the rocks and mixed.</p>";
+            break;
+
+        case 'BlueFairy':
+            return "<p>Contains 4 parts <span class=\"Adelhyde\">Adelhyde</span>, 1 part <span class=\"Flanergide\">Flanergide</span>, optional <span class=\"Karmotrine\">Karmotrine</span>. All aged and mixed.</p>";
+            break;
+
+        case 'Brandtini':
+            return "<p>Contains 6 parts <span class=\"Adelhyde\">Adelhyde</span>, 3 parts <span class=\"Powdered Delta\">Powdered Delta</span>, 1 part <span class=\"Karmotrine\">Karmotrine</span>. All aged and mixed.</p>";
+            break;
+
+        case 'CobaltVelvet':
+            return "<p>Contains 2 parts <span class=\"Adelhyde\">Adelhyde</span>, 3 parts <span class=\"Flanergide\">Flanergide</span>, 5 parts <span class=\"Karmotrine\">Karmotrine</span>. All on the rocks and mixed.</p>";
+            break;
+
+        case 'CreviceSpike':
+            return "<p>Contains 2 parts <span class=\"Powdered Delta\">Powdered Delta</span>, 4 parts <span class=\"Flanergide\">Flanergide</span>, optional <span class=\"Karmotrine\">Karmotrine</span>. All blended.</p>";
+            break;
+
+        case 'FlamingMoai':
+            return "<p>Contains 1 part <span class=\"Adelhyde\">Adelhyde</span>, 1 part <span class=\"Bronson Extract\">Bronson Extract</span>, 2 parts <span class=\"Powdered Delta\">Powdered Delta</span>, 3 parts <span class=\"Flanergide\">Flanergide</span>, 5 parts <span class=\"Karmotrine\">Karmotrine</span>. All mixed.</p>";
+            break;
+
+        case 'FluffyDream':
+            return "<p>Contains 3 parts <span class=\"Adelhyde\">Adelhyde</span>, 3 parts <span class=\"Powdered Delta\">Powdered Delta</span>, optional <span class=\"Karmotrine\">Karmotrine</span>. All aged and mixed.</p>";
+            break;
+
+        case 'FringeWeaver':
+            return "<p>Contains 1 part <span class=\"Adelhyde\">Adelhyde</span>, 9 parts <span class=\"Karmotrine\">Karmotrine</span>. All aged and mixed.</p>";
+            break;
+
+        case 'FrothyWater':
+            return "<p>Contains 1 part <span class=\"Adelhyde\">Adelhyde</span>, 1 part <span class=\"Bronson Extract\">Bronson Extract</span>, 1 part <span class=\"Powdered Delta\">Powdered Delta</span>, 1 part <span class=\"Flanergide\">Flanergide</span>. All aged and mixed.</p>";
+            break;
+
+        case 'GrizzlyTemple':
+            return "<p>Contains 3 parts <span class=\"Adelhyde\">Adelhyde</span>, 3 parts <span class=\"Bronson Extract\">Bronson Extract</span>, 3 parts <span class=\"Powdered Delta\">Powdered Delta</span>, 1 part <span class=\"Karmotrine\">Karmotrine</span>. All blended.</p>";
+            break;
+
+        case 'GutPunch':
+            return "<p>Contains 5 parts <span class=\"Bronson Extract\">Bronson Extract</span>, 1 part <span class=\"Flanergide\">Flanergide</span>, optional <span class=\"Karmotrine\">Karmotrine</span>. All aged and mixed.</p>";
+            break;
+
+        case 'Marsblast':
+            return "<p>Contains 6 parts <span class=\"Bronson Extract\">Bronson Extract</span>, 1 part <span class=\"Powdered Delta\">Powdered Delta</span>, 4 parts <span class=\"Flanergide\">Flanergide</span>, 2 parts <span class=\"Karmotrine\">Karmotrine</span>. All blended.</p>";
+            break;
+
+        case 'Mercuryblast':
+            return "<p>Contains 1 part <span class=\"Adelhyde\">Adelhyde</span>, 1 part <span class=\"Bronson Extract\">Bronson Extract</span>, 3 parts <span class=\"Powdered Delta\">Powdered Delta</span>, 3 parts <span class=\"Flanergide\">Flanergide</span>, 2 parts <span class=\"Karmotrine\">Karmotrine</span>. All on the rocks and blended.</p>";
+            break;
+
+        case 'Moonblast':
+            return "<p>Contains 6 parts <span class=\"Adelhyde\">Adelhyde</span>, 1 part <span class=\"Powdered Delta\">Powdered Delta</span>, 1 part <span class=\"Flanergide\">Flanergide</span>, 2 parts <span class=\"Karmotrine\">Karmotrine</span>. All on the rocks and blended.</p>";
+            break;
+
+        case 'PianoMan':
+            return "<p>Contains 2 parts <span class=\"Adelhyde\">Adelhyde</span>, 3 parts <span class=\"Bronson Extract\">Bronson Extract</span>, 5 parts <span class=\"Powdered Delta\">Powdered Delta</span>, 5 parts <span class=\"Flanergide\">Flanergide</span>, 3 parts <span class=\"Karmotrine\">Karmotrine</span>. All on the rocks and mixed.</p>";
+            break;
+
+        case 'PianoWoman':
+            return "<p>Contains 5 parts <span class=\"Adelhyde\">Adelhyde</span>, 5 parts <span class=\"Bronson Extract\">Bronson Extract</span>, 2 parts <span class=\"Powdered Delta\">Powdered Delta</span>, 3 parts <span class=\"Flanergide\">Flanergide</span>, 3 parts <span class=\"Karmotrine\">Karmotrine</span>. All aged and mixed.</p>";
+            break;
+
+        case 'PileDriver':
+            return "<p>Contains 3 parts <span class=\"Bronson Extract\">Bronson Extract</span>, 3 parts <span class=\"Flanergide\">Flanergide</span>, 4 parts <span class=\"Karmotrine\">Karmotrine</span>. All mixed.</p>";
+            break;
+
+        case 'SparkleStar':
+            return "<p>Contains 2 parts <span class=\"Adelhyde\">Adelhyde</span>, 1 part <span class=\"Powdered Delta\">Powdered Delta</span>, optional <span class=\"Karmotrine\">Karmotrine</span>. All aged and mixed.</p>";
+            break;
+
+        case 'SugarRush':
+            return "<p>Contains 2 parts <span class=\"Adelhyde\">Adelhyde</span>, 1 part <span class=\"Powdered Delta\">Powdered Delta</span>, optional <span class=\"Karmotrine\">Karmotrine</span>. All mixed.</p>";
+            break;
+
+        case 'SunshineCloud':
+            return "<p>Contains 2 parts <span class=\"Adelhyde\">Adelhyde</span>, 2 parts <span class=\"Bronson Extract\">Bronson Extract</span>, optional <span class=\"Karmotrine\">Karmotrine</span>. All on the rocks and blended.</p>";
+            break;
+
+        case 'Suplex':
+            return "<p>Contains 4 parts <span class=\"Bronson Extract\">Bronson Extract</span>, 3 parts <span class=\"Flanergide\">Flanergide</span>, 3 parts <span class=\"Karmotrine\">Karmotrine</span>. All on the rocks and mixed.</p>";
+            break;
+
+        case 'ZenStar':
+            return "<p>Contains 4 parts <span class=\"Adelhyde\">Adelhyde</span>, 4 parts <span class=\"Bronson Extract\">Bronson Extract</span>, 4 parts <span class=\"Powdered Delta\">Powdered Delta</span>, 4 parts <span class=\"Flanergide\">Flanergide</span>, 4 parts <span class=\"Karmotrine\">Karmotrine</span>. All on the rocks and mixed.</p>";
+            break;
+
+        default:
+            return "How did you even get here? Nimogen are you there?";
+            break;
+    }
+
 }
 
 function selectFlavor($pdo, $flavor)
