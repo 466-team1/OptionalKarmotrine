@@ -1,3 +1,46 @@
+<?php
+    session_start();
+        //---------------------run the "unset" command to reset the current cart (dont have to wait till session ends)
+    //unset($_SESSION['cart']);
+
+    //if the cart is set
+    if (isset($_SESSION['cart']))
+    {
+        echo "session exists";
+    }
+    else //else, we need to make a new cart.
+    {
+
+       $_SESSION['cart']=array(array("DRINK", "QTY")); // Declaring session array
+        echo "CART NOT SET, CREATING NEW ONE<br>";
+
+    }
+
+    if(isset($_GET["DRINK"], $_GET["QTY"]))
+    {
+        $drk = $_GET["DRINK"];
+        $qnt = $_GET["QTY"];
+
+        $b=array("DRINK"=>"$drk","QTY"=>$qnt);
+        array_push($_SESSION['cart'],$b); //Add items to cart
+    }
+
+    echo "<table border=1 cellspace=3>";  
+    $max=sizeof($_SESSION['cart']);
+    for($i = 1; $i < $max; $i++)
+    {    
+        echo "<tr>";     
+        while (list ($key, $val) = each ($_SESSION['cart'][$i])) 
+        { 
+            echo " <td> $key -> $val  </td>"; 
+        } // inner array while loop
+        echo "</tr>";
+
+    } // outer array for loop
+    echo "</table>";
+    
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -15,7 +58,6 @@
     crossorigin="anonymous" referrerpolicy="no-referrer"/>
 
   <link rel="stylesheet" href="assets/stylesheet.css">
-
   <style>
     body {
       color: aliceblue;

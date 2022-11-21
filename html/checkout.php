@@ -15,7 +15,6 @@
     crossorigin="anonymous" referrerpolicy="no-referrer"/>
 
   <link rel="stylesheet" href="assets/stylesheet.css">
-
   <style>
     .nav-link:hover
     {

@@ -1,3 +1,22 @@
+<?php
+    session_start();
+        //---------------------run the "unset" command to reset the current cart (dont have to wait till session ends)
+    //unset($_SESSION['cart']);
+
+    //if the cart is set
+    if (isset($_SESSION['cart']))
+    {
+    }
+    //else, we need to make a new cart.
+    else
+    {
+
+        $_SESSION['cart']=array(array("DRINK", "QTY")); // Declaring session array
+        echo "CART NOT SET, CREATING NEW ONE <br> <br>";
+
+    }
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -15,7 +34,6 @@
     crossorigin="anonymous" referrerpolicy="no-referrer"/>
 
   <link rel="stylesheet" href="assets/stylesheet.css">
-
   <style>
     .nav-link:hover
     {
@@ -144,8 +162,9 @@
                 echo "<p class=\"h1 Karmotrine\">$$price</p>";
                 echo"<div id=\"borderIMG\"><p class=\"fs-5\">$desc</p></div>";
             ?>
-            <form class="row px-5" action="" method="POST" validate>
+            <form class="row px-5" action="https://students.cs.niu.edu/~z1951125/OptionalKarmotrine/html/cart.php" method="GET" validate>
               <div class="col-3">
+                <input class = form-control type="hidden" <?php echo "value=\"$filename\";"?> name="DRINK" required>
                 <input class="form-control" type="number" placeholder="Enter Quantity" value=1 name="QTY" required>
               </div>
               <div class="col-4">

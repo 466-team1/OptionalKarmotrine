@@ -1,3 +1,22 @@
+<?php
+    session_start();
+        //---------------------run the "unset" command to reset the current cart (dont have to wait till session ends)
+    //unset($_SESSION['cart']);
+
+    //if the cart is set
+    if (isset($_SESSION['cart']))
+    {
+    }
+    //else, we need to make a new cart.
+    else
+    {
+
+        $_SESSION['cart']=array(array("DRINK", "QTY")); // Declaring session array
+        echo "CART NOT SET, CREATING NEW ONE <br> <br>";
+
+    }
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -15,7 +34,6 @@
     crossorigin="anonymous" referrerpolicy="no-referrer"/>
 
   <link rel="stylesheet" href="assets/stylesheet.css">
-
   <style>
     body {
       background-image:url(assets/CRS1.png);
