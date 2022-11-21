@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>Fringe Weaver</title>
+  <title>Home</title>
   <link rel="icon" type="image/x-icon" href="assets/favicon.ico">
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -17,6 +17,15 @@
   <link rel="stylesheet" href="assets/stylesheet.css">
 
   <style>
+    body {
+      background-image:url(assets/CRS1.png);
+      background-repeat:no-repeat;
+      background-size:cover;
+      background-position: 0px 120px;
+      filter: blur();
+      color: aliceblue;
+    }
+
     .nav-link:hover
     {
       --bs-nav-link-hover-color:#fc1783;
@@ -35,7 +44,7 @@
         <div class="collapse navbar-collapse" id="collapsibleNavId">
           <ul class="navbar-nav me-auto mt-2 mt-lg-0">
             <li class="nav-item">
-              <a class="nav-link fs-5 Adelhyde" href="https://students.cs.niu.edu/~z1951125/OptionalKarmotrine/html/">
+              <a class="nav-link fs-5 Adelhyde fw-bold text-decoration-underline" href="https://students.cs.niu.edu/~z1951125/OptionalKarmotrine/html/index.php">
               <i class="fas fa-home"></i> Home</a>
             </li>
             <li class="nav-item">
@@ -51,7 +60,7 @@
               <i class="fas fa-door-closed"></i> Employee Portal</a>
             </li>
           </ul>
-          <a class="nav-link justify-content-end fs-5 Delta" href="https://students.cs.niu.edu/~z1951125/OptionalKarmotrine/html/cart">
+          <a class="nav-link justify-content-end fs-5 Delta" href="https://students.cs.niu.edu/~z1951125/OptionalKarmotrine/html/cart.php">
             <i class="fas fa-shopping-cart"></i> My Cart
           </a>
         </div>
@@ -59,52 +68,24 @@
     </nav>
   </header>
 
-  <main>
-    <div class="container py-4">
-      <div class="row align-items-md-stretch">
-        <div class="col-md-4">
-          <div class="h-100 d-flex justify-content-center flex-column" id="borderCALI">
-            <img class="img-fluid" src="assets/drinks/FringeWeaver.png" alt="Fringe Weaver">
-            <h2 class="text-center">Fringe Weaver</h2>
-          </div>
-        </div>
-        <div class="col-md-8">
-          <div class="h-50 p-3">
-            <h1 class="display-5 fw-bold Stella">Fringe Weaver</h1>
-            <p class="h1 Karmotrine">$260</p>
-            <div id="borderIMG">
-              <p class="fs-5">A Fringe Weaver is bubbly, classy, and <b>strong</b> drink, perhaps even the strongest we sell.
-              At its strongest, 18 parts karmotrine will be giving you something to regret in the morning.</p>
-            </div>
-            <form class="row px-5" action="" method="POST" validate>
-              <div class="col-3">
-                <input class="form-control" type="number" placeholder="Enter Quantity" value=1 name="QTY" required>
-              </div>
-              <div class="col-4">
-                <button class="btn btn-lg btn-val fw-bold" style="white-space:nowrap;" type="Submit">Add to cart</button>
-              </div>
-            </form>
-            <div style="height: 200px;"></div>
-            <div class="Stella">
-              <p>
-                Contains 1 part <span class="Adelhyde">Adelhyde</span>, 9 parts <span class="Karmotrine">Karmotrine</span>. All aged and mixed. 
-              </p>
-            </div>
-          </div>
-        </div>
+  <main class="d-flex flex-column h-100">
+    <div style="background-color: #000000a0; padding-top: 10%;">
+      <div class="text-center">
+        <h1 class="fs-1 fw-bolder">Welcome to Va-11 Hall-A</h1>
+        <p class="fs-4">Once only a popular nighttime bar serving the people of Glitch City, 
+          <br>We've since expended our business to offer an authentic bar-quality experience from home.</p>
+        <p class="lead">
+          <a href="https://students.cs.niu.edu/~z1951125/OptionalKarmotrine/html/drinks.php" class="btn btn-lg fw-bold btn-val">See our drinks.</a>
+        </p>
       </div>
-      <div class="py-1">
-        <div class="container-fluid py-4">
-          <p class="col-md-8 fs-4" id="borderIMG">"It's like drinking ethylic alcohol with a spoonful of sugar."</p>
-        </div>
-      </div>
-      <footer class="pt-2 mt-4 text-muted border-top">
-        Copyright (c) Keeree Joe Group. 2064.
-        CALICOMP and Keeree Joe Group are registered tademarks of Banjo Group.
-      </footer>
     </div>
   </main>
-  <!-- Bootstrap JavaScript Libraries -->
+  <footer class="text-muted text-center">
+      Copyright (c) Keeree Joe Group. 2064.
+      CALICOMP and Keeree Joe Group are registered tademarks of Banjo Group.
+  </footer>
+
+    <!-- Bootstrap JavaScript Libraries -->
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
     integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous">
   </script>
