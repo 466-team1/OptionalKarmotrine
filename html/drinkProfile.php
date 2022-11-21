@@ -61,6 +61,7 @@
 
   <?php
     include("assets/drinksLib.php");
+    include("assets/profileLib.php");
 
     try
     {
@@ -151,7 +152,7 @@
                 <button class="btn btn-lg btn-val fw-bold" style="white-space:nowrap;" type="Submit">Add to cart</button>
               </div>
             </form>
-            <div style="height: 200px;"></div>
+            <div style="height: 50px;"></div>
             <div class="Stella">
               <?php echo printIngred($filename); ?>
             </div>
