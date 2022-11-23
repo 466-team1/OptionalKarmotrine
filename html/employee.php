@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+<body style="background-color:black;">
 <head>
   <title>Employee Portal</title>
   <link rel="icon" type="image/x-icon" href="assets/favicon.ico">
@@ -103,9 +104,9 @@
         // Table data
         foreach($rows as $row)
         {
-          echo "<tr>";
-          echo "<td>", $row["ORDER_NUM"], "</td><td>", $row["COST"], "</td><td>", $row["CUS_NAME"], "</td><td>", $row["CUS_ADDRESS"], "</td><td>", $row["CUS_EMAIL"], "</td><td>", $row["STATUS"], "</td><td>", $row["NOTE"], "</td><td>", $row["TRACKING"], "</td>";
-          echo "</tr>";
+            echo "<tr>";
+            echo "<td>", $row["ORDER_NUM"], "</td><td>", $row["COST"], "</td><td>", $row["CUS_NAME"], "</td><td>", $row["CUS_ADDRESS"], "</td><td>", $row["CUS_EMAIL"], "</td><td>", $row["STATUS"], "</td><td>", $row["NOTE"], "</td><td>", $row["TRACKING"], "</td>";
+            echo "</tr>";
         }
         echo "</table>";
         echo "<br><br>";
@@ -123,97 +124,69 @@
         echo"<input type='reset' name='reset' value='Reset Form' /> <br>";
         echo "</form></body></html>";
 
+        
         if(isset($_GET['ordersubmit']))
         {
-          // Order Number
-          $on = $_GET["ordernum"];
+            $on = $_GET["ordernum"];
+        
+            $cmd = "SELECT * FROM ORDERS WHERE ORDER_NUM=?";
+            $stmt = $pdo->prepare($cmd);
+            $stmt->execute([$on]);
+            $gt = $stmt->fetch();
 
-
-          echo "<h1>Customer order details for: $on</h1>";
-
-          $cmd = "SELECT * FROM ORDERS WHERE ORDER_NUM=?";
-          $stmt = $pdo->prepare($cmd);
-          $stmt->execute([$on]);
-          $gt = $stmt->fetch();
-          if($gt)
-          {
-
-          }
-          else
-          {
-          echo "Order not found!";
-          echo "<br>";
-
-          echo "<button onclick=window.location.href='https://students.cs.niu.edu/~z1922762/OptionalKarmotrine/adminhome.php'>Reset</button>";
-          exit();
-          }
-
-          echo "<h3>Customer Order(s)</h3>";
-          // Column titles
-          echo "<table border=1 cellspacing=2>";
-          echo "<tr>";
-          echo "<td>Order Number</td>";
-          echo "<td>Cost</td>";
-          echo "<td>Customer Name</td>";
-          echo "<td>Customer Address</td>";
-          echo "<td>Customer eMail</td>";
-          echo "<td>Status</td>";
-          echo "<td>Note</td>";
-          echo "<td>Tracking</td>";
-          echo "</tr>";
-
-          $order = $pdo->query("SELECT * FROM ORDERS WHERE ORDER_NUM = '$on';");
-          $rows = $order->fetchAll(PDO::FETCH_ASSOC);
-
-          // Table data
-          foreach($rows as $row){
-          echo "<tr>";
-          echo "<td>", $row["ORDER_NUM"], "</td><td>", $row["COST"], "</td><td>", $row["CUS_NAME"], "</td><td>", $row["CUS_ADDRESS"], "</td><td>", $row["CUS_EMAIL"], "</td><td>", $row["STATUS"], "</td><td>", $row["NOTE"], "</td><td>", $row["TRACKING"], "</td>";
-          echo "</tr>";
-          }
-          echo "</table>";
-
-          echo "<h1>Customer order contents for: $on</h1>";
-
-          $cmd = "SELECT * FROM ORDERS WHERE ORDER_NUM=?";
-          $stmt = $pdo->prepare($cmd);
-          $stmt->execute([$on]);
-          $gt = $stmt->fetch();
-          if($gt)
-          {
-
-          }
-          else
-          {
-            echo "Order not found!";
-            echo "<br>";
-
-            echo "<button onclick=window.location.href='https://students.cs.niu.edu/~z1922762/OptionalKarmotrine/adminhome.php'>Reset</button>";
-            exit();
-          }
-
-          echo "<h3>Customer Order(s)</h3>";
-          // Column titles
-          echo "<table border=1 cellspacing=2>";
-          echo "<tr>";
-          echo "<td>Order Number</td>";
-          echo "<td>Name</td>";
-          echo "<td>QTY</td>";
-          echo "</tr>";
-
-          $order = $pdo->query("SELECT * FROM HAS WHERE ORDER_NUM = '$on';");
-          $rows = $order->fetchAll(PDO::FETCH_ASSOC);
-
-          // Table data
-          foreach($rows as $row)
-          {
-            echo "<tr>";
-            echo "<td>", $row["ORDER_NUM"], "</td><td>", $row["NAME"], "</td><td>", $row["QTY"], "</td>";
-            echo "</tr>";
-          }
-          echo "</table>";
-          echo "<br>";
-          echo "<button onclick=window.location.href='https://students.cs.niu.edu/~z1922762/OptionalKarmotrine/adminhome.php'>Reset</button>";
+            if($gt)
+            {
+                echo "<h1>Customer order details for: $on</h1>";
+                // Column titles
+                echo "<table border=1 cellspacing=2>";
+                echo "<tr>";
+                echo "<td>Order Number</td>";
+                echo "<td>Cost</td>";
+                echo "<td>Customer Name</td>";
+                echo "<td>Customer Address</td>";
+                echo "<td>Customer eMail</td>";
+                echo "<td>Status</td>";
+                echo "<td>Note</td>";
+                echo "<td>Tracking</td>";
+                echo "</tr>";
+                
+                $order = $pdo->query("SELECT * FROM ORDERS WHERE ORDER_NUM = '$on';");
+                $rows = $order->fetchAll(PDO::FETCH_ASSOC);
+                
+                // Table data
+                foreach($rows as $row){
+                    echo "<tr>";
+                    echo "<td>", $row["ORDER_NUM"], "</td><td>", $row["COST"], "</td><td>", $row["CUS_NAME"], "</td><td>", $row["CUS_ADDRESS"], "</td><td>", $row["CUS_EMAIL"], "</td><td>", $row["STATUS"], "</td><td>", $row["NOTE"], "</td><td>", $row["TRACKING"], "</td>";
+                    echo "</tr>";
+                }
+                echo "</table>";
+        
+                echo "<h3>Order contents</h3>";
+                // Column titles
+                echo "<table border=1 cellspacing=2>";
+                echo "<tr>";
+                echo "<td>Order Number</td>";
+                echo "<td>Name</td>";
+                echo "<td>QTY</td>";
+                echo "</tr>";
+                
+                $order = $pdo->query("SELECT * FROM HAS WHERE ORDER_NUM = '$on';");
+                $rows = $order->fetchAll(PDO::FETCH_ASSOC);
+                
+                // Table data
+                foreach($rows as $row){
+                    echo "<tr>";
+                    echo "<td>", $row["ORDER_NUM"], "</td><td>", $row["NAME"], "</td><td>", $row["QTY"], "</td>";
+                    echo "</tr>";
+                }
+                echo "</table>";
+                echo "<br>";
+            }
+            else
+            {
+                echo "Order not found!";
+                echo "<br>";
+            }
         }
 
         echo"<html><body>";
@@ -222,14 +195,14 @@
         echo"<p>Update order status</p>";
         echo"Order Number<input type='text' name='ordernum' required/>";
         echo"<label for='status'>New Status";
-        echo"<select name='status' id='status'>";
-        echo"<option value='' disabled selected>Select new status</option>";
-        echo"<option value='RECIEVED'>RECIEVED</option>";
-        echo"<option value='PROCESSING'>PROCESSING</option>";
-        echo"<option value='SHIPPED'>SHIPPED</option>";
-        echo"<option value='COMPLETED'>COMPLETED</option>";
-        echo"<option value='CANCELLED'>CANCELLED</option>";
-        echo"</select>";
+            echo"<select name='status' id='status'>";
+                echo"<option value='' disabled selected>Select new status</option>";
+                echo"<option value='PROCESSING'>PROCESSING</option>";
+                echo"<option value='CONFIRMED'>CONFIRMED</option>";
+                echo"<option value='SHIPPED'>SHIPPED</option>";
+                echo"<option value='COMPLETED'>COMPLETED</option>";
+                echo"<option value='CANCELLED'>CANCELLED</option>";
+            echo"</select>";
         echo"</label>";
         echo"<br><br>";
         echo"<input type='submit' name='statussubmit' value='Submit' /> <br>";
@@ -238,66 +211,56 @@
 
         if(isset($_POST['statussubmit']))
         {
-          // Order number and order status
-          $on = $_POST["ordernum"];
-          $os = $_POST["status"];
+            $on = $_POST["ordernum"];
+            $os = $_POST["status"];
+            
+            $cmd = "SELECT * FROM ORDERS WHERE ORDER_NUM=?";
+            $stmt = $pdo->prepare($cmd);
+            $stmt->execute([$on]);
+            $gt = $stmt->fetch();
 
-          echo "<h1>Customer order status for: $on</h1>";
+            if($gt)
+            {
+                echo "<h1>Customer order status for: $on</h1>";
+                print("Updated order $on status to $os");
 
-          $cmd = "SELECT * FROM ORDERS WHERE ORDER_NUM=?";
-          $stmt = $pdo->prepare($cmd);
-          $stmt->execute([$on]);
-          $gt = $stmt->fetch();
-          if($gt)
-          {
-            echo"<br>";
-            print("Updated order $on status to $os");
-          }
-          else
-          {
-            echo "Order not found!";
-            echo "<br>";
-
-            echo "<button onclick=window.location.href='https://students.cs.niu.edu/~z1922762/OptionalKarmotrine/adminhome.php'>Reset</button>";
-            exit();
-          }
-
-          $sql = "UPDATE ORDERS SET STATUS = :STATUS WHERE ORDER_NUM = :ORDER";
-          $prepared = $pdo->prepare($sql, array(PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY));
-          $success = $prepared->execute(array(':STATUS' => $os, ':ORDER' => $on));
-
-
-          $order = $pdo->query("SELECT * FROM ORDERS WHERE ORDER_NUM = '$on';");
-          $rows = $order->fetchAll(PDO::FETCH_ASSOC);
-
-          echo "<h2>Customer Orders & Drink Inventory</h2>";
-          // Column titles
-          echo "<h3>Customer Order(s)</h3>";
-          echo "<table border=1 cellspacing=2>";
-          echo "<tr>";
-          echo "<td>Order Number</td>";
-          echo "<td>Cost</td>";
-          echo "<td>Customer Name</td>";
-          echo "<td>Customer Address</td>";
-          echo "<td>Customer eMail</td>";
-          echo "<td>Status</td>";
-          echo "<td>Note</td>";
-          echo "<td>Tracking</td>";
-          echo "</tr>";
-
-          // Table data
-          foreach($rows as $row)
-          {
-            echo "<tr>";
-            echo "<td>", $row["ORDER_NUM"], "</td><td>", $row["COST"], "</td><td>", $row["CUS_NAME"], "</td><td>", $row["CUS_ADDRESS"], "</td><td>", $row["CUS_EMAIL"], "</td><td>", $row["STATUS"], "</td><td>", $row["NOTE"], "</td><td>", $row["TRACKING"], "</td>";
-            echo "</tr>";
-          }
-          echo "</table>";
-          echo "<br>";
-          echo "<button onclick=window.location.href='https://students.cs.niu.edu/~z1922762/OptionalKarmotrine/adminhome.php'>Reset</button>";
-
+                $sql = "UPDATE ORDERS SET STATUS = :STATUS WHERE ORDER_NUM = :ORDER";
+                $prepared = $pdo->prepare($sql, array(PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY));
+                $success = $prepared->execute(array(':STATUS' => $os, ':ORDER' => $on));
+                
+                
+                $order = $pdo->query("SELECT * FROM ORDERS WHERE ORDER_NUM = '$on';");
+                $rows = $order->fetchAll(PDO::FETCH_ASSOC);
+                
+                // Column titles
+                echo "<table border=1 cellspacing=2>";
+                echo "<tr>";
+                echo "<td>Order Number</td>";
+                echo "<td>Cost</td>";
+                echo "<td>Customer Name</td>";
+                echo "<td>Customer Address</td>";
+                echo "<td>Customer eMail</td>";
+                echo "<td>Status</td>";
+                echo "<td>Note</td>";
+                echo "<td>Tracking</td>";
+                echo "</tr>";
+                
+                // Table data
+                foreach($rows as $row){
+                    echo "<tr>";
+                    echo "<td>", $row["ORDER_NUM"], "</td><td>", $row["COST"], "</td><td>", $row["CUS_NAME"], "</td><td>", $row["CUS_ADDRESS"], "</td><td>", $row["CUS_EMAIL"], "</td><td>", $row["STATUS"], "</td><td>", $row["NOTE"], "</td><td>", $row["TRACKING"], "</td>";
+                    echo "</tr>";
+                }
+                echo "</table>";
+                echo "<br>";
+            }
+            else
+            {
+                echo "Order not found!";
+                echo "<br>";
+            }
         }
-   
+
         echo"<html><body>";
         echo"<form action='' method='POST'>";
         echo"<br>";
@@ -311,59 +274,51 @@
 
         if(isset($_POST['notesubmit']))
         {
-          // Order number and note
-          $on = $_POST["ordernum"];
-          $n = $_POST["note"];
-
-          echo "<h1>Customer order note for: $on</h1>";
-
-          $cmd = "SELECT * FROM ORDERS WHERE ORDER_NUM=?";
-          $stmt = $pdo->prepare($cmd);
-          $stmt->execute([$on]);
-          $gt = $stmt->fetch();
-          if($gt)
-          {
-            echo"<br>";
-            print("Updated order $on");
-            echo "<br>";
-            echo "Note: ";
-            echo $n;
-            echo "<br>";
-          }
-          else
-          {
-            echo "Order not found!";
-            echo "<br>";
-
-            echo "<button onclick=window.location.href='https://students.cs.niu.edu/~z1922762/OptionalKarmotrine/adminhome.php'>Reset</button>";
-            exit();
-          }
-
-          $sql = "UPDATE ORDERS SET NOTE = :NOTE WHERE ORDER_NUM = :ORDER;";
-          $prepared = $pdo->prepare($sql, array(PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY));
-          $success = $prepared->execute(array(':NOTE' => $n, ':ORDER' => $on));
-
-          echo "<h3>Customer Order(s)</h3>";
-          // Column titles
-          echo "<table border=1 cellspacing=2>";
-          echo "<tr>";
-          echo "<td>Order Number</td>";
-          echo "<td>Note</td>";
-          echo "</tr>";
-
-          $order = $pdo->query("SELECT * FROM ORDERS WHERE ORDER_NUM = '$on';");
-          $rows = $order->fetchAll(PDO::FETCH_ASSOC);
-
-          // Table data
-          foreach($rows as $row)
-          {
-            echo "<tr>";
-            echo "<td>", $row["ORDER_NUM"], "</td><td>", $row["NOTE"], "</td>";
-            echo "</tr>";
-          }
-          echo "</table>";
-          echo "<br>";
-          echo "<button onclick=window.location.href='https://students.cs.niu.edu/~z1922762/OptionalKarmotrine/adminhome.php'>Reset</button>";
+            // Order number and note
+            $on = $_POST["ordernum"];
+            $n = $_POST["note"];
+          
+            $cmd = "SELECT * FROM ORDERS WHERE ORDER_NUM=?";
+            $stmt = $pdo->prepare($cmd);
+            $stmt->execute([$on]);
+            $gt = $stmt->fetch();
+            if($gt)
+            {
+                echo "<h1>Customer order note for: $on</h1>";
+                echo "Updated order $on";
+                echo "<br>";
+                echo "Note: ";
+                echo $n;
+                echo "<br>";
+            
+                $sql = "UPDATE ORDERS SET NOTE = :NOTE WHERE ORDER_NUM = :ORDER;";
+                $prepared = $pdo->prepare($sql, array(PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY));
+                $success = $prepared->execute(array(':NOTE' => $n, ':ORDER' => $on));
+                
+                // Column titles
+                echo "<table border=1 cellspacing=2>";
+                echo "<tr>";
+                echo "<td>Order Number</td>";
+                echo "<td>Note</td>";
+                echo "</tr>";
+                
+                $order = $pdo->query("SELECT * FROM ORDERS WHERE ORDER_NUM = '$on';");
+                $rows = $order->fetchAll(PDO::FETCH_ASSOC);
+                
+                // Table data
+                foreach($rows as $row){
+                    echo "<tr>";
+                    echo "<td>", $row["ORDER_NUM"], "</td><td>", $row["NOTE"], "</td>";
+                    echo "</tr>";
+                }
+                echo "</table>";
+                echo "<br>";
+            }
+            else
+            {
+                echo "Order not found!";
+                echo "<br>";
+            }
         }
       ?>
 
