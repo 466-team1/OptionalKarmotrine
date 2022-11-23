@@ -1,7 +1,7 @@
 <?php
 
-$username = 'z1951125';
-$password = '2000Mar30';
+$username = 'z1925422';
+$password = '2003Jan18';
 
 function printQuote($filename)
 {
@@ -192,7 +192,7 @@ function drawCards($rows)
             echo "<span class=\"badge rounded-pill col-3 text-bg-info fs-6\">$row[FLAVOR]</span>";
             echo "<span class=\"badge rounded-pill col-3 text-bg-info fs-6\">$row[TYPE]</span>";
             echo "<span class=\"badge rounded-pill col-3 text-bg-info fs-6\">$row[CATEGORY]</span></div>";
-            echo "<form class=\"row py-2\" action=\"https://students.cs.niu.edu/~z1951125/OptionalKarmotrine/html/drinkProfile.php\" method=\"GET\"><button type=\"submit\" value=$urlName name=\"Drink\" class=\"btn btn-val col-5 fs-5\">Details</button>";
+            echo "<form class=\"row py-2\" action=\"https://students.cs.niu.edu/~z1925422/OptionalKarmotrine/html/drinkProfile.php\" method=\"GET\"><button type=\"submit\" value=$urlName name=\"Drink\" class=\"btn btn-val col-5 fs-5\">Details</button>";
             echo "<p class=\"col-3 m-0 fs-3 Karmotrine\">$$row[PRICE]</p><p class=\"col-4 m-0 p-2\"><small class=\"Delta\">$row[STOCK] stocked</small></p>";
             echo "</form></div></div></div></div>";
         }

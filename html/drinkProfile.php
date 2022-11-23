@@ -53,11 +53,11 @@
         <div class="collapse navbar-collapse" id="collapsibleNavId">
           <ul class="navbar-nav me-auto mt-2 mt-lg-0">
             <li class="nav-item">
-              <a class="nav-link fs-5 Adelhyde" href="https://students.cs.niu.edu/~z1951125/OptionalKarmotrine/html/index.php">
+              <a class="nav-link fs-5 Adelhyde" href="https://students.cs.niu.edu/~z1925422/OptionalKarmotrine/html/index.php">
               <i class="fas fa-home"></i> Home</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link fs-5 Bronson" href="https://students.cs.niu.edu/~z1951125/OptionalKarmotrine/html/drinks.php">
+              <a class="nav-link fs-5 Bronson" href="https://students.cs.niu.edu/~z1925422/OptionalKarmotrine/html/drinks.php">
               <i class="fas fa-glass-martini"></i> Drinks</a>
             </li>
             <li class="nav-item">
@@ -69,7 +69,7 @@
               <i class="fas fa-door-closed"></i> Employee Portal</a>
             </li>
           </ul>
-          <a class="nav-link justify-content-end fs-5 Delta" href="https://students.cs.niu.edu/~z1951125/OptionalKarmotrine/html/cart.php">
+          <a class="nav-link justify-content-end fs-5 Delta" href="https://students.cs.niu.edu/~z1925422/OptionalKarmotrine/html/cart.php">
             <i class="fas fa-shopping-cart"></i> My Cart
           </a>
         </div>
@@ -83,7 +83,7 @@
 
     try
     {
-        $dsn = "mysql:host=courses;dbname=z1951125";
+        $dsn = "mysql:host=courses;dbname=z1925422";
         $pdo = new PDO($dsn, $username, $password, [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
     }
     catch(PDOexception $e)
@@ -162,7 +162,7 @@
                 echo "<p class=\"h1 Karmotrine\">$$price</p>";
                 echo"<div id=\"borderIMG\"><p class=\"fs-5\">$desc</p></div>";
             ?>
-            <form class="row px-5" action="https://students.cs.niu.edu/~z1951125/OptionalKarmotrine/html/cart.php" method="GET" validate>
+            <form class="row px-5" action="https://students.cs.niu.edu/~z1925422/OptionalKarmotrine/html/drinks.php" method="GET" validate>
               <div class="col-3">
                 <input class = form-control type="hidden" <?php echo "value=\"$filename\";"?> name="DRINK" required>
                 <input class="form-control" type="number" placeholder="Enter Quantity" value=1 name="QTY" required>

@@ -1,4 +1,16 @@
 <?php
+
+    echo "<html><head><title> pagename </title></head><body>";
+    echo "</body></html>";
+
+    try { // if something goes wrong, an exception is thrown
+        $dsn = "mysql:host=courses; dbname=z1925422";
+        $pdo = new PDO($dsn, "z1925422", "2003Jan18");
+        }
+        catch(PDOexception $e) { // handle that exception
+        echo "Connection to database failed: " . $e->getMessage();
+        }
+
     session_start();
         //---------------------run the "unset" command to reset the current cart (dont have to wait till session ends)
     //unset($_SESSION['cart']);
@@ -6,7 +18,7 @@
     //if the cart is set
     if (isset($_SESSION['cart']))
     {
-        echo "session exists";
+        echo "session exists whoooo";
     }
     else //else, we need to make a new cart.
     {
@@ -16,29 +28,7 @@
 
     }
 
-    if(isset($_GET["DRINK"], $_GET["QTY"]))
-    {
-        $drk = $_GET["DRINK"];
-        $qnt = $_GET["QTY"];
 
-        $b=array("DRINK"=>"$drk","QTY"=>$qnt);
-        array_push($_SESSION['cart'],$b); //Add items to cart
-    }
-
-    echo "<table border=1 cellspace=3>";  
-    $max=sizeof($_SESSION['cart']);
-    for($i = 1; $i < $max; $i++)
-    {    
-        echo "<tr>";     
-        while (list ($key, $val) = each ($_SESSION['cart'][$i])) 
-        { 
-            echo " <td> $key -> $val  </td>"; 
-        } // inner array while loop
-        echo "</tr>";
-
-    } // outer array for loop
-    echo "</table>";
-    
 ?>
 
 <!DOCTYPE html>
@@ -81,11 +71,11 @@
         <div class="collapse navbar-collapse" id="collapsibleNavId">
           <ul class="navbar-nav me-auto mt-2 mt-lg-0">
             <li class="nav-item">
-              <a class="nav-link fs-5 Adelhyde" href="https://students.cs.niu.edu/~z1951125/OptionalKarmotrine/html/index.php">
+              <a class="nav-link fs-5 Adelhyde" href="https://students.cs.niu.edu/~z1925422/OptionalKarmotrine/html/index.php">
               <i class="fas fa-home"></i> Home</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link fs-5 Bronson" href="https://students.cs.niu.edu/~z1951125/OptionalKarmotrine/html/drinks.php">
+              <a class="nav-link fs-5 Bronson" href="https://students.cs.niu.edu/~z1925422/OptionalKarmotrine/html/drinks.php">
               <i class="fas fa-glass-martini"></i> Drinks</a>
             </li>
             <li class="nav-item">
@@ -97,7 +87,7 @@
               <i class="fas fa-door-closed"></i> Employee Portal</a>
             </li>
           </ul>
-          <a class="nav-link justify-content-end fs-5 Delta fw-bold text-decoration-underline" href="https://students.cs.niu.edu/~z1951125/OptionalKarmotrine/html/cart.php">
+          <a class="nav-link justify-content-end fs-5 Delta fw-bold text-decoration-underline" href="https://students.cs.niu.edu/~z1925422/OptionalKarmotrine/html/cart.php">
             <i class="fas fa-shopping-cart"></i> My Cart
           </a>
         </div>
@@ -151,7 +141,80 @@
               </div> 
             </div>
 
-            <div class="cartItem">  
+
+<?php //EXPERIMENTAL STUFFS 
+    $max=sizeof($_SESSION['cart']);
+    for($i = 1; $i < $max; $i++)
+    { 
+      echo "WHERE IS THIS IDEK MAN. <br>";
+        while (list ($key, $val) = each ($_SESSION['cart'][$i])) 
+        { 
+          echo "WHERE IS THIS IDEK MAN PART 2. <br>";
+
+          if (!is_numeric($val))
+          {
+            $val = preg_replace('/(?<! )(?<!^)[A-Z]/',' $0', $val);
+          
+            $rs = $pdo->query("SELECT * FROM DRINKS WHERE NAME = '$val' ");
+    
+            while($data = ($rs->fetch()))
+            {
+              echo "WHERE IS THIS IDEK MAN PART 3. <br>";
+              $daval = current($_SESSION['cart'][$i]); 
+
+
+              ?>
+              <div class="cartItem">  
+              <div class="card mb-4" id="borderCALI">
+                <div class="card-body p-4">
+                  <div class="row d-flex justify-content-between align-items-center">
+                    <div class="col-md-2 col-lg-2 col-xl-2">
+                      <img src="assets/drinks/FringeWeaver.png">
+                    </div>
+                    <div class="col-md-3 col-lg-3 col-xl-3">
+                      <p class="fw-normal mb-2 fs-5 Adelhyde"><?php echo $data['NAME']; ?> </p>
+                      <p class="Flanergide"><span class="Bronson">Flavor: </span><?php echo $data['FLAVOR'] . " "; ?><span class="Bronson">Type: </span><?php echo $data['TYPE'] . " ";?>
+                      <br><span class="Bronson">Catagory: </span> <?php echo $data['CATEGORY']; ?> <span class="Karmotrine">Price: $</span><span class="Karmotrine price"> <?php echo $data['PRICE'];?> </span></p>
+                    </div>
+                    <div class="col-md-3 col-lg-3 col-xl-2 d-flex">
+                      <button class="btn btn-link px-2" 
+                        onclick="this.parentNode.querySelector('input[type=number]').stepDown(), adjustCost(this.parentNode.querySelector('input[type=number]'))">
+                        <i class="fas fa-minus Delta"></i>
+                      </button>
+
+                      
+                      <input id="Quantity" min="0" name= "quantity" value= <?php echo $daval; ?> type="number"
+                        class="form-control form-control-sm Quantity"/>
+      
+                      <button class="btn btn-link px-2"
+                        onclick="this.parentNode.querySelector('input[type=number]').stepUp(), adjustCost(this.parentNode.querySelector('input[type=number]'))">
+                        <i class="fas fa-plus Delta"></i>
+                      </button>
+                    </div>
+
+                    <div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
+                      <h2 class="mb-0 Karmotrine cost"> <?php echo $data['PRICE']; ?> </h5>
+                    </div>
+
+                    <div class="col-md-1 col-lg-1 col-xl-1 text-end">
+                      <button class="btn btn-link px-2" onclick="removeCart(this)"> <i class="fas fa-trash fa-lg Stella"></i></button>
+                    </div>
+                  </div>
+                </div> 
+              </div> 
+            </div>  
+              
+            <?php   
+
+          }
+        }
+      } // inner array while loop
+
+    } // outer array for loop
+    
+    ?>
+
+             <div class="cartItem">  
               <div class="card mb-4" id="borderCALI">
                 <div class="card-body p-4">
                   <div class="row d-flex justify-content-between align-items-center">

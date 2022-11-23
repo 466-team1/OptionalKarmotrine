@@ -6,15 +6,65 @@
     //if the cart is set
     if (isset($_SESSION['cart']))
     {
+        echo "session exists whoooo";
     }
-    //else, we need to make a new cart.
-    else
+    else //else, we need to make a new cart.
     {
 
-        $_SESSION['cart']=array(array("DRINK", "QTY")); // Declaring session array
-        echo "CART NOT SET, CREATING NEW ONE <br> <br>";
+       $_SESSION['cart']=array(array("DRINK", "QTY")); // Declaring session array
+        echo "CART NOT SET, CREATING NEW ONE<br>";
 
     }
+
+    if(isset($_GET["DRINK"], $_GET["QTY"]))
+    {
+        $drk = $_GET["DRINK"];
+        $qnt = $_GET["QTY"];
+
+
+        $max=sizeof($_SESSION['cart']);       
+        $bigcheck = 0;
+        for($i=1; $i<$max; $i++)
+        {    
+            $check = 0;
+            while (list ($key) = each ($_SESSION['cart'][$i])) 
+            { 
+                if ($check == 1)
+                {
+                    $_SESSION['cart'][$i][$key] += $qnt;
+                    $bigcheck = 1;
+    
+                }
+    
+                if ( $_SESSION['cart'][$i][$key] == $drk)
+                {
+                    $check = 1;
+                }
+    
+            } // inner array while loop
+    
+        } // outer array for loop   
+        if ($bigcheck == 0)
+        {
+            $b=array("product"=>"$drk","quantity"=>$qnt);
+            array_push($_SESSION['cart'],$b); // Items added to cart
+        }
+    }
+
+    echo "<table border=1 cellspace=3>";  
+    $max=sizeof($_SESSION['cart']);
+    for($i = 1; $i < $max; $i++)
+    {    
+        echo "<tr>";     
+        while (list ($key, $val) = each ($_SESSION['cart'][$i])) 
+        { 
+            echo " <td>  $val  </td>"; 
+        } // inner array while loop
+        echo "</tr>";
+
+    } // outer array for loop
+    echo "</table>";
+    
 ?>
 
 <!DOCTYPE html>
@@ -73,11 +123,11 @@
         <div class="collapse navbar-collapse" id="collapsibleNavId">
           <ul class="navbar-nav me-auto mt-2 mt-lg-0">
             <li class="nav-item">
-              <a class="nav-link fs-5 Adelhyde" href="https://students.cs.niu.edu/~z1951125/OptionalKarmotrine/html/index.php">
+              <a class="nav-link fs-5 Adelhyde" href="https://students.cs.niu.edu/~z1925422/OptionalKarmotrine/html/index.php">
               <i class="fas fa-home"></i> Home</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link fs-5 Bronson fw-bold text-decoration-underline" href="https://students.cs.niu.edu/~z1951125/OptionalKarmotrine/html/drinks.php">
+              <a class="nav-link fs-5 Bronson fw-bold text-decoration-underline" href="https://students.cs.niu.edu/~z1925422/OptionalKarmotrine/html/drinks.php">
               <i class="fas fa-glass-martini"></i> Drinks</a>
             </li>
             <li class="nav-item">
@@ -89,7 +139,7 @@
               <i class="fas fa-door-closed"></i> Employee Portal</a>
             </li>
           </ul>
-          <a class="nav-link justify-content-end fs-5 Delta" href="https://students.cs.niu.edu/~z1951125/OptionalKarmotrine/html/cart.php">
+          <a class="nav-link justify-content-end fs-5 Delta" href="https://students.cs.niu.edu/~z1925422/OptionalKarmotrine/html/cart.php">
             <i class="fas fa-shopping-cart"></i> My Cart
           </a>
         </div>
@@ -102,7 +152,7 @@
 
     try
     {
-        $dsn = "mysql:host=courses;dbname=z1951125";
+        $dsn = "mysql:host=courses;dbname=z1925422";
         $pdo = new PDO($dsn, $username, $password, [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
     }
     catch(PDOexception $e)
