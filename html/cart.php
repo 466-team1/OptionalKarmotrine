@@ -43,11 +43,11 @@ require_once '../lib/library.php';
         <div class="collapse navbar-collapse" id="collapsibleNavId">
           <ul class="navbar-nav me-auto mt-2 mt-lg-0">
             <li class="nav-item">
-              <a class="nav-link fs-5 Adelhyde" href="https://students.cs.niu.edu/~z1925422/OptionalKarmotrine/html/index.php">
+              <a class="nav-link fs-5 Adelhyde" href="index.php">
               <i class="fas fa-home"></i> Home</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link fs-5 Bronson" href="https://students.cs.niu.edu/~z1925422/OptionalKarmotrine/html/drinks.php">
+              <a class="nav-link fs-5 Bronson" href="drinks.php">
               <i class="fas fa-glass-martini"></i> Drinks</a>
             </li>
             <li class="nav-item">
@@ -59,7 +59,7 @@ require_once '../lib/library.php';
               <i class="fas fa-door-closed"></i> Employee Portal</a>
             </li>
           </ul>
-          <a class="nav-link justify-content-end fs-5 Delta fw-bold text-decoration-underline" href="https://students.cs.niu.edu/~z1925422/OptionalKarmotrine/html/cart.php">
+          <a class="nav-link justify-content-end fs-5 Delta fw-bold text-decoration-underline" href="cart.php">
             <i class="fas fa-shopping-cart"></i> My Cart
           </a>
         </div>
