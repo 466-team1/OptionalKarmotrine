@@ -3,8 +3,8 @@ Sell drinks through a fake webstore.
 
 ## SQL Schema
 
-**ORDERS**(<ins>ORDER_NUM</ins>, COST, CUS_NAME, CUS_ADDRESS, CUS_EMAIL, STATUS, NOTE, TRACKING)
+**ORDERS**(<ins>ORDER_NUM</ins>, COST, CUS_NAME, CUS_ADDRESS, CUS_EMAIL, STATUS, TRACKING)
 
-**DRINKS**(<ins>NAME</ins>, TYPE, CATEGORY, FLAVOR, PRICE, STOCK)
+**DRINKS**(<ins>NAME</ins>, TYPE, CATEGORY, FLAVOR, PRICE, STOCK, DESC, QUOTE, INGRED)
 
 **HAS**(<ins>ORDER_NUM</ins>&dagger;, <ins>NAME</ins>&dagger;, QTY)
