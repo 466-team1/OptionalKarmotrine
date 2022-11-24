@@ -270,53 +270,57 @@ require_once '../lib/library.php';
     {
       adjustCost(this);
     });
-  </script>
 
-  <script type="text/javascript">
-  function removeCart(element)
+  function updateCart(Drink, Quantity)
+  {
+    var subtotal;
+    $.ajax({
+      method: "POST",
+      url: "updateCart.php",
+      data: { item: Drink, quantity: Quantity}
+    })
+    .done(function( data ) 
+    {
+      //console.log(data);
+      subtotal = data.subtotal;
+      updateSubtotal(subtotal);
+    });
+  }
+
+  function removeCart(element, item)
   {
     const closest = $(element).closest('.cartItem');
+    updateCart(item, 0);
     closest.remove();
-    calculateTotal();
   }
-  </script>
 
-  <script type="text/javascript">
-    function adjustCost(Quantity)
-    {
-      productDiv = $(Quantity).parent().parent();
-      var price = parseFloat(productDiv.find('.price').text());
-      var quantity = $(Quantity).val();
-      if(quantity == 0)
-      {
-        removeCart(productDiv.parent().parent().parent())
-      }
-      else
-      {
-        var cost = price * quantity;
-        productDiv.find('.cost').each(function ()
-        {
-          let prefix = "$"
-          $(this).fadeOut(300);
-          $(this).text(prefix.concat(cost.toFixed(2)));
-          $(this).fadeIn(300);
-        });
-        calculateTotal();
-      }
-    }
-  </script>
-
-  <script type="text/javascript">
-  function calculateTotal()
+  function adjustCost(Quantity)
   {
-    var subtotal = 0;
-    let prefix = "Subtotal: $";
-
-    $('.cost').each(function ()
+    productDiv = $(Quantity).parent().parent();
+    var price = parseFloat(productDiv.find('.price').text());
+    var quantity = $(Quantity).val();
+    var item = $(Quantity).parent().find('#Item').val();
+    updateCart(item, quantity);
+    if(quantity <= 0)
     {
-      let withoutDollar = $(this).text().substring(1);
-      subtotal += parseFloat(withoutDollar);
-    });
+      removeCart(productDiv.parent().parent().parent(), item)
+    }
+    else
+    {
+      var cost = price * quantity;
+      productDiv.find('.cost').each(function ()
+      {
+        let prefix = "$"
+        $(this).fadeOut(300);
+        $(this).text(prefix.concat(cost.toFixed(2)));
+        $(this).fadeIn(300);
+      });
+    }
+  }
+
+  function updateSubtotal(subtotal)
+  {
+    let prefix = "Subtotal: $";
     
     $('.subtotal').fadeOut(300, function() {
       $('#cartTotal').text(prefix.concat(subtotal.toFixed(2)));
@@ -331,10 +335,7 @@ require_once '../lib/library.php';
       $('.subtotal').fadeIn(300);
     });
   }
-  </script>
 
-  <script type="text/javascript">
-    calculateTotal()
   </script>
 </body>
 
