@@ -78,8 +78,8 @@
   </header>
 
   <?php
-    include("assets/drinksLib.php");
-    include("assets/profileLib.php");
+    include("../lib/drinksLib.php");
+    include("../lib/profileLib.php");
 
     try
     {

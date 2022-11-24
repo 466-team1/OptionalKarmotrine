@@ -148,7 +148,7 @@
   </header>
 
   <?php
-    include("assets/drinksLib.php");
+    include("../lib/drinksLib.php");
 
     try
     {
