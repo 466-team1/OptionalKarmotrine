@@ -116,7 +116,7 @@ function selectFlavor($pdo, $flavor)
     {
         $result = $pdo->query("SELECT * FROM DRINKS WHERE CATEGORY != 'Secret' AND FLAVOR = '$flavor';");
     }
-    catch(PDOexception $e)
+    catch(PDOException $e)
     {
     echo "Query Failure: " . $e->getMessage();
     }
@@ -135,7 +135,7 @@ function selectType($pdo, $type)
     {
         $result = $pdo->query("SELECT * FROM DRINKS WHERE CATEGORY != 'Secret' AND TYPE = '$type';");
     }
-    catch(PDOexception $e)
+    catch(PDOException $e)
     {
     echo "Query Failure: " . $e->getMessage();
     }
@@ -154,7 +154,7 @@ function selectCategory($pdo, $category)
     {
         $result = $pdo->query("SELECT * FROM DRINKS WHERE CATEGORY = '$category';");
     }
-    catch(PDOexception $e)
+    catch(PDOException $e)
     {
     echo "Query Failure: " . $e->getMessage();
     }

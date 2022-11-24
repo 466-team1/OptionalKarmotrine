@@ -100,7 +100,7 @@
         {
             $prepared = $pdo->prepare($sql);
         }
-        catch(PDOexception $e)
+        catch(PDOException $e)
         {
           echo "Prepare Failure: " . $e->getMessage();
         }
@@ -110,7 +110,7 @@
         {
             $result = $prepared->execute(array($name));
         }
-        catch(PDOexception $e)
+        catch(PDOException $e)
         {
             echo "Execute Failure: " . $e->getMessage();
         }
