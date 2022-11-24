@@ -105,4 +105,19 @@ function getCartSubtotal(PDO &$pdo)
     return $total;
 }
 
+function applyPromoCode(string $code): string
+{
+    switch($code)
+    {
+        case "FlamingMoai":
+        case "Flaming Moai":
+            addItemToCart("Flaming Moai");
+            $_SESSION['codes'][] = "Flaming Moai";
+            break;
+
+        default: return "<p class=\"Adelhyde\">Invalid code</p>";
+    }
+    return "<p class=\"Flanergide\">Promo Code $code added successfully.</p>";
+}
+
 ?>

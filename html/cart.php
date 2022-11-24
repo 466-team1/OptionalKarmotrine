@@ -2,6 +2,10 @@
 session_start();
 require_once '../lib/drinksLib.php';
 require_once '../lib/library.php';
+if(isset($_POST['code']) && !empty($_POST['code']))
+{
+    $promoResult = applyPromoCode($_POST['code']);
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -68,188 +72,65 @@ require_once '../lib/library.php';
   </header> 
 
   <main>
-    <div class="h-100">
-      <div class="container h-100 py-5">
-        <div class="row d-flex justify-content-center align-items-center h-100">
-          <div class="col-12" id="borderCALI">
-            <h3 class="fw-bold m-4">Your Shopping Cart <i class="fas fa-shopping-cart"></i></h3>
+    <div class="container py-5">
+      <div class="row d-flex justify-content-center">
+        <div class="col-12" id="borderCALI">
+          <h3 class="fw-bold m-4">Your Shopping Cart <i class="fas fa-shopping-cart"></i></h3>
 
-            <div class="cartItem">  
-              <div class="card mb-4" id="borderCALI">
-                <div class="card-body p-4">
-                  <div class="row d-flex justify-content-between align-items-center">
-                    <div class="col-md-2 col-lg-2 col-xl-2">
-                      <img src="assets/drinks/FringeWeaver.png">
-                    </div>
-                    <div class="col-md-3 col-lg-3 col-xl-3">
-                      <p class="fw-normal mb-2 fs-5 Adelhyde">Fringe Weaver</p>
-                      <p class="Flanergide"><span class="Bronson">Flavor: </span>Bubbly <span class="Bronson">Type: </span>Classy
-                      <br><span class="Bronson">Catagory: </span>Strong <span class="Karmotrine">Price: $</span><span class="Karmotrine price">260.00</span></p>
-                    </div>
-                    <div class="col-md-3 col-lg-3 col-xl-2 d-flex">
-                      <button class="btn btn-link px-2" 
-                        onclick="this.parentNode.querySelector('input[type=number]').stepDown(), adjustCost(this.parentNode.querySelector('input[type=number]'))">
-                        <i class="fas fa-minus Delta"></i>
-                      </button>
-      
-                      <input id="Quantity" min="0" name="quantity" value="1" type="number"
-                        class="form-control form-control-sm Quantity"/>
-      
-                      <button class="btn btn-link px-2"
-                        onclick="this.parentNode.querySelector('input[type=number]').stepUp(), adjustCost(this.parentNode.querySelector('input[type=number]'))">
-                        <i class="fas fa-plus Delta"></i>
-                      </button>
-                    </div>
-
-                    <div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
-                      <h2 class="mb-0 Karmotrine cost">$260.00</h5>
-                    </div>
-
-                    <div class="col-md-1 col-lg-1 col-xl-1 text-end">
-                      <button class="btn btn-link px-2" onclick="removeCart(this)"> <i class="fas fa-trash fa-lg Stella"></i></button>
-                    </div>
+          <?php drawCart($pdo); ?>
+  
+          <div class="card mb-4">
+<?php
+if(isset($_SESSION['codes']) && !empty($_SESSION['codes'])) 
+{
+    echo  '<div class="card-body p-2 d-flex flex-row">';
+    echo  '<span class="Flanergide">Applied Promo Codes: </span>';
+    foreach($_SESSION['codes'] as $code)
+    {
+        echo "&nbsp;$code&nbsp;";
+    }
+    echo  '</div>';
+}
+?>
+            <div class="card-body">
+              <form action=cart.php method=POST>
+                <div class="row">
+                  <div class="col-10">
+                    <input type="text" name="code" id="code" class="form-control form-control-lg" placeholder="Enter Promo Code"/>
                   </div>
-                </div> 
-              </div> 
-            </div>
-
-
-<?php //EXPERIMENTAL STUFFS 
-    $max=sizeof($_SESSION['cart']);
-    for($i = 1; $i < $max; $i++)
-    { 
-      echo "WHERE IS THIS IDEK MAN. <br>";
-        while (list ($key, $val) = each ($_SESSION['cart'][$i])) 
-        { 
-          echo "WHERE IS THIS IDEK MAN PART 2. <br>";
-
-          if (!is_numeric($val))
-          {
-            $val = preg_replace('/(?<! )(?<!^)[A-Z]/',' $0', $val);
-          
-            $rs = $pdo->query("SELECT * FROM DRINKS WHERE NAME = '$val' ");
-    
-            while($data = ($rs->fetch()))
-            {
-              echo "WHERE IS THIS IDEK MAN PART 3. <br>";
-              $daval = current($_SESSION['cart'][$i]); 
-
-
-              ?>
-              <div class="cartItem">  
-              <div class="card mb-4" id="borderCALI">
-                <div class="card-body p-4">
-                  <div class="row d-flex justify-content-between align-items-center">
-                    <div class="col-md-2 col-lg-2 col-xl-2">
-                      <img src="assets/drinks/FringeWeaver.png">
-                    </div>
-                    <div class="col-md-3 col-lg-3 col-xl-3">
-                      <p class="fw-normal mb-2 fs-5 Adelhyde"><?php echo $data['NAME']; ?> </p>
-                      <p class="Flanergide"><span class="Bronson">Flavor: </span><?php echo $data['FLAVOR'] . " "; ?><span class="Bronson">Type: </span><?php echo $data['TYPE'] . " ";?>
-                      <br><span class="Bronson">Catagory: </span> <?php echo $data['CATEGORY']; ?> <span class="Karmotrine">Price: $</span><span class="Karmotrine price"> <?php echo $data['PRICE'];?> </span></p>
-                    </div>
-                    <div class="col-md-3 col-lg-3 col-xl-2 d-flex">
-                      <button class="btn btn-link px-2" 
-                        onclick="this.parentNode.querySelector('input[type=number]').stepDown(), adjustCost(this.parentNode.querySelector('input[type=number]'))">
-                        <i class="fas fa-minus Delta"></i>
-                      </button>
-
-                      
-                      <input id="Quantity" min="0" name= "quantity" value= <?php echo $daval; ?> type="number"
-                        class="form-control form-control-sm Quantity"/>
-      
-                      <button class="btn btn-link px-2"
-                        onclick="this.parentNode.querySelector('input[type=number]').stepUp(), adjustCost(this.parentNode.querySelector('input[type=number]'))">
-                        <i class="fas fa-plus Delta"></i>
-                      </button>
-                    </div>
-
-                    <div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
-                      <h2 class="mb-0 Karmotrine cost"> <?php echo $data['PRICE']; ?> </h5>
-                    </div>
-
-                    <div class="col-md-1 col-lg-1 col-xl-1 text-end">
-                      <button class="btn btn-link px-2" onclick="removeCart(this)"> <i class="fas fa-trash fa-lg Stella"></i></button>
-                    </div>
-                  </div>
-                </div> 
-              </div> 
-            </div>  
-              
-            <?php   
-
-          }
-        }
-      } // inner array while loop
-
-    } // outer array for loop
-    
-    ?>
-
-             <div class="cartItem">  
-              <div class="card mb-4" id="borderCALI">
-                <div class="card-body p-4">
-                  <div class="row d-flex justify-content-between align-items-center">
-                    <div class="col-md-2 col-lg-2 col-xl-2">
-                      <img src="assets/drinks/Marsblast.png">
-                    </div>
-                    <div class="col-md-3 col-lg-3 col-xl-3">
-                      <p class=" fw-normal mb-2 fs-5 Adelhyde">Marsblast</p>
-                      <p class="Flanergide"><span class="Bronson">Flavor: </span>Spicy <span class="Bronson">Type: </span>Manly
-                      <br><span class="Bronson">Catagory: </span>Strong <span class="Karmotrine">Price: $</span><span class="Karmotrine price">170.00</span></p>
-                    </div>
-                    <div class="col-md-3 col-lg-3 col-xl-2 d-flex">
-                      <button class="btn btn-link px-2" 
-                        onclick="this.parentNode.querySelector('input[type=number]').stepDown(), adjustCost(this.parentNode.querySelector('input[type=number]'))">
-                        <i class="fas fa-minus Delta"></i>
-                      </button>
-      
-                      <input id="Quantity" min="0" name="quantity" value="1" type="number"
-                        class="form-control form-control-sm Quantity"/>
-      
-                      <button class="btn btn-link px-2"
-                        onclick="this.parentNode.querySelector('input[type=number]').stepUp(), adjustCost(this.parentNode.querySelector('input[type=number]'))">
-                        <i class="fas fa-plus Delta"></i>
-                      </button>
-                    </div>
-
-                    <div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
-                      <h2 class="mb-0 Karmotrine cost">$170.00</h5>
-                    </div>
-
-                    <div class="col-md-1 col-lg-1 col-xl-1 text-end">
-                      <button class="btn btn-link px-2" onclick="removeCart(this)"> <i class="fas fa-trash fa-lg Stella"></i></button>
-                    </div>
+                  <div class= "col-2">
+                    <button type="submit" class="btn btn-val btn-lg fw-bold mx-0" style="width:100%">Apply</button>
                   </div>
                 </div>
-              </div>
+              </form>
             </div>
-    
-            <div class="card mb-4">
-              <div class="card-body p-2 d-flex flex-row">
-                <div class="form-outline flex-fill">
-                  <input type="text" id="code" class="form-control form-control-lg" placeholder="Enter Promo Code"/>
+
+<?php
+if(isset($_POST['code']) && !empty($_POST['code'])) 
+{
+    echo <<<HTML
+                <div class="card-body p-2 d-flex flex-row">
+                  $promoResult
                 </div>
-                <button type="button" class="btn btn-val btn-lg fw-bold ms-3 col-1">Apply</button>
+    HTML;
+}
+?>
+          </div>
+
+          <div class="card">
+            <div class="card-body row px-4 justify-content-between">
+              <button type="button" class="btn btn-val btn-lg fw-bold col-2 checkout">Checkout</button>
+              <div class="col-4 h3 subtotal">
+                <span class="Karmotrine" id="cartTotal">Subtotal: $<?php echo number_format(getCartSubtotal($pdo), 2, '.', ''); ?></span>
               </div>
             </div>
-    
-            <div class="card">
-              <div class="card-body row px-4 justify-content-between">
-                <button type="button" class="btn btn-val btn-lg fw-bold col-2 checkout">Checkout</button>
-                <div class="col-4 h3 subtotal">
-                  <span class="Karmotrine" id="cartTotal">Subtotal: $0</span>
-                </div>
-              </div>
-            </div>
-    
           </div>
         </div>
-        <footer class="pt-2 mt-4 text-muted border-top">
+      </div>
+      <footer class="pt-2 mt-4 text-muted border-top">
           Copyright (c) Keeree Joe Group. 2064.
           CALICOMP and Keeree Joe Group are registered tademarks of Banjo Group.
-        </footer>
-      </div>
+      </footer>
     </div>
   </main>
 
