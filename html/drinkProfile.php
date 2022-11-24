@@ -80,17 +80,8 @@
   <?php
     include("../lib/drinksLib.php");
     include("../lib/profileLib.php");
+    include("../lib/db.php");   
 
-    try
-    {
-        $dsn = "mysql:host=courses;dbname=z1925422";
-        $pdo = new PDO($dsn, $username, $password, [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
-    }
-    catch(PDOexception $e)
-    {
-        echo "Connection to database failed: " . $e->getMessage();
-        die();
-    }
     if(!isset($_GET["Drink"]))
     {
         drinkERROR();

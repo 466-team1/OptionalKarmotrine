@@ -149,17 +149,7 @@
 
   <?php
     include("../lib/drinksLib.php");
-
-    try
-    {
-        $dsn = "mysql:host=courses;dbname=z1925422";
-        $pdo = new PDO($dsn, $username, $password, [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
-    }
-    catch(PDOexception $e)
-    {
-        echo "Connection to database failed: " . $e->getMessage();
-        die();
-    }
+    include("../lib/db.php");
   ?>
 
   <main class="container-fluid">

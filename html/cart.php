@@ -2,14 +2,7 @@
 
     echo "<html><head><title> pagename </title></head><body>";
     echo "</body></html>";
-
-    try { // if something goes wrong, an exception is thrown
-        $dsn = "mysql:host=courses; dbname=z1925422";
-        $pdo = new PDO($dsn, "z1925422", "2003Jan18");
-        }
-        catch(PDOexception $e) { // handle that exception
-        echo "Connection to database failed: " . $e->getMessage();
-        }
+    include("../lib/db.php");
 
     session_start();
         //---------------------run the "unset" command to reset the current cart (dont have to wait till session ends)
