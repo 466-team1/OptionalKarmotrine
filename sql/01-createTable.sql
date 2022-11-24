@@ -18,10 +18,13 @@ CREATE TABLE `ORDERS`(
 CREATE TABLE `DRINKS`(
     `NAME`     VARCHAR(20)  PRIMARY KEY,
     `TYPE`     VARCHAR(20)  NOT NULL,
-    `CATAGORY` VARCHAR(20)  NOT NULL,
+    `CATEGORY` VARCHAR(20)  NOT NULL,
     `FLAVOR`   VARCHAR(16)  NOT NULL,
     `PRICE`    SMALLINT  NOT NULL,
-    `STOCK`    INT  DEFAULT 69
+    `STOCK`    INT  DEFAULT 69,
+    `DESC`     TEXT DEFAULT 'Collapse Fluid is the substance which fuels Collapse Technology. It is used in both Collapse and Reverse Collapse processes \nand is stored in crystalline capsule containers, which are highly volatile and must be handled carefully.',
+    `QUOTE`    TEXT DEFAULT "How did you even get here? Is this my base layer?",
+    `INGRED`   TEXT DEFAULT 'Contains %#% parts collapse fluid.<\p>'
 );
 
 CREATE TABLE `HAS`(
