@@ -13,11 +13,11 @@ function selectFlavor($pdo, $flavor)
     echo "Query Failure: " . $e->getMessage();
     }
 
-    if(empty($result)) { echo "<p>No results found.</p>"; }
+    $rows = $result->fetchAll(PDO::FETCH_ASSOC);
+    if(empty($rows)) { echo "<p>No results found.</p>"; }
     else
     {
-        $rows = $result->fetchAll(PDO::FETCH_ASSOC);
-        drawCards($rows);
+      drawCards($rows);
     }
 }
 
@@ -32,11 +32,11 @@ function selectType($pdo, $type)
     echo "Query Failure: " . $e->getMessage();
     }
 
-    if(empty($result)) { echo "<p>No results found.</p>"; }
+    $rows = $result->fetchAll(PDO::FETCH_ASSOC);
+    if(empty($rows)) { echo "<p>No results found.</p>"; }
     else
     {
-        $rows = $result->fetchAll(PDO::FETCH_ASSOC);
-        drawCards($rows);
+      drawCards($rows);
     }
 }
 
@@ -48,13 +48,13 @@ function selectCategory($pdo, $category)
     }
     catch(PDOException $e)
     {
-    echo "Query Failure: " . $e->getMessage();
+        echo "Query Failure: " . $e->getMessage();
     }
 
-    if(empty($result)) { echo "<p>No results found.</p>"; }
+    $rows = $result->fetchAll(PDO::FETCH_ASSOC);
+    if(empty($rows)) { echo "<p>No results found.</p>"; }
     else
     {
-        $rows = $result->fetchAll(PDO::FETCH_ASSOC);
         drawCards($rows);
     }
 }
