@@ -1,29 +1,8 @@
 <?php
-
-    echo "<html><head><title> pagename </title></head><body>";
-    echo "</body></html>";
-    include("../lib/db.php");
-
-    session_start();
-        //---------------------run the "unset" command to reset the current cart (dont have to wait till session ends)
-    //unset($_SESSION['cart']);
-
-    //if the cart is set
-    if (isset($_SESSION['cart']))
-    {
-        echo "session exists whoooo";
-    }
-    else //else, we need to make a new cart.
-    {
-
-       $_SESSION['cart']=array(array("DRINK", "QTY")); // Declaring session array
-        echo "CART NOT SET, CREATING NEW ONE<br>";
-
-    }
-
-
+session_start();
+require_once '../lib/drinksLib.php';
+require_once '../lib/library.php';
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>

@@ -1,72 +1,9 @@
 <?php
-    session_start();
-        //---------------------run the "unset" command to reset the current cart (dont have to wait till session ends)
-    //unset($_SESSION['cart']);
-
-    //if the cart is set
-    if (isset($_SESSION['cart']))
-    {
-        echo "session exists whoooo";
-    }
-    else //else, we need to make a new cart.
-    {
-
-       $_SESSION['cart']=array(array("DRINK", "QTY")); // Declaring session array
-        echo "CART NOT SET, CREATING NEW ONE<br>";
-
-    }
-
-    if(isset($_GET["DRINK"], $_GET["QTY"]))
-    {
-        $drk = $_GET["DRINK"];
-        $qnt = $_GET["QTY"];
-
-
-        $max=sizeof($_SESSION['cart']);       
-        $bigcheck = 0;
-        for($i=1; $i<$max; $i++)
-        {    
-            $check = 0;
-            while (list ($key) = each ($_SESSION['cart'][$i])) 
-            { 
-                if ($check == 1)
-                {
-                    $_SESSION['cart'][$i][$key] += $qnt;
-                    $bigcheck = 1;
-    
-                }
-    
-                if ( $_SESSION['cart'][$i][$key] == $drk)
-                {
-                    $check = 1;
-                }
-    
-            } // inner array while loop
-    
-        } // outer array for loop   
-        if ($bigcheck == 0)
-        {
-            $b=array("product"=>"$drk","quantity"=>$qnt);
-            array_push($_SESSION['cart'],$b); // Items added to cart
-        }
-    }
-
-    echo "<table border=1 cellspace=3>";  
-    $max=sizeof($_SESSION['cart']);
-    for($i = 1; $i < $max; $i++)
-    {    
-        echo "<tr>";     
-        while (list ($key, $val) = each ($_SESSION['cart'][$i])) 
-        { 
-            echo " <td>  $val  </td>"; 
-        } // inner array while loop
-        echo "</tr>";
-
-    } // outer array for loop
-    echo "</table>";
-    
+session_start();
+$debug = false;
+require_once '../lib/library.php';
+require_once '../lib/drinksLib.php';
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -114,6 +51,31 @@
 </head>
 
 <body>
+  <?php
+    if($debug && isset($_SESSION['cart']) && !empty($_SESSION['cart']))
+    {
+        echo "<table border=1 cellspace=3>";
+        echo <<<HTML
+        <tr>
+          <th>item</th>
+          <th>quantity</th>
+        </tr>
+
+        HTML;
+
+        foreach($_SESSION['cart'] as $item => $quantity)
+        {
+            echo <<<HTML
+            <tr>
+              <td>$item</td>
+              <td>$quantity</td>
+            </tr>
+
+            HTML;
+        }
+        echo "</table>";
+    }
+   ?>
 <header>
     <nav class="navbar navbar-expand-lg navbar-dark">
       <div class="container-fluid" id="borderCALI">
