@@ -109,11 +109,6 @@ require_once '../lib/drinksLib.php';
     </nav>
   </header>
 
-  <?php
-    include("../lib/drinksLib.php");
-    include("../lib/db.php");
-  ?>
-
   <main class="container-fluid">
 
     <ul class="nav nav-tabs" id="borderTECH" role="tablist">

@@ -1,6 +1,12 @@
 <?php
-    session_start();
-    require_once '../lib/drinksLib.php';
+session_start();
+require_once '../lib/drinksLib.php';
+function drinkERROR()
+{
+    echo "<div class=\"py-2 text-center Stella\"><h2>404, Drink not found.</h2><p>Did you get here by mistake?";
+    echo "<img class=\"d-block mx-auto mb-2\" src=\"assets/drinks/ERROR.png\" id=\"borderCALI\"></div>";
+    die();
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -63,10 +69,6 @@
   </header>
 
   <?php
-    include("../lib/drinksLib.php");
-    include("../lib/profileLib.php");
-    include("../lib/db.php");   
-
     if(!isset($_GET["Drink"]))
     {
         drinkERROR();
@@ -111,6 +113,7 @@
                     $name = $row['NAME'];
                     $price = $row['PRICE'];
                     $filename = str_replace(' ', '', $row['NAME']);
+                    //$urlname = str_replace(' ', '-', $row['NAME']);
                 }
             }
         }
@@ -131,17 +134,14 @@
         <div class="col-md-8">
           <div class="h-50 p-3">
             <?php
-                $quote = printQuote($filename);
-                $desc = printDesc($filename);
-
                 echo "<h1 class=\"display-5 fw-bold Stella\">$name</h1>";
                 echo "<p class=\"h1 Karmotrine\">$$price</p>";
-                echo"<div id=\"borderIMG\"><p class=\"fs-5\">$desc</p></div>";
+                echo"<div id=\"borderIMG\"><p class=\"fs-5\">{$row['DESC']}</p></div>";
             ?>
             <form class="row px-5" action="cartAdd.php" method="POST" validate>
               <div class="col-3">
-                <input class = form-control type="hidden" <?php echo "value=\"$filename\";"?> name="DRINK" required>
-                <input class="form-control" type="number" placeholder="Enter Quantity" value=1 name="QTY" required>
+                <input class="form-control" type="hidden" <?php echo "value=\"$name\""; ?> name="DRINK" required>
+                <input class="form-control" min="1" max="{$row['STOCK']}" type="number" placeholder="Enter Quantity" value=1 name="QTY" required>
               </div>
               <div class="col-4">
                 <button class="btn btn-lg btn-val fw-bold" style="white-space:nowrap;" type="Submit">Add to cart</button>
@@ -149,14 +149,14 @@
             </form>
             <div style="height: 50px;"></div>
             <div class="Stella">
-              <?php echo printIngred($filename); ?>
+              <?php echo "<p>", $row['INGRED'], "</p>"; ?>
             </div>
           </div>
         </div>
       </div>
       <div class="py-1">
         <div class="container-fluid py-4">
-          <p class="col-md-8 fs-4" id="borderIMG"><?php echo "$quote"; ?></p>
+          <p class="col-md-8 fs-4" id="borderIMG">&ldquo;<?php echo $row['QUOTE']; ?>&rdquo;</p>
         </div>
       </div>
       <footer class="pt-2 mt-4 text-muted border-top">
