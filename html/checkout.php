@@ -72,7 +72,7 @@ session_start();
       <div class="col-md-5 col-lg-4 order-md-last" id="borderTECH">
         <h4 class="d-flex justify-content-between align-items-center py-2">
           <span class="Delta">Your cart</span>
-          <span class="Flanergide">3 items</span>
+          <span class="Flanergide"><?php echo count($_SESSION['cart']); ?> items</span>
         </h4><hr>
         <ul class="list-group mb-3">
           <li class="list-group-item d-flex justify-content-between lh-sm">
