@@ -1,7 +1,6 @@
 <?php
 session_start();
 $debug = false;
-require_once '../lib/library.php';
 require_once '../lib/drinksLib.php';
 ?>
 <!DOCTYPE html>

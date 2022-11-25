@@ -1,5 +1,6 @@
 <?php
 session_start();
+require_once '../lib/drinksLib.php'
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -62,6 +63,13 @@ session_start();
   </header>
 
   <main class="container" id="borderIMG">
+    <?php 
+      if(!isset($_SESSION['cart']) || empty($_SESSION['cart']))
+      {
+        echo "<h2 class=\"px-2\">Your cart is empty.</h2>";
+        die();
+      }
+    ?>
     <div class="py-2 text-center">
       <img class="d-block mx-auto mb-2" src="assets/Logo.png">
       <h2>Complete your order</h2>
@@ -74,28 +82,7 @@ session_start();
           <span class="Delta">Your cart</span>
           <span class="Flanergide"><?php echo count($_SESSION['cart']); ?> items</span>
         </h4><hr>
-        <ul class="list-group mb-3">
-          <li class="list-group-item d-flex justify-content-between lh-sm">
-            <div>
-              <h6 class="my-0 Adelhyde">Fringe Weaver</h6>
-              <small class="Bronson">Quantity: 1</small>
-            </div>
-            <img src="assets/drinks/FringeWeaver.png" width="50px" height="60">
-            <span class="Karmotrine fs-4">$260.00</span>
-          </li><hr>
-          <li class="list-group-item d-flex justify-content-between lh-sm">
-            <div>
-              <h6 class="my-0 Adelhyde">Marsblast</h6>
-              <small class="Bronson">Quantity: 4</small>
-            </div>
-            <img src="assets/drinks/Marsblast.png" width="50px" height="60">
-            <span class="Karmotrine fs-4">$680.00</span>
-          </li><hr>
-          <li class="list-group-item d-flex justify-content-between">
-            <span class="Adelhyde fs-3">Total:</span>
-            <span class="Karmotrine fs-3">$940.00</span>
-          </li>
-        </ul>
+        <?php drawCheckout($pdo); ?>
       </div>
       <div class="col-md-7 col-lg-8" id="borderCALI">
         <h4 class="mb-3">Shipping Details</h4>
@@ -185,17 +172,17 @@ session_start();
               </div>
             </div>
           </div>
-
           <hr class="my-4">
-
-          <button class="btn btn-val btn-lg w-25" type="submit">Submit Order</button>
+          <div class="py-2">
+            <button class="btn btn-val btn-lg fw-bold w-25" type="submit">Submit Order</button>
+          </div>
         </form>
-        <footer class="pt-2 mt-4 text-muted border-top">
-          Copyright (c) Keeree Joe Group. 2064.
-          CALICOMP and Keeree Joe Group are registered tademarks of Banjo Group.
-        </footer>
       </div>
     </div>
+    <footer class="pt-2 mt-4 text-muted border-top">
+      Copyright (c) Keeree Joe Group. 2064.
+      CALICOMP and Keeree Joe Group are registered tademarks of Banjo Group.
+    </footer>
   </main>
 
     <!-- Bootstrap JavaScript Libraries -->

@@ -1,7 +1,6 @@
 <?php
 session_start();
 require_once '../lib/drinksLib.php';
-require_once '../lib/library.php';
 if(isset($_POST['code']) && !empty($_POST['code']))
 {
     $promoResult = applyPromoCode($pdo, $_POST['code']);
