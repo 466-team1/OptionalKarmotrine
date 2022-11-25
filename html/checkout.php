@@ -67,6 +67,7 @@ require_once '../lib/drinksLib.php'
       if(!isset($_SESSION['cart']) || empty($_SESSION['cart']))
       {
         echo "<h2 class=\"px-2\">Your cart is empty.</h2>";
+        echo "<a href=\"drinks.php\" class=\"btn btn-lg fw-bold btn-val\">See our drinks.</a>";
         die();
       }
     ?>

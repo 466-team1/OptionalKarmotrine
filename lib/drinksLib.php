@@ -82,14 +82,14 @@ function drawCards($rows)
                             <h5 class="card-title Adelhyde">{$row['NAME']}</h5>
                             <p class="card-text Bronson">{$row['QUOTE']}</p>
                             <div class="row">
-                                <span class="badge rounded-pill col-3 text-bg-info fs-6">{$row['FLAVOR']}</span>
-                                <span class="badge rounded-pill col-3 text-bg-info fs-6">{$row['TYPE']}</span>
-                                <span class="badge rounded-pill col-3 text-bg-info fs-6">{$row['CATEGORY']}</span>
+                                <span class="badge rounded-pill col-4 text-bg-info fs-6">{$row['FLAVOR']}</span>
+                                <span class="badge rounded-pill col-4 text-bg-info fs-6">{$row['TYPE']}</span>
+                                <span class="badge rounded-pill col-4 text-bg-info fs-6">{$row['CATEGORY']}</span>
                             </div>
                             <form class="row py-2" action="drinkProfile.php" method="GET">
-                                <button type="submit" value=$urlName name="Drink" class="btn btn-val col-5 fw-bold fs-5">Details</button>
-                                <p class="col-3 m-0 fs-3 Karmotrine">\${$row['PRICE']}</p>
-                                <p class="col-4 m-0 p-2"><small class="Delta">{$row['STOCK']} stocked</small></p>
+                                <button type="submit" value=$urlName name="Drink" class="btn btn-val col-5 fw-bold fs-5" style="white-space:nowrap;">Details</button>
+                                <p class="col-3 m-0 fs-3 Karmotrine" style="white-space:nowrap;">\${$row['PRICE']}</p>
+                                <p class="col-4 m-0 p-2"><small class="Delta" style="white-space:nowrap;">Stock: {$row['STOCK']}</small></p>
                             </form>
                         </div>
                     </div>
