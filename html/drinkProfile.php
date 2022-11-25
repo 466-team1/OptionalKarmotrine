@@ -110,10 +110,7 @@ function drinkERROR()
             {
                 foreach($rows as $row)
                 {
-                    $name = $row['NAME'];
-                    $price = $row['PRICE'];
                     $filename = str_replace(' ', '', $row['NAME']);
-                    //$urlname = str_replace(' ', '-', $row['NAME']);
                 }
             }
         }
@@ -126,22 +123,22 @@ function drinkERROR()
         <div class="col-md-4">
           <div class="h-100 d-flex justify-content-center flex-column" id="borderCALI">
             <?php
-                echo "<img class=\"img-fluid\" src=\"assets/drinks/$filename\" alt=\"$name\">";
-                echo "<h2 class=\"text-center\">$name</h2>";
+                echo "<img class=\"img-fluid\" src=\"assets/drinks/$filename\" alt=\"{$row['NAME']}\">";
+                echo "<h2 class=\"text-center\">{$row['NAME']}</h2>";
             ?>
           </div>
         </div>
         <div class="col-md-8">
           <div class="h-50 p-3">
             <?php
-                echo "<h1 class=\"display-5 fw-bold Stella\">$name</h1>";
-                echo "<p class=\"h1 Karmotrine\">$$price</p>";
+                echo "<h1 class=\"display-5 fw-bold Stella\">{$row['NAME']}</h1>";
+                echo "<p class=\"h1 Karmotrine\">\${$row['PRICE']}</p>";
                 echo"<div id=\"borderIMG\"><p class=\"fs-5\">{$row['DESC']}</p></div>";
             ?>
             <form class="row px-5" action="cartAdd.php" method="POST" validate>
               <div class="col-3">
-                <input class="form-control" type="hidden" <?php echo "value=\"$name\""; ?> name="DRINK" required>
-                <input class="form-control" min="1" max="{$row['STOCK']}" type="number" placeholder="Enter Quantity" value=1 name="QTY" required>
+                <input class="form-control" type="hidden" value="<?php echo $row['NAME']; ?>" name="DRINK" required>
+                <input class="form-control" min="1" max="<?php echo $row['STOCK']; ?>"  type="number" placeholder="Enter Quantity" value=1 name="QTY" required>
               </div>
               <div class="col-4">
                 <button class="btn btn-lg btn-val fw-bold" style="white-space:nowrap;" type="Submit">Add to cart</button>

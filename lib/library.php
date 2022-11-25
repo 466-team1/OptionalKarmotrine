@@ -2,7 +2,7 @@
 
 require_once 'db.php';
 
-function addItemToCart(string $item, int $quantity = 1)
+function addItemToCart(string $item, int $quantity = 1, int $max)
 {
     if(!isset($_SESSION['cart']))
     {
@@ -10,7 +10,14 @@ function addItemToCart(string $item, int $quantity = 1)
     }
     if(isset($_SESSION['cart'][$item]))
     {
-        $_SESSION['cart'][$item] += $quantity;
+        if($_SESSION['cart'][$item] + $quantity <= $max)
+        {
+            $_SESSION['cart'][$item] += $quantity;
+        }
+        else
+        {
+            $_SESSION['cart'][$item] = $max;
+        }
     }
     else
     {
@@ -18,7 +25,7 @@ function addItemToCart(string $item, int $quantity = 1)
     }
 }
 
-function isAvailable(PDO &$pdo, string $item, int $quantity): bool
+function isAvailable(PDO &$pdo, string $item, int $quantity, int &$max): bool
 {
     $sql = <<<SQL
     SELECT STOCK FROM DRINKS
@@ -30,6 +37,7 @@ function isAvailable(PDO &$pdo, string $item, int $quantity): bool
         $statement = $pdo->prepare($sql);
         $statement->execute([$item]);
         $result = $statement->fetchColumn();
+        $max = $result;
         return ($result >= $quantity);
     }
     catch(PDOException $e)
@@ -62,11 +70,15 @@ function isValidItem(PDO &$pdo, string $item): bool
     return false;
 }
 
-function updateCartItem(string $item, int $quantity)
+function updateCartItem(string $item, int $quantity, int $max)
 {
     if($quantity == 0)
     {
         if(isset($_SESSION['cart'][$item])) { unset($_SESSION['cart'][$item]); }
+    }
+    else if($quantity > $max)
+    {
+        $_SESSION['cart'][$item] = $max;
     }
     else
     {
