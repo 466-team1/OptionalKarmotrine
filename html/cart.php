@@ -118,9 +118,15 @@ if(isset($_POST['code']) && !empty($_POST['code']))
 
           <div class="card">
             <div class="card-body row px-4 justify-content-between">
-              <a href="checkout.php" class="btn btn-lg fw-bold btn-val col-2 checkout">Checkout</a>
-              <div class="col-4 h3 subtotal">
-                <span class="Karmotrine" id="cartTotal">Subtotal: $<?php echo number_format(getCartSubtotal($pdo), 2, '.', ''); ?></span>
+              <?php 
+                if(isset($_SESSION['cart']) && !empty($_SESSION['cart']))
+                {
+                  $subtotal = number_format(getCartSubtotal($pdo), 2, '.', '');
+                  echo "<a href=\"checkout.php\" class=\"btn btn-lg fw-bold btn-val col-2 checkout\">Checkout</a>";
+                  echo "<div class=\"col-4 h3 subtotal\">";
+                  echo "<span class=\"Karmotrine\" id=\"cartTotal\">Subtotal: \$$subtotal</span>";
+                } 
+              ?>
               </div>
             </div>
           </div>

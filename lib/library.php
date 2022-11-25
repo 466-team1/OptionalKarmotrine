@@ -126,7 +126,7 @@ function applyPromoCode(PDO $pdo, string $code): string
             $max = 0;
             isAvailable($pdo, "Flaming Moai", 1, $max);
             addItemToCart("Flaming Moai", 1, $max);
-            $_SESSION['codes'][] = "Flaming Moai";
+            $_SESSION['codes']["Flaming Moai"] = "Flaming Moai";
             break;
 
         default: return "<p class=\"Adelhyde\">Invalid code</p>";
