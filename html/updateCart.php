@@ -51,7 +51,8 @@ if(!isValidItem($pdo, $_POST['item']))
         'message' => "item {$_POST['item']} does not exist"
     ])); 
 }
-if(!isAvailable($pdo, $_POST['item'], $_POST['quantity']))
+$maxQTY = 0;
+if(!isAvailable($pdo, $_POST['item'], $_POST['quantity'], $maxQTY))
 {
     echo json_encode([
         'status' => 'error',
@@ -64,7 +65,7 @@ if(!isAvailable($pdo, $_POST['item'], $_POST['quantity']))
 }
 
 //Business Logic
-updateCartItem($_POST['item'], $_POST['quantity']);
+updateCartItem($_POST['item'], $_POST['quantity'], $maxQTY);
 echo json_encode([
     'status' => 'okay',
     'item' => $_POST['item'],

@@ -128,6 +128,7 @@ function drawCartItem(PDO &$pdo, $item, $quantity)
             $urlName = str_replace(' ', '-', $row['NAME']);
             $floatPrice = number_format((float)$row['PRICE'], 2, '.', '');
             $adjustedPrice = number_format((float)($quantity * $floatPrice), 2, '.', '');
+            if($quantity > $row['STOCK']) { $quantity = $row['STOCK']; }
 
             echo <<<HTML
             <div class="cartItem">
@@ -144,18 +145,18 @@ function drawCartItem(PDO &$pdo, $item, $quantity)
                                     <span class="Bronson">Catagory: </span>{$row['CATEGORY']} <span class="Karmotrine">Price: $</span><span class="Karmotrine price">$floatPrice</span>
                                 </p>
                             </div>
-                            <div class="col-md-3 col-lg-3 col-xl-2 d-flex">
+                            <form class="col-md-3 col-lg-3 col-xl-2 d-flex" action="javascript:void(0);">
                                 <button class="btn btn-link px-2" onclick="this.parentNode.querySelector('input[type=number]').stepDown(), adjustCost(this.parentNode.querySelector('input[type=number]'))">
                                     <i class="fas fa-minus Delta"></i>
                                 </button>
 
-                                <input id="Item" name="item" value="{$row['NAME']}" type="hidden"/>
-                                <input id="Quantity" min="0" max=$row[STOCK] name="quantity" value=$quantity type="number" class="form-control form-control-sm Quantity"/>
+                                <input id="Item" name="item" value="{$row['NAME']}" type="hidden">
+                                <input class="form-control Quantity" id="Quantity" min="0" max="{$row['STOCK']}" name="quantity" value=$quantity type="number">
             
                                 <button class="btn btn-link px-2" onclick="this.parentNode.querySelector('input[type=number]').stepUp(), adjustCost(this.parentNode.querySelector('input[type=number]'))">
                                     <i class="fas fa-plus Delta"></i>
                                 </button>
-                            </div>
+                            </form>
                             <div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1"><h2 class="mb-0 Karmotrine cost">$$adjustedPrice</h2></div>
                             <div class="col-md-1 col-lg-1 col-xl-1 text-end">
                                 <button class="btn btn-link px-2" onclick="removeCart(this, '{$row['NAME']}')">
