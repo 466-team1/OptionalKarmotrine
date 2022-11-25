@@ -1,22 +1,9 @@
 <?php
-    session_start();
-        //---------------------run the "unset" command to reset the current cart (dont have to wait till session ends)
-    //unset($_SESSION['cart']);
-
-    //if the cart is set
-    if (isset($_SESSION['cart']))
-    {
-    }
-    //else, we need to make a new cart.
-    else
-    {
-
-        $_SESSION['cart']=array(array("DRINK", "QTY")); // Declaring session array
-        echo "CART NOT SET, CREATING NEW ONE <br> <br>";
-
-    }
+session_start();
+$debug = false;
+require_once '../lib/library.php';
+require_once '../lib/drinksLib.php';
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -64,6 +51,31 @@
 </head>
 
 <body>
+  <?php
+    if($debug && isset($_SESSION['cart']) && !empty($_SESSION['cart']))
+    {
+        echo "<table border=1 cellspace=3>";
+        echo <<<HTML
+        <tr>
+          <th>item</th>
+          <th>quantity</th>
+        </tr>
+
+        HTML;
+
+        foreach($_SESSION['cart'] as $item => $quantity)
+        {
+            echo <<<HTML
+            <tr>
+              <td>$item</td>
+              <td>$quantity</td>
+            </tr>
+
+            HTML;
+        }
+        echo "</table>";
+    }
+   ?>
 <header>
     <nav class="navbar navbar-expand-lg navbar-dark">
       <div class="container-fluid" id="borderCALI">
@@ -73,11 +85,11 @@
         <div class="collapse navbar-collapse" id="collapsibleNavId">
           <ul class="navbar-nav me-auto mt-2 mt-lg-0">
             <li class="nav-item">
-              <a class="nav-link fs-5 Adelhyde" href="https://students.cs.niu.edu/~z1951125/OptionalKarmotrine/html/index.php">
+              <a class="nav-link fs-5 Adelhyde" href="index.php">
               <i class="fas fa-home"></i> Home</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link fs-5 Bronson fw-bold text-decoration-underline" href="https://students.cs.niu.edu/~z1951125/OptionalKarmotrine/html/drinks.php">
+              <a class="nav-link fs-5 Bronson fw-bold text-decoration-underline" href="drinks.php">
               <i class="fas fa-glass-martini"></i> Drinks</a>
             </li>
             <li class="nav-item">
@@ -89,28 +101,13 @@
               <i class="fas fa-door-closed"></i> Employee Portal</a>
             </li>
           </ul>
-          <a class="nav-link justify-content-end fs-5 Delta" href="https://students.cs.niu.edu/~z1951125/OptionalKarmotrine/html/cart.php">
+          <a class="nav-link justify-content-end fs-5 Delta" href="cart.php">
             <i class="fas fa-shopping-cart"></i> My Cart
           </a>
         </div>
       </div>
     </nav>
   </header>
-
-  <?php
-    include("assets/drinksLib.php");
-
-    try
-    {
-        $dsn = "mysql:host=courses;dbname=z1951125";
-        $pdo = new PDO($dsn, $username, $password, [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
-    }
-    catch(PDOexception $e)
-    {
-        echo "Connection to database failed: " . $e->getMessage();
-        die();
-    }
-  ?>
 
   <main class="container-fluid">
 

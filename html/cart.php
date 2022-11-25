@@ -1,46 +1,12 @@
 <?php
-    session_start();
-        //---------------------run the "unset" command to reset the current cart (dont have to wait till session ends)
-    //unset($_SESSION['cart']);
-
-    //if the cart is set
-    if (isset($_SESSION['cart']))
-    {
-        echo "session exists";
-    }
-    else //else, we need to make a new cart.
-    {
-
-       $_SESSION['cart']=array(array("DRINK", "QTY")); // Declaring session array
-        echo "CART NOT SET, CREATING NEW ONE<br>";
-
-    }
-
-    if(isset($_GET["DRINK"], $_GET["QTY"]))
-    {
-        $drk = $_GET["DRINK"];
-        $qnt = $_GET["QTY"];
-
-        $b=array("DRINK"=>"$drk","QTY"=>$qnt);
-        array_push($_SESSION['cart'],$b); //Add items to cart
-    }
-
-    echo "<table border=1 cellspace=3>";  
-    $max=sizeof($_SESSION['cart']);
-    for($i = 1; $i < $max; $i++)
-    {    
-        echo "<tr>";     
-        while (list ($key, $val) = each ($_SESSION['cart'][$i])) 
-        { 
-            echo " <td> $key -> $val  </td>"; 
-        } // inner array while loop
-        echo "</tr>";
-
-    } // outer array for loop
-    echo "</table>";
-    
+session_start();
+require_once '../lib/drinksLib.php';
+require_once '../lib/library.php';
+if(isset($_POST['code']) && !empty($_POST['code']))
+{
+    $promoResult = applyPromoCode($pdo, $_POST['code']);
+}
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -81,11 +47,11 @@
         <div class="collapse navbar-collapse" id="collapsibleNavId">
           <ul class="navbar-nav me-auto mt-2 mt-lg-0">
             <li class="nav-item">
-              <a class="nav-link fs-5 Adelhyde" href="https://students.cs.niu.edu/~z1951125/OptionalKarmotrine/html/index.php">
+              <a class="nav-link fs-5 Adelhyde" href="index.php">
               <i class="fas fa-home"></i> Home</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link fs-5 Bronson" href="https://students.cs.niu.edu/~z1951125/OptionalKarmotrine/html/drinks.php">
+              <a class="nav-link fs-5 Bronson" href="drinks.php">
               <i class="fas fa-glass-martini"></i> Drinks</a>
             </li>
             <li class="nav-item">
@@ -97,8 +63,8 @@
               <i class="fas fa-door-closed"></i> Employee Portal</a>
             </li>
           </ul>
-          <a class="nav-link justify-content-end fs-5 Delta fw-bold text-decoration-underline" href="https://students.cs.niu.edu/~z1951125/OptionalKarmotrine/html/cart.php">
-            <i class="fas fa-shopping-cart"></i> My Cart
+          <a class="nav-link justify-content-end fs-5 Delta fw-bold text-decoration-underline" href="cart.php">
+            <i class="fas fa-shopping-cart"></i> My Cart 
           </a>
         </div>
       </div>
@@ -106,115 +72,65 @@
   </header> 
 
   <main>
-    <div class="h-100">
-      <div class="container h-100 py-5">
-        <div class="row d-flex justify-content-center align-items-center h-100">
-          <div class="col-12" id="borderCALI">
-            <h3 class="fw-bold m-4">Your Shopping Cart <i class="fas fa-shopping-cart"></i></h3>
+    <div class="container py-5">
+      <div class="row d-flex justify-content-center">
+        <div class="col-12" id="borderCALI">
+          <h3 class="fw-bold m-4">Your Shopping Cart <i class="fas fa-shopping-cart"></i></h3>
 
-            <div class="cartItem">  
-              <div class="card mb-4" id="borderCALI">
-                <div class="card-body p-4">
-                  <div class="row d-flex justify-content-between align-items-center">
-                    <div class="col-md-2 col-lg-2 col-xl-2">
-                      <img src="assets/drinks/FringeWeaver.png">
-                    </div>
-                    <div class="col-md-3 col-lg-3 col-xl-3">
-                      <p class="fw-normal mb-2 fs-5 Adelhyde">Fringe Weaver</p>
-                      <p class="Flanergide"><span class="Bronson">Flavor: </span>Bubbly <span class="Bronson">Type: </span>Classy
-                      <br><span class="Bronson">Catagory: </span>Strong <span class="Karmotrine">Price: $</span><span class="Karmotrine price">260.00</span></p>
-                    </div>
-                    <div class="col-md-3 col-lg-3 col-xl-2 d-flex">
-                      <button class="btn btn-link px-2" 
-                        onclick="this.parentNode.querySelector('input[type=number]').stepDown(), adjustCost(this.parentNode.querySelector('input[type=number]'))">
-                        <i class="fas fa-minus Delta"></i>
-                      </button>
-      
-                      <input id="Quantity" min="0" name="quantity" value="1" type="number"
-                        class="form-control form-control-sm Quantity"/>
-      
-                      <button class="btn btn-link px-2"
-                        onclick="this.parentNode.querySelector('input[type=number]').stepUp(), adjustCost(this.parentNode.querySelector('input[type=number]'))">
-                        <i class="fas fa-plus Delta"></i>
-                      </button>
-                    </div>
-
-                    <div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
-                      <h2 class="mb-0 Karmotrine cost">$260.00</h5>
-                    </div>
-
-                    <div class="col-md-1 col-lg-1 col-xl-1 text-end">
-                      <button class="btn btn-link px-2" onclick="removeCart(this)"> <i class="fas fa-trash fa-lg Stella"></i></button>
-                    </div>
+          <?php drawCart($pdo); ?>
+  
+          <div class="card mb-4">
+<?php
+if(isset($_SESSION['codes']) && !empty($_SESSION['codes'])) 
+{
+    echo  '<div class="card-body p-2 d-flex flex-row">';
+    echo  '<span class="Flanergide">Applied Promo Codes: </span>';
+    foreach($_SESSION['codes'] as $code)
+    {
+        echo "&nbsp;$code&nbsp;";
+    }
+    echo  '</div>';
+}
+?>
+            <div class="card-body">
+              <form action=cart.php method=POST>
+                <div class="row">
+                  <div class="col-10">
+                    <input type="text" name="code" id="code" class="form-control form-control-lg" placeholder="Enter Promo Code"/>
                   </div>
-                </div> 
-              </div> 
-            </div>
-
-            <div class="cartItem">  
-              <div class="card mb-4" id="borderCALI">
-                <div class="card-body p-4">
-                  <div class="row d-flex justify-content-between align-items-center">
-                    <div class="col-md-2 col-lg-2 col-xl-2">
-                      <img src="assets/drinks/Marsblast.png">
-                    </div>
-                    <div class="col-md-3 col-lg-3 col-xl-3">
-                      <p class=" fw-normal mb-2 fs-5 Adelhyde">Marsblast</p>
-                      <p class="Flanergide"><span class="Bronson">Flavor: </span>Spicy <span class="Bronson">Type: </span>Manly
-                      <br><span class="Bronson">Catagory: </span>Strong <span class="Karmotrine">Price: $</span><span class="Karmotrine price">170.00</span></p>
-                    </div>
-                    <div class="col-md-3 col-lg-3 col-xl-2 d-flex">
-                      <button class="btn btn-link px-2" 
-                        onclick="this.parentNode.querySelector('input[type=number]').stepDown(), adjustCost(this.parentNode.querySelector('input[type=number]'))">
-                        <i class="fas fa-minus Delta"></i>
-                      </button>
-      
-                      <input id="Quantity" min="0" name="quantity" value="1" type="number"
-                        class="form-control form-control-sm Quantity"/>
-      
-                      <button class="btn btn-link px-2"
-                        onclick="this.parentNode.querySelector('input[type=number]').stepUp(), adjustCost(this.parentNode.querySelector('input[type=number]'))">
-                        <i class="fas fa-plus Delta"></i>
-                      </button>
-                    </div>
-
-                    <div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
-                      <h2 class="mb-0 Karmotrine cost">$170.00</h5>
-                    </div>
-
-                    <div class="col-md-1 col-lg-1 col-xl-1 text-end">
-                      <button class="btn btn-link px-2" onclick="removeCart(this)"> <i class="fas fa-trash fa-lg Stella"></i></button>
-                    </div>
+                  <div class= "col-2">
+                    <button type="submit" class="btn btn-val btn-lg fw-bold mx-0" style="width:100%">Apply</button>
                   </div>
                 </div>
-              </div>
+              </form>
             </div>
-    
-            <div class="card mb-4">
-              <div class="card-body p-2 d-flex flex-row">
-                <div class="form-outline flex-fill">
-                  <input type="text" id="code" class="form-control form-control-lg" placeholder="Enter Promo Code"/>
+
+<?php
+if(isset($_POST['code']) && !empty($_POST['code'])) 
+{
+    echo <<<HTML
+                <div class="card-body p-2 d-flex flex-row">
+                  $promoResult
                 </div>
-                <button type="button" class="btn btn-val btn-lg fw-bold ms-3 col-1">Apply</button>
+    HTML;
+}
+?>
+          </div>
+
+          <div class="card">
+            <div class="card-body row px-4 justify-content-between">
+              <a href="checkout.php" class="btn btn-lg fw-bold btn-val col-2 checkout">Checkout</a>
+              <div class="col-4 h3 subtotal">
+                <span class="Karmotrine" id="cartTotal">Subtotal: $<?php echo number_format(getCartSubtotal($pdo), 2, '.', ''); ?></span>
               </div>
             </div>
-    
-            <div class="card">
-              <div class="card-body row px-4 justify-content-between">
-                <button type="button" class="btn btn-val btn-lg fw-bold col-2 checkout">Checkout</button>
-                <div class="col-4 h3 subtotal">
-                  <span class="Karmotrine" id="cartTotal">Subtotal: $0</span>
-                </div>
-              </div>
-            </div>
-    
           </div>
         </div>
-        <footer class="pt-2 mt-4 text-muted border-top">
+      </div>
+      <footer class="pt-2 mt-4 text-muted border-top">
           Copyright (c) Keeree Joe Group. 2064.
           CALICOMP and Keeree Joe Group are registered tademarks of Banjo Group.
-        </footer>
-      </div>
+      </footer>
     </div>
   </main>
 
@@ -235,53 +151,57 @@
     {
       adjustCost(this);
     });
-  </script>
 
-  <script type="text/javascript">
-  function removeCart(element)
+  function updateCart(Drink, Quantity)
+  {
+    var subtotal;
+    $.ajax({
+      method: "POST",
+      url: "updateCart.php",
+      data: { item: Drink, quantity: Quantity}
+    })
+    .done(function( data ) 
+    {
+      //console.log(data);
+      subtotal = data.subtotal;
+      updateSubtotal(subtotal);
+    });
+  }
+
+  function removeCart(element, item)
   {
     const closest = $(element).closest('.cartItem');
+    updateCart(item, 0);
     closest.remove();
-    calculateTotal();
   }
-  </script>
 
-  <script type="text/javascript">
-    function adjustCost(Quantity)
-    {
-      productDiv = $(Quantity).parent().parent();
-      var price = parseFloat(productDiv.find('.price').text());
-      var quantity = $(Quantity).val();
-      if(quantity == 0)
-      {
-        removeCart(productDiv.parent().parent().parent())
-      }
-      else
-      {
-        var cost = price * quantity;
-        productDiv.find('.cost').each(function ()
-        {
-          let prefix = "$"
-          $(this).fadeOut(300);
-          $(this).text(prefix.concat(cost.toFixed(2)));
-          $(this).fadeIn(300);
-        });
-        calculateTotal();
-      }
-    }
-  </script>
-
-  <script type="text/javascript">
-  function calculateTotal()
+  function adjustCost(Quantity)
   {
-    var subtotal = 0;
-    let prefix = "Subtotal: $";
-
-    $('.cost').each(function ()
+    productDiv = $(Quantity).parent().parent();
+    var price = parseFloat(productDiv.find('.price').text());
+    var quantity = $(Quantity).val();
+    var item = $(Quantity).parent().find('#Item').val();
+    updateCart(item, quantity);
+    if(quantity <= 0)
     {
-      let withoutDollar = $(this).text().substring(1);
-      subtotal += parseFloat(withoutDollar);
-    });
+      removeCart(productDiv.parent().parent().parent(), item)
+    }
+    else
+    {
+      var cost = price * quantity;
+      productDiv.find('.cost').each(function ()
+      {
+        let prefix = "$"
+        $(this).fadeOut(300);
+        $(this).text(prefix.concat(cost.toFixed(2)));
+        $(this).fadeIn(300);
+      });
+    }
+  }
+
+  function updateSubtotal(subtotal)
+  {
+    let prefix = "Subtotal: $";
     
     $('.subtotal').fadeOut(300, function() {
       $('#cartTotal').text(prefix.concat(subtotal.toFixed(2)));
@@ -296,10 +216,7 @@
       $('.subtotal').fadeIn(300);
     });
   }
-  </script>
 
-  <script type="text/javascript">
-    calculateTotal()
   </script>
 </body>
 

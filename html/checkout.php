@@ -1,3 +1,6 @@
+<?php
+session_start();
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -34,11 +37,11 @@
         <div class="collapse navbar-collapse" id="collapsibleNavId">
           <ul class="navbar-nav me-auto mt-2 mt-lg-0">
             <li class="nav-item">
-              <a class="nav-link fs-5 Adelhyde" href="https://students.cs.niu.edu/~z1951125/OptionalKarmotrine/html/index.php">
+              <a class="nav-link fs-5 Adelhyde" href="index.php">
               <i class="fas fa-home"></i> Home</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link fs-5 Bronson" href="https://students.cs.niu.edu/~z1951125/OptionalKarmotrine/html/drinks.php">
+              <a class="nav-link fs-5 Bronson" href="drinks.php">
               <i class="fas fa-glass-martini"></i> Drinks</a>
             </li>
             <li class="nav-item">
@@ -50,7 +53,7 @@
               <i class="fas fa-door-closed"></i> Employee Portal</a>
             </li>
           </ul>
-          <a class="nav-link justify-content-end fs-5 Delta" href="https://students.cs.niu.edu/~z1951125/OptionalKarmotrine/html/cart.php">
+          <a class="nav-link justify-content-end fs-5 Delta" href="cart.php">
             <i class="fas fa-shopping-cart"></i> My Cart
           </a>
         </div>
@@ -69,7 +72,7 @@
       <div class="col-md-5 col-lg-4 order-md-last" id="borderTECH">
         <h4 class="d-flex justify-content-between align-items-center py-2">
           <span class="Delta">Your cart</span>
-          <span class="Flanergide">3 items</span>
+          <span class="Flanergide"><?php echo count($_SESSION['cart']); ?> items</span>
         </h4><hr>
         <ul class="list-group mb-3">
           <li class="list-group-item d-flex justify-content-between lh-sm">
