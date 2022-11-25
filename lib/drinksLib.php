@@ -86,7 +86,7 @@ function drawCards($rows)
                                 <span class="badge rounded-pill col-3 text-bg-info fs-6">{$row['CATEGORY']}</span>
                             </div>
                             <form class="row py-2" action="drinkProfile.php" method="GET">
-                                <button type="submit" value=$urlName name="Drink" class="btn btn-val col-5 fs-5">Details</button>
+                                <button type="submit" value=$urlName name="Drink" class="btn btn-val col-5 fw-bold fs-5">Details</button>
                                 <p class="col-3 m-0 fs-3 Karmotrine">\${$row['PRICE']}</p>
                                 <p class="col-4 m-0 p-2"><small class="Delta">{$row['STOCK']} stocked</small></p>
                             </form>
@@ -139,10 +139,11 @@ function drawCartItem(PDO &$pdo, $item, $quantity)
                                 <img src="assets/drinks/$filename.png">
                             </div>
                             <div class="col-md-3 col-lg-3 col-xl-3">
-                                <p class="fw-normal mb-2 fs-5 Adelhyde">{$row['NAME']}</p>
+                                <a href="drinkProfile.php?Drink={$urlName}" class="fw-normal mb-2 fs-5 Adelhyde">{$row['NAME']}</a>
                                 <p class="Flanergide">
                                     <span class="Bronson">Flavor: </span>{$row['FLAVOR']} <span class="Bronson">Type: </span>{$row['TYPE']}<br>
-                                    <span class="Bronson">Catagory: </span>{$row['CATEGORY']} <span class="Karmotrine">Price: $</span><span class="Karmotrine price">$floatPrice</span>
+                                    <span class="Bronson">Catagory: </span>{$row['CATEGORY']} <span class="Karmotrine">Price: $</span><span class="Karmotrine price">$floatPrice</span><br>
+                                    <span class="Delta">Stock: </span>{$row['STOCK']}
                                 </p>
                             </div>
                             <form class="col-md-3 col-lg-3 col-xl-2 d-flex" action="javascript:void(0);">

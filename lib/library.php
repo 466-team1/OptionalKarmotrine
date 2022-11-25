@@ -117,13 +117,15 @@ function getCartSubtotal(PDO &$pdo)
     return $total;
 }
 
-function applyPromoCode(string $code): string
+function applyPromoCode(PDO $pdo, string $code): string
 {
     switch($code)
     {
         case "FlamingMoai":
         case "Flaming Moai":
-            addItemToCart("Flaming Moai");
+            $max = 0;
+            isAvailable($pdo, "Flaming Moai", 1, $max);
+            addItemToCart("Flaming Moai", 1, $max);
             $_SESSION['codes'][] = "Flaming Moai";
             break;
 

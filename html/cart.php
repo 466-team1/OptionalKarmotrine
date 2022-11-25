@@ -4,7 +4,7 @@ require_once '../lib/drinksLib.php';
 require_once '../lib/library.php';
 if(isset($_POST['code']) && !empty($_POST['code']))
 {
-    $promoResult = applyPromoCode($_POST['code']);
+    $promoResult = applyPromoCode($pdo, $_POST['code']);
 }
 ?>
 <!DOCTYPE html>
@@ -64,7 +64,7 @@ if(isset($_POST['code']) && !empty($_POST['code']))
             </li>
           </ul>
           <a class="nav-link justify-content-end fs-5 Delta fw-bold text-decoration-underline" href="cart.php">
-            <i class="fas fa-shopping-cart"></i> My Cart
+            <i class="fas fa-shopping-cart"></i> My Cart 
           </a>
         </div>
       </div>
@@ -119,7 +119,7 @@ if(isset($_POST['code']) && !empty($_POST['code']))
 
           <div class="card">
             <div class="card-body row px-4 justify-content-between">
-              <button type="button" class="btn btn-val btn-lg fw-bold col-2 checkout">Checkout</button>
+              <a href="checkout.php" class="btn btn-lg fw-bold btn-val col-2 checkout">Checkout</a>
               <div class="col-4 h3 subtotal">
                 <span class="Karmotrine" id="cartTotal">Subtotal: $<?php echo number_format(getCartSubtotal($pdo), 2, '.', ''); ?></span>
               </div>
