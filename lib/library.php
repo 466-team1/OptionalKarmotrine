@@ -121,6 +121,8 @@ function applyPromoCode(PDO $pdo, string $code): string
 {
     switch($code)
     {
+        case "flamingmoai":
+        case "flaming moai":
         case "FlamingMoai":
         case "Flaming Moai":
             $max = 0;
