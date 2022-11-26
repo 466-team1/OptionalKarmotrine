@@ -54,15 +54,15 @@ if(isset($_POST['code']) && !empty($_POST['code']))
               <i class="fas fa-glass-martini"></i> Drinks</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link fs-5 Flanergide" href="#">
+              <a class="nav-link fs-5 Flanergide" href="orderTrack.php">
               <i class="fas fa-truck-plane"></i> Find My Order</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link fs-5 Karmotrine" href="#">
+              <a class="nav-link fs-5 Karmotrine" href="employee.php">
               <i class="fas fa-door-closed"></i> Employee Portal</a>
             </li>
           </ul>
-          <a class="nav-link justify-content-end fs-5 Delta" href="cart.php">
+          <a class="nav-link justify-content-end fs-5 Delta fw-bold text-decoration-underline" href="cart.php">
             <i class="fas fa-shopping-cart"></i> My Cart:
             <?php
               $count = 0;
@@ -76,7 +76,7 @@ if(isset($_POST['code']) && !empty($_POST['code']))
         </div>
       </div>
     </nav>
-  </header> 
+  </header>
 
   <main>
     <div class="container py-5">

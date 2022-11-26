@@ -48,15 +48,15 @@ function drinkERROR()
               <i class="fas fa-home"></i> Home</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link fs-5 Bronson" href="drinks.php">
+              <a class="nav-link fs-5 Bronson fw-bold text-decoration-underline" href="drinks.php">
               <i class="fas fa-glass-martini"></i> Drinks</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link fs-5 Flanergide" href="#">
+              <a class="nav-link fs-5 Flanergide" href="orderTrack.php">
               <i class="fas fa-truck-plane"></i> Find My Order</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link fs-5 Karmotrine" href="#">
+              <a class="nav-link fs-5 Karmotrine" href="employee.php">
               <i class="fas fa-door-closed"></i> Employee Portal</a>
             </li>
           </ul>

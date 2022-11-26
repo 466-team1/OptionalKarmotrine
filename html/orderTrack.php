@@ -39,31 +39,37 @@
         <div class="collapse navbar-collapse" id="collapsibleNavId">
           <ul class="navbar-nav me-auto mt-2 mt-lg-0">
             <li class="nav-item">
-              <a class="nav-link fs-5 Adelhyde" href="https://students.cs.niu.edu/~z1951125/OptionalKarmotrine/html/index.php">
+              <a class="nav-link fs-5 Adelhyde" href="index.php">
               <i class="fas fa-home"></i> Home</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link fs-5 Bronson" href="https://students.cs.niu.edu/~z1951125/OptionalKarmotrine/html/drinks.php">
+              <a class="nav-link fs-5 Bronson" href="drinks.php">
               <i class="fas fa-glass-martini"></i> Drinks</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link fs-5 Flanergide" href="#">
+              <a class="nav-link fs-5 Flanergide fw-bold text-decoration-underline" href="orderTrack.php">
               <i class="fas fa-truck-plane"></i> Find My Order</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link fs-5 Karmotrine" href="#">
+              <a class="nav-link fs-5 Karmotrine" href="employee.php">
               <i class="fas fa-door-closed"></i> Employee Portal</a>
             </li>
           </ul>
-          <a class="nav-link justify-content-end fs-5 Delta" href="https://students.cs.niu.edu/~z1951125/OptionalKarmotrine/html/cart.php">
-            <i class="fas fa-shopping-cart"></i> My Cart
+          <a class="nav-link justify-content-end fs-5 Delta" href="cart.php">
+            <i class="fas fa-shopping-cart"></i> My Cart:
+            <?php
+              $count = 0;
+              if(isset($_SESSION['cart']) && !empty($_SESSION['cart']))
+              {   $count = count($_SESSION['cart']);
+                  
+              }
+              echo "<span class=\"Bronson fw-2\">($count)</span>";
+             ?>
           </a>
         </div>
       </div>
     </nav>
   </header>
-
-
 
 <form action='' method='GET'>
     <br><p>Enter your order number</p>
@@ -73,17 +79,7 @@
 </form>
 
 <?php
-try
-{
-    $dsn = "mysql:host=courses;dbname=z1922762";
-    $pdo = new PDO($dsn, "z1922762", "2003May20");
-    //$dsn = "mysql:host=courses;dbname=z1951125"; CHANGE LATER
-    //$pdo = new PDO($dsn, $username, $password, [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]); CHANGE LATER
-}
-catch(PDOexception $e){
-    echo "Connection to database failed: " . $e->getMessage();
-    die();
-}
+  require_once '../lib/db.php';
 ?>
 
 <main>
