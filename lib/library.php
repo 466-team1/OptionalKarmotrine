@@ -124,14 +124,133 @@ function applyPromoCode(PDO $pdo, string $code): string
         case "FlamingMoai":
         case "Flaming Moai":
             $max = 0;
-            isAvailable($pdo, "Flaming Moai", 1, $max);
-            addItemToCart("Flaming Moai", 1, $max);
-            $_SESSION['codes'][] = "Flaming Moai";
+            if(isAvailable($pdo, "Flaming Moai", 1, $max))
+            {
+                addItemToCart("Flaming Moai", 1, $max);
+                $_SESSION['codes']["Flaming Moai"] = "Flaming Moai";
+            }
+            else
+            {
+                return "<p class=\"Adelhyde\">Not enough stock available, sorry.</p>";
+            }
             break;
 
         default: return "<p class=\"Adelhyde\">Invalid code</p>";
     }
     return "<p class=\"Flanergide\">Promo Code $code added successfully.</p>";
+}
+
+function submitOrder($pdo, $cusName, $email, $address): int
+{
+    $pdo->beginTransaction();
+    $cost = getCartSubtotal($pdo);
+    $tracking = str_pad(mt_rand(1,99999999),8,'0',STR_PAD_LEFT);
+
+    //add order to orders table
+    $sql = <<<SQL
+        INSERT INTO `ORDERS`(`COST`, `CUS_NAME`, `CUS_ADDRESS`, `CUS_EMAIL`, `STATUS`, `NOTE`, `TRACKING`)
+        VALUES
+        (:COST, :CUS_NAME, :CUS_ADDRESS, :CUS_EMAIL, :STATUS, :NOTE, :TRACKING);
+    SQL;
+          
+    try
+    {
+        $statement = $pdo->prepare($sql);
+    }
+    catch(PDOexception $e)
+    {
+    echo "Prepare Failure: " . $e->getMessage();
+    }
+    if(!$statement) { die("Error in prepare."); $pdo->rollBack(); }
+
+    try
+    {
+        $result = $statement->execute([
+            ':COST' => $cost,
+            ':CUS_NAME' =>  $cusName,
+            ':CUS_ADDRESS' => $address, 
+            ':CUS_EMAIL' => $email,
+            ':STATUS' => "PROCESSING", 
+            ':NOTE' => "N/A",
+            ':TRACKING' => $tracking 
+        ]);
+    }
+    catch(PDOexception $e)
+    {
+        echo "Execute Failure: " . $e->getMessage();
+    }
+    if(!$result) { die("Error in query."); $pdo->rollBack(); }
+
+    //add drinks to has table
+    $ORDER_NUM = $pdo->lastInsertId();
+
+    foreach($_SESSION['cart'] as $item => $quantity)
+    {
+        $sql = <<<SQL
+            INSERT INTO `HAS`(`ORDER_NUM`, `NAME`, `QTY`)
+            VALUES
+            (:ORDER_NUM, :NAME, :QTY);
+        SQL;
+            
+        try
+        {
+            $statement = $pdo->prepare($sql);
+        }
+        catch(PDOexception $e)
+        {
+        echo "Prepare Failure: " . $e->getMessage();
+        }
+        if(!$statement) { die("Error in prepare."); $pdo->rollBack(); }
+
+        try
+        {
+            $result = $statement->execute([
+                ':ORDER_NUM' => $ORDER_NUM,
+                ':NAME' =>  $item,
+                ':QTY' => $quantity
+            ]);
+        }
+        catch(PDOexception $e)
+        {
+            echo "Execute Failure: " . $e->getMessage();
+        }
+        if(!$result) { die("Error in query."); $pdo->rollBack(); }
+
+        //reduce stock of drink
+        $sql = <<<SQL
+            UPDATE DRINKS
+            SET STOCK = STOCK - :STOCK
+            WHERE NAME = :NAME;
+        SQL;
+            
+        try
+        {
+            $statement = $pdo->prepare($sql);
+        }
+        catch(PDOexception $e)
+        {
+        echo "Prepare Failure: " . $e->getMessage();
+        }
+        if(!$statement) { die("Error in prepare."); $pdo->rollBack(); }
+
+        try
+        {
+            $result = $statement->execute([
+                ':STOCK' => $quantity,
+                ':NAME' =>  $item,
+            ]);
+        }
+        catch(PDOexception $e)
+        {
+            echo "Execute Failure: " . $e->getMessage();
+        }
+        if(!$result) { die("Error in query."); $pdo->rollBack(); }
+    }
+    unset($_SESSION['cart']);
+    unset($_SESSION['codes']);
+
+    $pdo->commit();
+    return $ORDER_NUM;
 }
 
 ?>

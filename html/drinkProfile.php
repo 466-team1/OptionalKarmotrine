@@ -61,7 +61,15 @@ function drinkERROR()
             </li>
           </ul>
           <a class="nav-link justify-content-end fs-5 Delta" href="cart.php">
-            <i class="fas fa-shopping-cart"></i> My Cart
+            <i class="fas fa-shopping-cart"></i> My Cart:
+            <?php
+              $count = 0;
+              if(isset($_SESSION['cart']) && !empty($_SESSION['cart']))
+              {   $count = count($_SESSION['cart']);
+                  
+              }
+              echo "<span class=\"Bronson fw-2\">($count)</span>";
+             ?>
           </a>
         </div>
       </div>
@@ -140,8 +148,11 @@ function drinkERROR()
                 <input class="form-control" type="hidden" value="<?php echo $row['NAME']; ?>" name="DRINK" required>
                 <input class="form-control" min="1" max="<?php echo $row['STOCK']; ?>"  type="number" placeholder="Enter Quantity" value=1 name="QTY" required>
               </div>
-              <div class="col-4">
+              <div class="col-2 p-0 text-center">
                 <button class="btn btn-lg btn-val fw-bold" style="white-space:nowrap;" type="Submit">Add to cart</button>
+              </div>
+              <div class="col-3 text-center">
+                <p class="Delta fs-4"><?php echo $row['STOCK']; ?> in stock.</p>
               </div>
             </form>
             <div style="height: 50px;"></div>

@@ -1,8 +1,9 @@
 <?php
 
 require_once 'db.php';
+require_once 'library.php';
 
-function selectFlavor($pdo, $flavor)
+function selectFlavor(&$pdo, $flavor)
 {
     try
     {
@@ -21,7 +22,7 @@ function selectFlavor($pdo, $flavor)
     }
 }
 
-function selectType($pdo, $type)
+function selectType(&$pdo, $type)
 {
     try
     {
@@ -40,7 +41,7 @@ function selectType($pdo, $type)
     }
 }
 
-function selectCategory($pdo, $category)
+function selectCategory(&$pdo, $category)
 {
     try
     {
@@ -78,17 +79,17 @@ function drawCards($rows)
                     </div>
                     <div class="col-md-8">
                         <div class="card-body">
-                            <h5 class="card-title Adelhyde">{$row['NAME']}</h5>
+                            <h5 class="fw-bold Adelhyde">{$row['NAME']}</h5>
                             <p class="card-text Bronson">{$row['QUOTE']}</p>
                             <div class="row">
-                                <span class="badge rounded-pill col-3 text-bg-info fs-6">{$row['FLAVOR']}</span>
-                                <span class="badge rounded-pill col-3 text-bg-info fs-6">{$row['TYPE']}</span>
-                                <span class="badge rounded-pill col-3 text-bg-info fs-6">{$row['CATEGORY']}</span>
+                                <span class="badge rounded-pill col-4 text-bg-info fs-6">{$row['FLAVOR']}</span>
+                                <span class="badge rounded-pill col-4 text-bg-info fs-6">{$row['TYPE']}</span>
+                                <span class="badge rounded-pill col-4 text-bg-info fs-6">{$row['CATEGORY']}</span>
                             </div>
                             <form class="row py-2" action="drinkProfile.php" method="GET">
-                                <button type="submit" value=$urlName name="Drink" class="btn btn-val col-5 fw-bold fs-5">Details</button>
-                                <p class="col-3 m-0 fs-3 Karmotrine">\${$row['PRICE']}</p>
-                                <p class="col-4 m-0 p-2"><small class="Delta">{$row['STOCK']} stocked</small></p>
+                                <button type="submit" value=$urlName name="Drink" class="btn btn-val col-5 fw-bold fs-5" style="white-space:nowrap;">Details</button>
+                                <p class="col-3 m-0 fs-3 Karmotrine" style="white-space:nowrap;">\${$row['PRICE']}</p>
+                                <p class="col-4 m-0 p-2"><small class="Delta" style="white-space:nowrap;">Stock: {$row['STOCK']}</small></p>
                             </form>
                         </div>
                     </div>
@@ -186,6 +187,68 @@ function drawCart(PDO &$pdo)
     else 
     {
         echo "<h2 class=\"px-4\">Your cart is empty.</h2>";
+    }
+}
+
+function drawCheckoutItem(PDO &$pdo, $item, $quantity)
+{
+    $sql = <<<SQL
+    SELECT * FROM DRINKS
+    WHERE NAME = ?
+    SQL;
+
+    try
+    {   
+        $statement = $pdo->prepare($sql);
+        $statement->execute([$item]);
+        $rows = $statement->fetchAll(PDO::FETCH_ASSOC);
+    }
+    catch(PDOException $e)
+    {
+        echo "Query Failure: " . $e->getMessage();
+    }
+
+    if(empty($rows)) { echo "<p>No results found.</p>"; }
+    else 
+    {
+        foreach($rows as $row)
+        {
+            $filename = str_replace(' ', '', $row['NAME']);
+            $floatPrice = number_format((float)$row['PRICE'], 2, '.', '');
+            $adjustedPrice = number_format((float)($quantity * $floatPrice), 2, '.', '');
+
+            echo <<<HTML
+            <li class="list-group-item d-flex justify-content-between lh-sm">
+            <div>
+              <h6 class="my-0 Adelhyde">{$row['NAME']}</h6>
+              <small class="Bronson">Quantity: $quantity</small>
+            </div>
+            <img src="assets/drinks/$filename.png" width="50px" height="60">
+            <span class="Karmotrine fs-4">\$$adjustedPrice</span>
+            </li><hr>
+            HTML;
+        }   
+    }
+}
+
+function drawCheckout(PDO &$pdo)
+{ 
+    if(isset($_SESSION['cart']) && !empty($_SESSION['cart']))
+    {
+        echo "<ul class=\"list-group mb-3\">";
+        foreach($_SESSION['cart'] as $item => $quantity)
+        {
+            drawCheckoutItem($pdo, $item, $quantity);
+        }
+        $total = number_format((float)getCartSubtotal($pdo), 2, '.', '');
+        echo "</ul>";
+        echo "<li class=\"list-group-item d-flex justify-content-between\">";
+        echo "<span class=\"Adelhyde fs-3\">Total:</span>";
+        echo "<span class=\"Karmotrine fs-3\">\$$total</span></li>";
+    }
+    else 
+    {
+        echo "<h2 class=\"px-2\">Your cart is empty.</h2>";
     }
 }
 

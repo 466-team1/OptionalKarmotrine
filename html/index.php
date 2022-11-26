@@ -64,7 +64,15 @@
             </li>
           </ul>
           <a class="nav-link justify-content-end fs-5 Delta" href="cart.php">
-            <i class="fas fa-shopping-cart"></i> My Cart
+            <i class="fas fa-shopping-cart"></i> My Cart:
+            <?php
+              $count = 0;
+              if(isset($_SESSION['cart']) && !empty($_SESSION['cart']))
+              {   $count = count($_SESSION['cart']);
+                  
+              }
+              echo "<span class=\"Bronson fw-2\">($count)</span>";
+             ?>
           </a>
         </div>
       </div>

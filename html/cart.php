@@ -1,7 +1,6 @@
 <?php
 session_start();
 require_once '../lib/drinksLib.php';
-require_once '../lib/library.php';
 if(isset($_POST['code']) && !empty($_POST['code']))
 {
     $promoResult = applyPromoCode($pdo, $_POST['code']);
@@ -63,8 +62,16 @@ if(isset($_POST['code']) && !empty($_POST['code']))
               <i class="fas fa-door-closed"></i> Employee Portal</a>
             </li>
           </ul>
-          <a class="nav-link justify-content-end fs-5 Delta fw-bold text-decoration-underline" href="cart.php">
-            <i class="fas fa-shopping-cart"></i> My Cart 
+          <a class="nav-link justify-content-end fs-5 Delta" href="cart.php">
+            <i class="fas fa-shopping-cart"></i> My Cart:
+            <?php
+              $count = 0;
+              if(isset($_SESSION['cart']) && !empty($_SESSION['cart']))
+              {   $count = count($_SESSION['cart']);
+                  
+              }
+              echo "<span class=\"Bronson fw-2\">($count)</span>";
+             ?>
           </a>
         </div>
       </div>
@@ -104,7 +111,6 @@ if(isset($_SESSION['codes']) && !empty($_SESSION['codes']))
                 </div>
               </form>
             </div>
-
 <?php
 if(isset($_POST['code']) && !empty($_POST['code'])) 
 {
@@ -115,13 +121,18 @@ if(isset($_POST['code']) && !empty($_POST['code']))
     HTML;
 }
 ?>
-          </div>
-
+        </div>
           <div class="card">
             <div class="card-body row px-4 justify-content-between">
-              <a href="checkout.php" class="btn btn-lg fw-bold btn-val col-2 checkout">Checkout</a>
-              <div class="col-4 h3 subtotal">
-                <span class="Karmotrine" id="cartTotal">Subtotal: $<?php echo number_format(getCartSubtotal($pdo), 2, '.', ''); ?></span>
+              <?php 
+                if(isset($_SESSION['cart']) && !empty($_SESSION['cart']))
+                {
+                  $subtotal = number_format(getCartSubtotal($pdo), 2, '.', '');
+                  echo "<a href=\"checkout.php\" class=\"btn btn-lg fw-bold btn-val col-2 checkout\">Checkout</a>";
+                  echo "<div class=\"col-4 h3 subtotal\">";
+                  echo "<span class=\"Karmotrine\" id=\"cartTotal\">Subtotal: \$$subtotal</span>";
+                } 
+              ?>
               </div>
             </div>
           </div>
