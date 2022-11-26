@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once '../lib/drinksLib.php'
+require_once '../lib/drinksLib.php';
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -63,7 +63,24 @@ require_once '../lib/drinksLib.php'
   </header>
 
   <main class="container" id="borderIMG">
-    <?php 
+    <?php
+      if(isset($_POST['payment']) && isset($_SESSION['cart']) && !empty($_SESSION['cart']))
+      {
+        if((isset($_POST['cusName']) && !empty($_POST['cusName'])) && (isset($_POST['email']) && !empty($_POST['email'])) && (isset($_POST['address']) && !empty($_POST['address'])))
+        {
+          $ordernum = submitOrder($pdo, $_POST['cusName'], $_POST['email'], $_POST['address']);
+          echo <<<HTML
+          <div class="py-2 text-center">
+            <img class="d-block mx-auto mb-2" src="assets/Logo.png">
+            <h2>Your order has been placed</h2>
+            <p class="lead">Thank for for placing an order. Your order number is #$ordernum. Tracking information will be sent to your email and
+              may also be obtained from entering your order number at the <a href="ordertrack.php">Find My Order</a> page.
+            </p>
+          </div>
+          HTML;
+          die();
+        }
+      }
       if(!isset($_SESSION['cart']) || empty($_SESSION['cart']))
       {
         echo "<h2 class=\"px-2\">Your cart is empty.</h2>";
@@ -87,11 +104,11 @@ require_once '../lib/drinksLib.php'
       </div>
       <div class="col-md-7 col-lg-8" id="borderCALI">
         <h4 class="mb-3">Shipping Details</h4>
-        <form class="needs-validation" novalidate>
+        <form class="needs-validation" action="" method="POST" novalidate>
           <div class="row g-3">
             <div class="col-12">
               <label for="name" class="form-label"> <i class="fas fa-user-tie"></i> Full name</label>
-              <input type="text" class="form-control" id="name" placeholder="Radigan D. Dog" value="" required>
+              <input type="text" class="form-control" id="cusName" name="cusName" placeholder="Radigan D. Dog" value="" required>
               <div class="invalid-feedback">
                 Valid name is required.
               </div>
@@ -99,7 +116,7 @@ require_once '../lib/drinksLib.php'
 
             <div class="col-12">
               <label for="email" class="form-label"><i class="fa fa-envelope"></i> Email</label>
-              <input type="email" class="form-control" id="email" placeholder="rad5hiba@glichcity.nc" required>
+              <input type="email" class="form-control" id="email" name="email" placeholder="rad5hiba@glitchcity.nc" required>
               <div class="invalid-feedback">
                 Email address is required.
               </div>
@@ -107,7 +124,7 @@ require_once '../lib/drinksLib.php'
 
             <div class="col-12">
               <label for="address" class="form-label"><i class="fas fa-address-card"></i> Full Address</label>
-              <input type="text" class="form-control" id="address" placeholder="802-11 Picus Plaza, Glich City, Neo California" required>
+              <input type="text" class="form-control" id="address" name="address" placeholder="802-11 Picus Plaza, Glitch City, Neo California" required>
               <div class="invalid-feedback">
                 Please enter your shipping address.
               </div>
@@ -127,14 +144,13 @@ require_once '../lib/drinksLib.php'
           <hr class="my-4">
 
           <h4 class="mb-3">Payment</h4>
-
           <div class="my-3">
             <div class="form-check">
-              <input id="credit" name="paymentMethod" type="radio" class="form-check-input" checked required>
+              <input id="credit" name="payment" type="radio" class="form-check-input" checked required>
               <label class="form-check-label" for="credit">Credit card</label>
             </div>
             <div class="form-check">
-              <input id="debit" name="paymentMethod" type="radio" class="form-check-input" required>
+              <input id="debit" name="payment" type="radio" class="form-check-input" required>
               <label class="form-check-label" for="debit">Debit card</label>
             </div>
           </div>

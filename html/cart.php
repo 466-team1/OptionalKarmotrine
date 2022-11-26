@@ -103,7 +103,6 @@ if(isset($_SESSION['codes']) && !empty($_SESSION['codes']))
                 </div>
               </form>
             </div>
-
 <?php
 if(isset($_POST['code']) && !empty($_POST['code'])) 
 {
@@ -114,8 +113,7 @@ if(isset($_POST['code']) && !empty($_POST['code']))
     HTML;
 }
 ?>
-          </div>
-
+        </div>
           <div class="card">
             <div class="card-body row px-4 justify-content-between">
               <?php 

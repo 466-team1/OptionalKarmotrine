@@ -79,7 +79,7 @@ function drawCards($rows)
                     </div>
                     <div class="col-md-8">
                         <div class="card-body">
-                            <h5 class="card-title Adelhyde">{$row['NAME']}</h5>
+                            <h5 class="fw-bold Adelhyde">{$row['NAME']}</h5>
                             <p class="card-text Bronson">{$row['QUOTE']}</p>
                             <div class="row">
                                 <span class="badge rounded-pill col-4 text-bg-info fs-6">{$row['FLAVOR']}</span>
