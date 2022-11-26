@@ -87,293 +87,343 @@ if(isset($_POST['sign_out']))
 ?>
 
 
-    <body>
-        <?php
-        include("assets/drinksLib.php");
-        if($_SESSION['password']=="Subekan")
-        {?>
+<body>
+  <?php
+  include("assets/drinksLib.php");
+  if($_SESSION['password']=="Subekan")
+  {?>
 
-        <form method="POST" action="" id="log_out">
-            <input type="submit" name="sign_out" value="Logout">
-        </form>
+    <form method="POST" action="" id="log_out">
+        <input type="submit" name="sign_out" value="Logout">
+    </form>
 
-        <?php
-        try
-        {
-            $dsn = "mysql:host=courses;dbname=z1922762";
-            $pdo = new PDO($dsn, "z1922762", "2003May20");
-            //$dsn = "mysql:host=courses;dbname=z1951125"; CHANGE LATER
-            //$pdo = new PDO($dsn, $username, $password, [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]); CHANGE LATER
+    <?php
+    try
+    {
+        $dsn = "mysql:host=courses;dbname=z1922762";
+        $pdo = new PDO($dsn, "z1922762", "2003May20");
+        //$dsn = "mysql:host=courses;dbname=z1951125"; CHANGE LATER
+        //$pdo = new PDO($dsn, $username, $password, [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]); CHANGE LATER
+    }
+    catch(PDOexception $e)
+    {
+        echo "Connection to database failed: " . $e->getMessage();
+        die();
+    }
+    ?>
+    <main>
+    <div class="container">
+
+    <h1>Customer Orders & Drink Inventory</h1>
+    <p>Outstanding Orders</p>
+    <table border=1 cellspacing=2>
+    <tr>
+    <td>Order Number</td>
+    <td>Cost</td>
+    <td>Customer Name</td>
+    <td>Customer Address</td>
+    <td>Customer eMail</td>
+    <td>Status</td>
+    <td>Note</td>
+    <td>Tracking</td>
+    </tr>
+
+
+
+
+    <?php
+    // Show table of outstanding order information
+    $outstanding = $pdo->query("SELECT * FROM ORDERS WHERE STATUS !='CANCELLED' AND STATUS != 'COMPLETED';");
+    $rows = $outstanding->fetchAll(PDO::FETCH_ASSOC);
+    // Table data
+    foreach($rows as $row)
+    {
+      echo "<tr>";
+      echo "<td>", $row["ORDER_NUM"], "</td><td>", $row["COST"], "</td><td>", $row["CUS_NAME"], "</td><td>", $row["CUS_ADDRESS"], "</td><td>", $row["CUS_EMAIL"], "</td><td>", $row["STATUS"], "</td><td>", $row["NOTE"], "</td><td>", $row["TRACKING"], "</td>";
+      echo "</tr>";
+    }
+    echo "</table>";
+    echo "<br><br>";
+
+    $stock = $pdo->query("SELECT * FROM DRINKS;");
+    $rows = $stock->fetchAll(PDO::FETCH_ASSOC);
+    //echo "<button onclick=window.location.href='https://students.cs.niu.edu/~z1922762/OptionalKarmotrine/html/employee.php'>Back to admin page</button>";
+    // Column titles
+    echo "<h1>Drink Inventory</h1>";
+    ?>
+
+    <form action='' method='POST'><br>
+    <input type='submit' name='drinkreset' value='Reset Drink Stock' /> <br>
+    </form>
+
+    <?php
+    if(isset($_POST['drinkreset']))
+    {   
+      $cmd = "UPDATE DRINKS SET STOCK = '69'";
+      $stmt = $pdo->prepare($cmd);
+      $stmt->execute();
+      $gt = $stmt->fetch();
+      echo "All drinks restocked";
+      header('Refresh:2');
+
+      echo "<br><br>";
+      echo "<table border=1 cellspacing=2>";
+      echo "<tr>";
+      echo "<td>Name</td>";
+      echo "<td>Stock</td>";
+      echo "</tr>";
+
+      // Table data
+      foreach($rows as $row){
+          echo "<tr>";
+          echo "<td>", $row["NAME"], "</td><td>", $row["STOCK"], "</td>";
+          echo "</tr>";
+      }
+      echo "</table>";
+    }
+    else
+    {
+      echo "<br><br>";
+      echo "<table border=1 cellspacing=2>";
+      echo "<tr>";
+      echo "<td>Name</td>";
+      echo "<td>Stock</td>";
+      echo "</tr>";
+      
+      // Table data
+      foreach($rows as $row){
+        echo "<tr>";
+        echo "<td>", $row["NAME"], "</td><td>", $row["STOCK"], "</td>";
+        echo "</tr>";
+      }
+      echo "</table>";
+    }?>
+
+
+
+
+    <form action='' method='GET'>
+    <br>
+    <p>Pull Order Details</p>
+    Order Number<input type='text' name='ordernum' required/><br><br>
+    <input type='submit' name='ordersubmit' value='Submit' /><br>
+    <input type='reset' name='reset' value='Reset Form' /><br>
+    </form>
+
+    <?php
+    if(isset($_GET['ordersubmit']))
+    {
+      $on = $_GET["ordernum"];
+      $cmd = "SELECT * FROM ORDERS WHERE ORDER_NUM=?";
+      $stmt = $pdo->prepare($cmd);
+      $stmt->execute([$on]);
+      $gt = $stmt->fetch();
+
+      if($gt)
+      {
+        echo "<h1>Customer order details for: $on</h1>";
+        // Column titles
+        echo "<table border=1 cellspacing=2>";
+        echo "<tr>";
+        echo "<td>Order Number</td>";
+        echo "<td>Cost</td>";
+        echo "<td>Customer Name</td>";
+        echo "<td>Customer Address</td>";
+        echo "<td>Customer eMail</td>";
+        echo "<td>Status</td>";
+        echo "<td>Note</td>";
+        echo "<td>Tracking</td>";
+        echo "</tr>";
+        
+        $order = $pdo->query("SELECT * FROM ORDERS WHERE ORDER_NUM = '$on';");
+        $rows = $order->fetchAll(PDO::FETCH_ASSOC);
+        
+        // Table data
+        foreach($rows as $row){
+          echo "<tr>";
+          echo "<td>", $row["ORDER_NUM"], "</td><td>", $row["COST"], "</td><td>", $row["CUS_NAME"], "</td><td>", $row["CUS_ADDRESS"], "</td><td>", $row["CUS_EMAIL"], "</td><td>", $row["STATUS"], "</td><td>", $row["NOTE"], "</td><td>", $row["TRACKING"], "</td>";
+          echo "</tr>";
         }
-        catch(PDOexception $e)
-        {
-            echo "Connection to database failed: " . $e->getMessage();
-            die();
+        echo "</table>";
+
+        echo "<h3>Order contents</h3>";
+        // Column titles
+        echo "<table border=1 cellspacing=2>";
+        echo "<tr>";
+        echo "<td>Order Number</td>";
+        echo "<td>Name</td>";
+        echo "<td>QTY</td>";
+        echo "</tr>";
+        
+        $contents = $pdo->query("SELECT * FROM HAS WHERE ORDER_NUM = '$on';");
+        $rows = $contents->fetchAll(PDO::FETCH_ASSOC);
+        
+        // Table data
+        foreach($rows as $row){
+          echo "<tr>";
+          echo "<td>", $row["ORDER_NUM"], "</td><td>", $row["NAME"], "</td><td>", $row["QTY"], "</td>";
+          echo "</tr>";
         }
-        ?>
-        <main>
-        <div class="container">
+        echo "</table>";
+        echo "<br>";
+      }
+      else
+      {
+        echo "Order not found!";
+      }
+    }?>
 
-        <h1>Customer Orders & Drink Inventory</h1>
-        <p>Outstanding Orders</p>
-        <table border=1 cellspacing=2>
-        <tr>
-        <td>Order Number</td>
-        <td>Cost</td>
-        <td>Customer Name</td>
-        <td>Customer Address</td>
-        <td>Customer eMail</td>
-        <td>Status</td>
-        <td>Note</td>
-        <td>Tracking</td>
-        </tr>
 
-        <?php
-            // Show table of outstanding order information
-            $order = $pdo->query("SELECT * FROM ORDERS WHERE STATUS !='CANCELLED' AND STATUS != 'COMPLETED';");
-            $rows = $order->fetchAll(PDO::FETCH_ASSOC);
 
-            // Table data
-            foreach($rows as $row)
-            {
-                echo "<tr>";
-                echo "<td>", $row["ORDER_NUM"], "</td><td>", $row["COST"], "</td><td>", $row["CUS_NAME"], "</td><td>", $row["CUS_ADDRESS"], "</td><td>", $row["CUS_EMAIL"], "</td><td>", $row["STATUS"], "</td><td>", $row["NOTE"], "</td><td>", $row["TRACKING"], "</td>";
-                echo "</tr>";
-            }
-            echo "</table>";
-            echo "<br><br>";
 
-            echo "<button onclick=window.location.href='https://students.cs.niu.edu/~z1922762/OptionalKarmotrine/inventory.php'>See Drink Inventory</button>";
+    <form action='' method='POST'>
+    <br>
+    <p>Update order status</p>
+    Order Number<input type='text' name='ordernum' required/>
+    <label for='status'>New Status
+        <select name='status' id='status'>
+            <option value='' disabled selected>Select new status</option>
+            <option value='PROCESSING'>PROCESSING</option>
+            <option value='CONFIRMED'>CONFIRMED</option>
+            <option value='SHIPPED'>SHIPPED</option>
+            <option value='COMPLETED'>COMPLETED</option>
+            <option value='CANCELLED'>CANCELLED</option>
+        </select>
+    </label><br><br>
+    <input type='submit' name='statussubmit' value='Submit' /><br>
+    <input type='reset' name='reset' value='Reset Form' /><br>
+    </form>
 
-            // Pull order information + contents
-            echo"<html><body>";
-            echo"<form action='' method='GET'>";
-            echo"<br>";
-            echo"<p>Pull Order Details</p>";
-            echo"Order Number<input type='text' name='ordernum' required/>";
-            echo"<br><br>";
-            echo"<input type='submit' name='ordersubmit' value='Submit' /> <br>";
-            echo"<input type='reset' name='reset' value='Reset Form' /> <br>";
-            echo "</form></body></html>";
+    <?php
+    if(isset($_POST['statussubmit']))
+    {
+      $on = $_POST["ordernum"];
+      $os = $_POST["status"];
+      $cmd = "SELECT * FROM ORDERS WHERE ORDER_NUM=?";
+      $stmt = $pdo->prepare($cmd);
+      $stmt->execute([$on]);
+      $gt = $stmt->fetch();
 
-            
-            if(isset($_GET['ordersubmit']))
-            {
-                $on = $_GET["ordernum"];
-            
-                $cmd = "SELECT * FROM ORDERS WHERE ORDER_NUM=?";
-                $stmt = $pdo->prepare($cmd);
-                $stmt->execute([$on]);
-                $gt = $stmt->fetch();
+      if($gt)
+      {
+        echo "<h1>Customer order status for: $on</h1>";
+        print("Updated order $on status to $os");
 
-                if($gt)
-                {
-                    echo "<h1>Customer order details for: $on</h1>";
-                    // Column titles
-                    echo "<table border=1 cellspacing=2>";
-                    echo "<tr>";
-                    echo "<td>Order Number</td>";
-                    echo "<td>Cost</td>";
-                    echo "<td>Customer Name</td>";
-                    echo "<td>Customer Address</td>";
-                    echo "<td>Customer eMail</td>";
-                    echo "<td>Status</td>";
-                    echo "<td>Note</td>";
-                    echo "<td>Tracking</td>";
-                    echo "</tr>";
-                    
-                    $order = $pdo->query("SELECT * FROM ORDERS WHERE ORDER_NUM = '$on';");
-                    $rows = $order->fetchAll(PDO::FETCH_ASSOC);
-                    
-                    // Table data
-                    foreach($rows as $row){
-                        echo "<tr>";
-                        echo "<td>", $row["ORDER_NUM"], "</td><td>", $row["COST"], "</td><td>", $row["CUS_NAME"], "</td><td>", $row["CUS_ADDRESS"], "</td><td>", $row["CUS_EMAIL"], "</td><td>", $row["STATUS"], "</td><td>", $row["NOTE"], "</td><td>", $row["TRACKING"], "</td>";
-                        echo "</tr>";
-                    }
-                    echo "</table>";
-            
-                    echo "<h3>Order contents</h3>";
-                    // Column titles
-                    echo "<table border=1 cellspacing=2>";
-                    echo "<tr>";
-                    echo "<td>Order Number</td>";
-                    echo "<td>Name</td>";
-                    echo "<td>QTY</td>";
-                    echo "</tr>";
-                    
-                    $order = $pdo->query("SELECT * FROM HAS WHERE ORDER_NUM = '$on';");
-                    $rows = $order->fetchAll(PDO::FETCH_ASSOC);
-                    
-                    // Table data
-                    foreach($rows as $row){
-                        echo "<tr>";
-                        echo "<td>", $row["ORDER_NUM"], "</td><td>", $row["NAME"], "</td><td>", $row["QTY"], "</td>";
-                        echo "</tr>";
-                    }
-                    echo "</table>";
-                    echo "<br>";
-                }
-                else
-                {
-                    echo "Order not found!";
-                    echo "<br>";
-                }
-            }
+        $sql = "UPDATE ORDERS SET STATUS = :STATUS WHERE ORDER_NUM = :ORDER";
+        $prepared = $pdo->prepare($sql, array(PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY));
+        $success = $prepared->execute(array(':STATUS' => $os, ':ORDER' => $on));
+        
+        
+        $order = $pdo->query("SELECT * FROM ORDERS WHERE ORDER_NUM = '$on';");
+        $rows = $order->fetchAll(PDO::FETCH_ASSOC);
+        
+        // Column titles
+        echo "<table border=1 cellspacing=2>";
+        echo "<tr>";
+        echo "<td>Order Number</td>";
+        echo "<td>Cost</td>";
+        echo "<td>Customer Name</td>";
+        echo "<td>Customer Address</td>";
+        echo "<td>Customer eMail</td>";
+        echo "<td>Status</td>";
+        echo "<td>Note</td>";
+        echo "<td>Tracking</td>";
+        echo "</tr>";
+        
+        // Table data
+        foreach($rows as $row){
+          echo "<tr>";
+          echo "<td>", $row["ORDER_NUM"], "</td><td>", $row["COST"], "</td><td>", $row["CUS_NAME"], "</td><td>", $row["CUS_ADDRESS"], "</td><td>", $row["CUS_EMAIL"], "</td><td>", $row["STATUS"], "</td><td>", $row["NOTE"], "</td><td>", $row["TRACKING"], "</td>";
+          echo "</tr>";
+        }
+        echo "</table>";
+        echo "<br>";
+      }
+      else
+      {
+        echo "Order not found!";
+      }
+    }?>
 
-            echo"<html><body>";
-            echo"<form action='' method='POST'>";
-            echo"<br>";
-            echo"<p>Update order status</p>";
-            echo"Order Number<input type='text' name='ordernum' required/>";
-            echo"<label for='status'>New Status";
-                echo"<select name='status' id='status'>";
-                    echo"<option value='' disabled selected>Select new status</option>";
-                    echo"<option value='PROCESSING'>PROCESSING</option>";
-                    echo"<option value='CONFIRMED'>CONFIRMED</option>";
-                    echo"<option value='SHIPPED'>SHIPPED</option>";
-                    echo"<option value='COMPLETED'>COMPLETED</option>";
-                    echo"<option value='CANCELLED'>CANCELLED</option>";
-                echo"</select>";
-            echo"</label>";
-            echo"<br><br>";
-            echo"<input type='submit' name='statussubmit' value='Submit' /> <br>";
-            echo"<input type='reset' name='reset' value='Reset Form' /> <br>";
-            echo"</form></body></html>";
 
-            if(isset($_POST['statussubmit']))
-            {
-                $on = $_POST["ordernum"];
-                $os = $_POST["status"];
-                
-                $cmd = "SELECT * FROM ORDERS WHERE ORDER_NUM=?";
-                $stmt = $pdo->prepare($cmd);
-                $stmt->execute([$on]);
-                $gt = $stmt->fetch();
 
-                if($gt)
-                {
-                    echo "<h1>Customer order status for: $on</h1>";
-                    print("Updated order $on status to $os");
 
-                    $sql = "UPDATE ORDERS SET STATUS = :STATUS WHERE ORDER_NUM = :ORDER";
-                    $prepared = $pdo->prepare($sql, array(PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY));
-                    $success = $prepared->execute(array(':STATUS' => $os, ':ORDER' => $on));
-                    
-                    
-                    $order = $pdo->query("SELECT * FROM ORDERS WHERE ORDER_NUM = '$on';");
-                    $rows = $order->fetchAll(PDO::FETCH_ASSOC);
-                    
-                    // Column titles
-                    echo "<table border=1 cellspacing=2>";
-                    echo "<tr>";
-                    echo "<td>Order Number</td>";
-                    echo "<td>Cost</td>";
-                    echo "<td>Customer Name</td>";
-                    echo "<td>Customer Address</td>";
-                    echo "<td>Customer eMail</td>";
-                    echo "<td>Status</td>";
-                    echo "<td>Note</td>";
-                    echo "<td>Tracking</td>";
-                    echo "</tr>";
-                    
-                    // Table data
-                    foreach($rows as $row){
-                        echo "<tr>";
-                        echo "<td>", $row["ORDER_NUM"], "</td><td>", $row["COST"], "</td><td>", $row["CUS_NAME"], "</td><td>", $row["CUS_ADDRESS"], "</td><td>", $row["CUS_EMAIL"], "</td><td>", $row["STATUS"], "</td><td>", $row["NOTE"], "</td><td>", $row["TRACKING"], "</td>";
-                        echo "</tr>";
-                    }
-                    echo "</table>";
-                    echo "<br>";
-                }
-                else
-                {
-                    echo "Order not found!";
-                    echo "<br>";
-                }
-            }
+    <form action='' method='POST'><br>
+    <p>Add note to order</p>
+    Order Number<input type='text' name='ordernum' required/>
+    Add Note<input type='text' name='note' /><br><br>
+    <input type='submit' name='notesubmit' value='Submit' /><br>
+    <input type='reset' name='reset' value='Reset Form' /><br>
+    </form>
 
-            echo"<html><body>";
-            echo"<form action='' method='POST'>";
-            echo"<br>";
-            echo"<p>Add note to order</p>";
-            echo"Order Number<input type='text' name='ordernum' required/>";
-            echo"Add Note<input type='text' name='note' />";
-            echo"<br><br>";
-            echo"<input type='submit' name='notesubmit' value='Submit' /> <br>";
-            echo"<input type='reset' name='reset' value='Reset Form' /> <br>";
-            echo"</form></body></html>";
+    <?php
+    if(isset($_POST['notesubmit']))
+    {
+      // Order number and note
+      $on = $_POST["ordernum"];
+      $n = $_POST["note"];
+      $cmd = "SELECT * FROM ORDERS WHERE ORDER_NUM=?";
+      $stmt = $pdo->prepare($cmd);
+      $stmt->execute([$on]);
+      $gt = $stmt->fetch();
+      if($gt)
+      {
+        echo "<h1>Customer order note for: $on</h1>";
+        echo "Updated order $on";
+        echo "<br>";
+        echo "Note: ";
+        echo $n;
+        echo "<br>";
+    
+        $sql = "UPDATE ORDERS SET NOTE = :NOTE WHERE ORDER_NUM = :ORDER;";
+        $prepared = $pdo->prepare($sql, array(PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY));
+        $success = $prepared->execute(array(':NOTE' => $n, ':ORDER' => $on));
+        
+        // Column titles
+        echo "<table border=1 cellspacing=2>";
+        echo "<tr>";
+        echo "<td>Order Number</td>";
+        echo "<td>Note</td>";
+        echo "</tr>";
+        
+        $order = $pdo->query("SELECT * FROM ORDERS WHERE ORDER_NUM = '$on';");
+        $rows = $order->fetchAll(PDO::FETCH_ASSOC);
+        
+        // Table data
+        foreach($rows as $row){
+          echo "<tr>";
+          echo "<td>", $row["ORDER_NUM"], "</td><td>", $row["NOTE"], "</td>";
+          echo "</tr>";
+        }
+        echo "</table>";
+        echo "<br>";
+      }
+      else
+      {
+        echo "Order not found!";
+      }
+    }?>
 
-            if(isset($_POST['notesubmit']))
-            {
-                // Order number and note
-                $on = $_POST["ordernum"];
-                $n = $_POST["note"];
-                
-                $cmd = "SELECT * FROM ORDERS WHERE ORDER_NUM=?";
-                $stmt = $pdo->prepare($cmd);
-                $stmt->execute([$on]);
-                $gt = $stmt->fetch();
-                if($gt)
-                {
-                    echo "<h1>Customer order note for: $on</h1>";
-                    echo "Updated order $on";
-                    echo "<br>";
-                    echo "Note: ";
-                    echo $n;
-                    echo "<br>";
-                
-                    $sql = "UPDATE ORDERS SET NOTE = :NOTE WHERE ORDER_NUM = :ORDER;";
-                    $prepared = $pdo->prepare($sql, array(PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY));
-                    $success = $prepared->execute(array(':NOTE' => $n, ':ORDER' => $on));
-                    
-                    // Column titles
-                    echo "<table border=1 cellspacing=2>";
-                    echo "<tr>";
-                    echo "<td>Order Number</td>";
-                    echo "<td>Note</td>";
-                    echo "</tr>";
-                    
-                    $order = $pdo->query("SELECT * FROM ORDERS WHERE ORDER_NUM = '$on';");
-                    $rows = $order->fetchAll(PDO::FETCH_ASSOC);
-                    
-                    // Table data
-                    foreach($rows as $row){
-                        echo "<tr>";
-                        echo "<td>", $row["ORDER_NUM"], "</td><td>", $row["NOTE"], "</td>";
-                        echo "</tr>";
-                    }
-                    echo "</table>";
-                    echo "<br>";
-                }
-                else
-                {
-                    echo "Order not found!";
-                    echo "<br>";
-                }
-            }
-        ?>
-
-        <footer class="pt-2 mt-4 text-muted border-top">
-        Copyright (c) Keeree Joe Group. 2064.
-        CALICOMP and Keeree Joe Group are registered tademarks of Banjo Group.
-        </footer>
-    </div>
+    <footer class="pt-2 mt-4 text-muted border-top">
+      Copyright (c) Keeree Joe Group. 2064.
+      CALICOMP and Keeree Joe Group are registered tademarks of Banjo Group.
+    </footer>
+  </div>
   </main>
-<?php
-}
-else
-{
-?>
+  <?php
+  }
+  else
+  {
+  ?>
     <form method="POST" action="" id="sign_in">
         <h1>Employee Login</h1>
             <input type="password" name="pass" placeholder="Subekan" required />
             <input type="submit" name="submit_password" value="Login" />
         <p><font style="color:red;"><?php echo $error;?></font></p>
     </form>
-<?php	
-}
-?>
+  <?php	
+  }
+  ?>
 
   <!-- Bootstrap JavaScript Libraries -->
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
@@ -383,6 +433,6 @@ else
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.min.js"
     integrity="sha384-7VPbUDkoPSGFnVtYi0QogXtr74QeVeeIs99Qfg5YCF+TidwNdjvaKZX19NZ/e6oz" crossorigin="anonymous">
   </script>
-</body>
 
+</body>
 </html>
