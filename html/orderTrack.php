@@ -1,6 +1,9 @@
+<?php
+session_start();
+require_once '../lib/drinksLib.php';
+?>
 <!DOCTYPE html>
 <html lang="en">
-<body style="background-color:black;">
 <head>
   <title>Employee Portal</title>
   <link rel="icon" type="image/x-icon" href="assets/favicon.ico">
@@ -71,106 +74,34 @@
     </nav>
   </header>
 
-<form action='' method='GET'>
-    <br><p>Enter your order number</p>
-    Order Number<input type='text' name='ordernum' required/><br><br>
-    <input type='submit' name='ordersubmit' value='Submit' /><br>
-    <input type='reset' name='reset' value='Reset Form' /><br>
-</form>
-
-<?php
-  require_once '../lib/db.php';
-?>
-
-<main>
-<div class="container">
-
-<?php
-if(isset($_GET['ordersubmit']))
-{
-
-    $on = $_GET["ordernum"];
-    
-    $cmd = "SELECT * FROM ORDERS WHERE ORDER_NUM=?";
-    $stmt = $pdo->prepare($cmd);
-    $stmt->execute([$on]);
-    $gt = $stmt->fetch();
-    if($gt)
-    {
-        echo "<h1>Order details $on</h1>";
-    }
-    else
-    {
-        echo "Order not found!";
-        //echo "<button onclick=window.location.href='https://students.cs.niu.edu/~z1922762/OptionalKarmotrine/adminhome.php'>Reset</button>";
-        exit();
-        header("refresh");
-    }
-    
-    echo "<h3>Customer Order(s)</h3>";
-    // Column titles
-    echo "<table border=1 cellspacing=2>";
-    echo "<tr>";
-    echo "<td>Order Number</td>";
-    echo "<td>Cost</td>";
-    echo "<td>Customer Name</td>";
-    echo "<td>Customer Address</td>";
-    echo "<td>Customer eMail</td>";
-    echo "<td>Status</td>";
-    echo "<td>Note</td>";
-    echo "<td>Tracking</td>";
-    echo "</tr>";
-    
-    $order = $pdo->query("SELECT * FROM ORDERS WHERE ORDER_NUM = '$on';");
-    $rows = $order->fetchAll(PDO::FETCH_ASSOC);
-    
-    // Table data
-    foreach($rows as $row){
-        echo "<tr>";
-        echo "<td>", $row["ORDER_NUM"], "</td><td>", $row["COST"], "</td><td>", $row["CUS_NAME"], "</td><td>", $row["CUS_ADDRESS"], "</td><td>", $row["CUS_EMAIL"], "</td><td>", $row["STATUS"], "</td><td>", $row["NOTE"], "</td><td>", $row["TRACKING"], "</td>";
-        echo "</tr>";
-    }
-    echo "</table>";
-
-    echo "<h1>Customer order contents for: $on</h1>";
-    
-    $cmd = "SELECT * FROM ORDERS WHERE ORDER_NUM=?";
-    $stmt = $pdo->prepare($cmd);
-    $stmt->execute([$on]);
-    $gt = $stmt->fetch();
-    if($gt)
-    {
-        echo "<table border=1 cellspacing=2>";
-        echo "<tr>";
-        echo "<td>Order Number</td>";
-        echo "<td>Name</td>";
-        echo "<td>QTY</td>";
-        echo "</tr>";
-        
-        $order = $pdo->query("SELECT * FROM HAS WHERE ORDER_NUM = '$on';");
-        $rows = $order->fetchAll(PDO::FETCH_ASSOC);
-        
-        // Table data
-        foreach($rows as $row){
-            echo "<tr>";
-            echo "<td>", $row["ORDER_NUM"], "</td><td>", $row["NAME"], "</td><td>", $row["QTY"], "</td>";
-            echo "</tr>";
+  <main class="container">
+    <div id="borderIMG">
+      <div class="py-2 text-center">
+        <img class="d-block mx-auto mb-2" src="assets/Logo.png">
+        <h2>Lookup your order</h2>
+        <p class="lead">Enter your order number to lookup details about your order.</p><hr>
+        <form class="py-2 row justify-content-center" action="" method="POST">
+          <p>Enter your order number</p>
+          <div class="col-2">
+            <input class="form-control" type="number" min="1" name="ordernum" placeholder="00000000" required>
+          </div>
+          <div class="col-1 p-0">
+            <button class="btn btn-val btn-lg fw-bold" type="submit">Lookup</button>
+          </div>
+        </form>
+      </div>
+      <?php    
+        if(isset($_POST['ordernum']) && !empty($_POST['ordernum']))
+        {
+            drawOrder($pdo);
         }
-        echo "</table>";
-    }
-    else
-    {
-        echo "Order not found!";
-    }
-}
-?>
-
-<footer class="pt-2 mt-4 text-muted border-top">
-    Copyright (c) Keeree Joe Group. 2064.
-    CALICOMP and Keeree Joe Group are registered tademarks of Banjo Group.
-</footer>
-</div>
-</main>
+      ?>
+    </div>
+    <footer class="pt-2 mt-4 text-muted border-top">
+      Copyright (c) Keeree Joe Group. 2064.
+      CALICOMP and Keeree Joe Group are registered tademarks of Banjo Group.
+    </footer>
+  </main>
   <!-- Bootstrap JavaScript Libraries -->
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
     integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous">
@@ -179,6 +110,6 @@ if(isset($_GET['ordersubmit']))
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.min.js"
     integrity="sha384-7VPbUDkoPSGFnVtYi0QogXtr74QeVeeIs99Qfg5YCF+TidwNdjvaKZX19NZ/e6oz" crossorigin="anonymous">
   </script>
-
 </body>
+
 </html>
