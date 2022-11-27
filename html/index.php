@@ -1,8 +1,12 @@
+<?php
+    session_start();
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <title>Home</title>
-  <!-- Required meta tags -->
+  <link rel="icon" type="image/x-icon" href="assets/favicon.ico">
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
@@ -15,7 +19,6 @@
     crossorigin="anonymous" referrerpolicy="no-referrer"/>
 
   <link rel="stylesheet" href="assets/stylesheet.css">
-
   <style>
     body {
       background-image:url(assets/CRS1.png);
@@ -25,6 +28,12 @@
       filter: blur();
       color: aliceblue;
     }
+
+    .nav-link:hover
+    {
+      --bs-nav-link-hover-color:#fc1783;
+    }
+
   </style>
 </head>
 
@@ -32,26 +41,38 @@
   <header>
     <nav class="navbar navbar-expand-lg navbar-dark">
       <div class="container-fluid" id="borderCALI">
-        <a class="navbar-brand" href="#">
+        <a class="navbar-brand" href="index.php">
           <img src="assets/Logo.png" alt="CALICOMP" width="69" height="57">
         </a>
         <div class="collapse navbar-collapse" id="collapsibleNavId">
           <ul class="navbar-nav me-auto mt-2 mt-lg-0">
             <li class="nav-item">
-              <a class="nav-link fs-5 active" href="https://students.cs.niu.edu/~z1951125/OptionalKarmotrine/html/">Home <span class="visually-hidden">(current)</span></a>
+              <a class="nav-link fs-5 Adelhyde fw-bold text-decoration-underline" href="index.php">
+              <i class="fas fa-home"></i> Home</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link fs-5" href="https://students.cs.niu.edu/~z1951125/OptionalKarmotrine/html/drinks.php">Drinks</a>
+              <a class="nav-link fs-5 Bronson" href="drinks.php">
+              <i class="fas fa-glass-martini"></i> Drinks</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link fs-5" href="#">Find My Order</a>
+              <a class="nav-link fs-5 Flanergide" href="orderTrack.php">
+              <i class="fas fa-truck-plane"></i> Find My Order</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link fs-5" href="#">Employee Portal</a>
+              <a class="nav-link fs-5 Karmotrine" href="employee.php">
+              <i class="fas fa-door-closed"></i> Employee Portal</a>
             </li>
           </ul>
-          <a class="nav-link justify-content-end fs-5" href="https://students.cs.niu.edu/~z1951125/OptionalKarmotrine/html/cart">
-            <i class="fas fa-shopping-cart"></i> My Cart
+          <a class="nav-link justify-content-end fs-5 Delta" href="cart.php">
+            <i class="fas fa-shopping-cart"></i> My Cart:
+            <?php
+              $count = 0;
+              if(isset($_SESSION['cart']) && !empty($_SESSION['cart']))
+              {   $count = count($_SESSION['cart']);
+                  
+              }
+              echo "<span class=\"Bronson fw-2\">($count)</span>";
+             ?>
           </a>
         </div>
       </div>
@@ -65,7 +86,7 @@
         <p class="fs-4">Once only a popular nighttime bar serving the people of Glitch City, 
           <br>We've since expended our business to offer an authentic bar-quality experience from home.</p>
         <p class="lead">
-          <a href="#" class="btn btn-lg fw-bold btn-val">See our drinks.</a>
+          <a href="drinks.php" class="btn btn-lg fw-bold btn-val">See our drinks.</a>
         </p>
       </div>
     </div>
@@ -84,4 +105,5 @@
     integrity="sha384-7VPbUDkoPSGFnVtYi0QogXtr74QeVeeIs99Qfg5YCF+TidwNdjvaKZX19NZ/e6oz" crossorigin="anonymous">
   </script>
 </body>
+
 </html>
