@@ -1,6 +1,115 @@
+<?php
+session_start();
+require_once '../lib/drinksLib.php';
+if(isset($_POST['login']) && !empty($_POST['login']))
+{
+    $pass=$_POST['login'];
+    if($pass == "Subekan")
+    {
+        $_SESSION['login'] = $pass;
+    }
+    else
+    {
+        $error = true;
+    }
+}
+if(isset($_POST['logout']))
+{
+    unset($_SESSION['login']);
+}
+if(isset($_POST['status']) && !empty($_POST['status']) && isset($_POST['ordernum']) && !empty($_POST['ordernum']) )
+{
+  $sql = <<<SQL
+    UPDATE ORDERS 
+    SET STATUS = :STATUS
+    WHERE ORDER_NUM = :ORDER_NUM
+    SQL;
+
+    try
+    {
+        $statement = $pdo->prepare($sql);
+    }
+    catch(PDOexception $e)
+    {
+    echo "Prepare Failure: " . $e->getMessage();
+    }
+    if(!$statement) { die("Error in prepare."); }
+
+    try
+    {
+        $result = $statement->execute([
+            ':STATUS' => $_POST['status'],
+            ':ORDER_NUM' => $_POST['ordernum']
+        ]);
+    }
+    catch(PDOexception $e)
+    {
+        echo "Execute Failure: " . $e->getMessage();
+    }
+    if(!$result) { die("Error in query."); }
+}
+if(isset($_POST['note']) && !empty($_POST['note']) && isset($_POST['ordernum']) && !empty($_POST['ordernum']) )
+{
+  $sql = <<<SQL
+    UPDATE ORDERS 
+    SET NOTE = :NOTE
+    WHERE ORDER_NUM = :ORDER_NUM
+    SQL;
+
+    try
+    {
+        $statement = $pdo->prepare($sql);
+    }
+    catch(PDOexception $e)
+    {
+    echo "Prepare Failure: " . $e->getMessage();
+    }
+    if(!$statement) { die("Error in prepare."); }
+
+    try
+    {
+        $result = $statement->execute([
+            ':NOTE' => $_POST['note'],
+            ':ORDER_NUM' => $_POST['ordernum']
+        ]);
+    }
+    catch(PDOexception $e)
+    {
+        echo "Execute Failure: " . $e->getMessage();
+    }
+    if(!$result) { die("Error in query."); }
+}
+if(isset($_POST['restock']))
+{
+  $sql = <<<SQL
+    UPDATE DRINKS 
+    SET STOCK = "69"
+    SQL;
+
+    try
+    {
+        $statement = $pdo->prepare($sql);
+    }
+    catch(PDOexception $e)
+    {
+    echo "Prepare Failure: " . $e->getMessage();
+    }
+    if(!$statement) { die("Error in prepare."); }
+
+    try
+    {
+        $result = $statement->execute([]);
+    }
+    catch(PDOexception $e)
+    {
+        echo "Execute Failure: " . $e->getMessage();
+    }
+    if(!$result) { die("Error in query."); }
+}
+
+?>
 <!DOCTYPE html>
 <html lang="en">
-<body style="background-color:black;">
 <head>
   <title>Employee Portal</title>
   <link rel="icon" type="image/x-icon" href="assets/favicon.ico">
@@ -17,13 +126,29 @@
 
   <link rel="stylesheet" href="assets/stylesheet.css">
   <style>
-    .nav-link:hover
-    {
-      --bs-nav-link-hover-color:#fc1783;
-    }
     body
     {
-      color:aliceblue;
+      color: aliceblue;
+    }
+
+    .navbar
+    {
+      --bs-navbar-hover-color:#fc1783;
+    }
+
+    .nav
+    {
+      --bs-nav-link-color: #fc1783;
+      --bs-nav-link-hover-color: #69d7d3;
+      --bs-nav-tabs-link-hover-border-color: black;
+      border-bottom: none;
+    }
+
+    .nav-tabs .nav-link.active
+    {
+      color: #69d7d3;
+      background-color: #1F1A2D;
+      border-color: #1e0c1b;
     }
 
   </style>
@@ -33,7 +158,7 @@
   <header>
     <nav class="navbar navbar-expand-lg navbar-dark">
       <div class="container-fluid" id="borderCALI">
-        <a class="navbar-brand" href="#">
+        <a class="navbar-brand" href="index.php">
           <img src="assets/Logo.png" alt="CALICOMP" width="69" height="57">
         </a>
         <div class="collapse navbar-collapse" id="collapsibleNavId">
@@ -71,368 +196,171 @@
     </nav>
   </header>
 
-<?php
-error_reporting(E_ERROR);
-session_start();
-
-if(isset($_POST['submit_password']) && $_POST['pass'])
-{
-    $pass=$_POST['pass'];
-    if($pass=="Subekan")
-    {
-        $_SESSION['password']=$pass;
-    }
-    else
-    {
-        $error="Invalid Password<br>Try 'Subekan'";
-    }
-}
-
-if(isset($_POST['sign_out']))
-{
-    unset($_SESSION['password']);
-}
-?>
-
-
-<body>
-  <?php
-  include("assets/drinksLib.php");
-  if($_SESSION['password']=="Subekan")
-  {?>
-
-    <form method="POST" action="" id="log_out">
-        <input type="submit" name="sign_out" value="Logout">
-    </form>
-
-    <?php
-    try
-    {
-        $dsn = "mysql:host=courses;dbname=z1922762";
-        $pdo = new PDO($dsn, "z1922762", "2003May20");
-        //$dsn = "mysql:host=courses;dbname=z1951125"; CHANGE LATER
-        //$pdo = new PDO($dsn, $username, $password, [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]); CHANGE LATER
-    }
-    catch(PDOexception $e)
-    {
-        echo "Connection to database failed: " . $e->getMessage();
-        die();
-    }
-    ?>
-    <main>
+  <main>
     <div class="container">
-
-    <h1>Customer Orders & Drink Inventory</h1>
-    <p>Outstanding Orders</p>
-    <table border=1 cellspacing=2>
-    <tr>
-    <td>Order Number</td>
-    <td>Cost</td>
-    <td>Customer Name</td>
-    <td>Customer Address</td>
-    <td>Customer eMail</td>
-    <td>Status</td>
-    <td>Note</td>
-    <td>Tracking</td>
-    </tr>
-
-
-
-
-    <?php
-    // Show table of outstanding order information
-    $outstanding = $pdo->query("SELECT * FROM ORDERS WHERE STATUS !='CANCELLED' AND STATUS != 'COMPLETED';");
-    $rows = $outstanding->fetchAll(PDO::FETCH_ASSOC);
-    // Table data
-    foreach($rows as $row)
-    {
-      echo "<tr>";
-      echo "<td>", $row["ORDER_NUM"], "</td><td>", $row["COST"], "</td><td>", $row["CUS_NAME"], "</td><td>", $row["CUS_ADDRESS"], "</td><td>", $row["CUS_EMAIL"], "</td><td>", $row["STATUS"], "</td><td>", $row["NOTE"], "</td><td>", $row["TRACKING"], "</td>";
-      echo "</tr>";
-    }
-    echo "</table>";
-    echo "<br><br>";
-
-    $stock = $pdo->query("SELECT * FROM DRINKS;");
-    $rows = $stock->fetchAll(PDO::FETCH_ASSOC);
-    //echo "<button onclick=window.location.href='https://students.cs.niu.edu/~z1922762/OptionalKarmotrine/html/employee.php'>Back to admin page</button>";
-    // Column titles
-    echo "<h1>Drink Inventory</h1>";
-    ?>
-
-    <form action='' method='POST'><br>
-    <input type='submit' name='drinkreset' value='Reset Drink Stock' /> <br>
-    </form>
-
-    <?php
-    if(isset($_POST['drinkreset']))
-    {   
-      $cmd = "UPDATE DRINKS SET STOCK = '69'";
-      $stmt = $pdo->prepare($cmd);
-      $stmt->execute();
-      $gt = $stmt->fetch();
-      echo "All drinks restocked";
-      header('Refresh:2');
-
-      echo "<br><br>";
-      echo "<table border=1 cellspacing=2>";
-      echo "<tr>";
-      echo "<td>Name</td>";
-      echo "<td>Stock</td>";
-      echo "</tr>";
-
-      // Table data
-      foreach($rows as $row){
-          echo "<tr>";
-          echo "<td>", $row["NAME"], "</td><td>", $row["STOCK"], "</td>";
-          echo "</tr>";
-      }
-      echo "</table>";
-    }
-    else
-    {
-      echo "<br><br>";
-      echo "<table border=1 cellspacing=2>";
-      echo "<tr>";
-      echo "<td>Name</td>";
-      echo "<td>Stock</td>";
-      echo "</tr>";
-      
-      // Table data
-      foreach($rows as $row){
-        echo "<tr>";
-        echo "<td>", $row["NAME"], "</td><td>", $row["STOCK"], "</td>";
-        echo "</tr>";
-      }
-      echo "</table>";
-    }?>
-
-
-
-
-    <form action='' method='GET'>
-    <br>
-    <p>Pull Order Details</p>
-    Order Number<input type='text' name='ordernum' required/><br><br>
-    <input type='submit' name='ordersubmit' value='Submit' /><br>
-    <input type='reset' name='reset' value='Reset Form' /><br>
-    </form>
-
-    <?php
-    if(isset($_GET['ordersubmit']))
-    {
-      $on = $_GET["ordernum"];
-      $cmd = "SELECT * FROM ORDERS WHERE ORDER_NUM=?";
-      $stmt = $pdo->prepare($cmd);
-      $stmt->execute([$on]);
-      $gt = $stmt->fetch();
-
-      if($gt)
-      {
-        echo "<h1>Customer order details for: $on</h1>";
-        // Column titles
-        echo "<table border=1 cellspacing=2>";
-        echo "<tr>";
-        echo "<td>Order Number</td>";
-        echo "<td>Cost</td>";
-        echo "<td>Customer Name</td>";
-        echo "<td>Customer Address</td>";
-        echo "<td>Customer eMail</td>";
-        echo "<td>Status</td>";
-        echo "<td>Note</td>";
-        echo "<td>Tracking</td>";
-        echo "</tr>";
-        
-        $order = $pdo->query("SELECT * FROM ORDERS WHERE ORDER_NUM = '$on';");
-        $rows = $order->fetchAll(PDO::FETCH_ASSOC);
-        
-        // Table data
-        foreach($rows as $row){
-          echo "<tr>";
-          echo "<td>", $row["ORDER_NUM"], "</td><td>", $row["COST"], "</td><td>", $row["CUS_NAME"], "</td><td>", $row["CUS_ADDRESS"], "</td><td>", $row["CUS_EMAIL"], "</td><td>", $row["STATUS"], "</td><td>", $row["NOTE"], "</td><td>", $row["TRACKING"], "</td>";
-          echo "</tr>";
+      <?php
+        if(!isset($_SESSION['login']) || (empty($_SESSION['login'])))
+        {
+          echo "<div id=\"borderTECH\">";
+          echo <<<HTML
+          <form class="py-2 row justify-content-center" action="" method="POST">
+            <p class="text-center fs-4">Enter your password</p>
+            <div class="col-2">
+              <input class="form-control" type="password" name="login" placeholder="Subekan" required>
+            </div>
+            <div class="col-1 p-0">
+              <button class="btn btn-val btn-lg fw-bold" type="submit">Submit</button>
+            </div>
+          </form>
+          HTML;
+          if(!empty($error))
+          {
+              echo "<p class=\"text-center Adelhyde\">Invalid Password<br>Try \"Subekan\"</p>";
+          }
+          echo "</div>";
+          die();
         }
-        echo "</table>";
-
-        echo "<h3>Order contents</h3>";
-        // Column titles
-        echo "<table border=1 cellspacing=2>";
-        echo "<tr>";
-        echo "<td>Order Number</td>";
-        echo "<td>Name</td>";
-        echo "<td>QTY</td>";
-        echo "</tr>";
-        
-        $contents = $pdo->query("SELECT * FROM HAS WHERE ORDER_NUM = '$on';");
-        $rows = $contents->fetchAll(PDO::FETCH_ASSOC);
-        
-        // Table data
-        foreach($rows as $row){
-          echo "<tr>";
-          echo "<td>", $row["ORDER_NUM"], "</td><td>", $row["NAME"], "</td><td>", $row["QTY"], "</td>";
-          echo "</tr>";
-        }
-        echo "</table>";
-        echo "<br>";
-      }
-      else
-      {
-        echo "Order not found!";
-      }
-    }?>
-
-
-
-
-    <form action='' method='POST'>
-    <br>
-    <p>Update order status</p>
-    Order Number<input type='text' name='ordernum' required/>
-    <label for='status'>New Status
-        <select name='status' id='status'>
-            <option value='' disabled selected>Select new status</option>
-            <option value='PROCESSING'>PROCESSING</option>
-            <option value='CONFIRMED'>CONFIRMED</option>
-            <option value='SHIPPED'>SHIPPED</option>
-            <option value='COMPLETED'>COMPLETED</option>
-            <option value='CANCELLED'>CANCELLED</option>
-        </select>
-    </label><br><br>
-    <input type='submit' name='statussubmit' value='Submit' /><br>
-    <input type='reset' name='reset' value='Reset Form' /><br>
-    </form>
-
-    <?php
-    if(isset($_POST['statussubmit']))
-    {
-      $on = $_POST["ordernum"];
-      $os = $_POST["status"];
-      $cmd = "SELECT * FROM ORDERS WHERE ORDER_NUM=?";
-      $stmt = $pdo->prepare($cmd);
-      $stmt->execute([$on]);
-      $gt = $stmt->fetch();
-
-      if($gt)
-      {
-        echo "<h1>Customer order status for: $on</h1>";
-        print("Updated order $on status to $os");
-
-        $sql = "UPDATE ORDERS SET STATUS = :STATUS WHERE ORDER_NUM = :ORDER";
-        $prepared = $pdo->prepare($sql, array(PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY));
-        $success = $prepared->execute(array(':STATUS' => $os, ':ORDER' => $on));
-        
-        
-        $order = $pdo->query("SELECT * FROM ORDERS WHERE ORDER_NUM = '$on';");
-        $rows = $order->fetchAll(PDO::FETCH_ASSOC);
-        
-        // Column titles
-        echo "<table border=1 cellspacing=2>";
-        echo "<tr>";
-        echo "<td>Order Number</td>";
-        echo "<td>Cost</td>";
-        echo "<td>Customer Name</td>";
-        echo "<td>Customer Address</td>";
-        echo "<td>Customer eMail</td>";
-        echo "<td>Status</td>";
-        echo "<td>Note</td>";
-        echo "<td>Tracking</td>";
-        echo "</tr>";
-        
-        // Table data
-        foreach($rows as $row){
-          echo "<tr>";
-          echo "<td>", $row["ORDER_NUM"], "</td><td>", $row["COST"], "</td><td>", $row["CUS_NAME"], "</td><td>", $row["CUS_ADDRESS"], "</td><td>", $row["CUS_EMAIL"], "</td><td>", $row["STATUS"], "</td><td>", $row["NOTE"], "</td><td>", $row["TRACKING"], "</td>";
-          echo "</tr>";
-        }
-        echo "</table>";
-        echo "<br>";
-      }
-      else
-      {
-        echo "Order not found!";
-      }
-    }?>
-
-
-
-
-    <form action='' method='POST'><br>
-    <p>Add note to order</p>
-    Order Number<input type='text' name='ordernum' required/>
-    Add Note<input type='text' name='note' /><br><br>
-    <input type='submit' name='notesubmit' value='Submit' /><br>
-    <input type='reset' name='reset' value='Reset Form' /><br>
-    </form>
-
-    <?php
-    if(isset($_POST['notesubmit']))
-    {
-      // Order number and note
-      $on = $_POST["ordernum"];
-      $n = $_POST["note"];
-      $cmd = "SELECT * FROM ORDERS WHERE ORDER_NUM=?";
-      $stmt = $pdo->prepare($cmd);
-      $stmt->execute([$on]);
-      $gt = $stmt->fetch();
-      if($gt)
-      {
-        echo "<h1>Customer order note for: $on</h1>";
-        echo "Updated order $on";
-        echo "<br>";
-        echo "Note: ";
-        echo $n;
-        echo "<br>";
-    
-        $sql = "UPDATE ORDERS SET NOTE = :NOTE WHERE ORDER_NUM = :ORDER;";
-        $prepared = $pdo->prepare($sql, array(PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY));
-        $success = $prepared->execute(array(':NOTE' => $n, ':ORDER' => $on));
-        
-        // Column titles
-        echo "<table border=1 cellspacing=2>";
-        echo "<tr>";
-        echo "<td>Order Number</td>";
-        echo "<td>Note</td>";
-        echo "</tr>";
-        
-        $order = $pdo->query("SELECT * FROM ORDERS WHERE ORDER_NUM = '$on';");
-        $rows = $order->fetchAll(PDO::FETCH_ASSOC);
-        
-        // Table data
-        foreach($rows as $row){
-          echo "<tr>";
-          echo "<td>", $row["ORDER_NUM"], "</td><td>", $row["NOTE"], "</td>";
-          echo "</tr>";
-        }
-        echo "</table>";
-        echo "<br>";
-      }
-      else
-      {
-        echo "Order not found!";
-      }
-    }?>
-
-    <footer class="pt-2 mt-4 text-muted border-top">
-      Copyright (c) Keeree Joe Group. 2064.
-      CALICOMP and Keeree Joe Group are registered tademarks of Banjo Group.
-    </footer>
-  </div>
+      ?>
+      <nav>
+        <div class="nav nav-tabs" id="borderTECH" role="tablist">
+          <button class="nav-link active" id="nav-update-tab" data-bs-toggle="tab" data-bs-target="#nav-update" type="button" role="tab">Update Order</button>
+          <button class="nav-link" id="nav-outstanding-tab" data-bs-toggle="tab" data-bs-target="#nav-outstanding" type="button" role="tab">Outstanding Orders</button>
+          <button class="nav-link" id="nav-inventory-tab" data-bs-toggle="tab" data-bs-target="#nav-inventory" type="button" role="tab">Inventory</button>
+          <form action="" method="POST">
+            <button class="nav-link" type="submit" name="logout" role="tab">Logout</button>
+          </form>
+        </div>
+      </nav>
+      <div class="tab-content" id="borderTECH">
+        <div class="tab-pane active" id="nav-update" role="tabpanel">
+          <div>
+            <div class="py-2 text-center">
+              <h2>Lookup Order Number</h2>
+              <p class="lead">Enter customer order number.</p><hr>
+              <form class="py-2 row justify-content-center" action="" method="POST">
+                <p>Enter order number</p>
+                <div class="col-2">
+                  <input class="form-control" type="number" min="1" name="ordernum" placeholder="00000000" required>
+                </div>
+                <div class="col-1 p-0">
+                  <button class="btn btn-val btn-lg fw-bold" type="submit">Lookup</button>
+                </div>
+              </form>
+            </div>
+            <?php   
+              if(isset($_POST['ordernum']) && !empty($_POST['ordernum']))
+              {
+                  $ordernum = $_POST['ordernum'];
+                  $result = drawOrder($pdo);
+                  if($result)
+                  {
+                    echo <<<HTML
+                    <div class="p-2 m-2 row">
+                      <div class="col-3">
+                        <form action="" method="POST">
+                          <p class="fs-5">Update order status</p>
+                          <label class="fs-5" for="status">New Status
+                              <select class="form-select form-select-lg" name="status" id="status" required>
+                                <option value="" disabled selected>Select new status</option>
+                                <option value='PROCESSING'>PROCESSING</option>
+                                <option value='CONFIRMED'>CONFIRMED</option>
+                                <option value='SHIPPED'>SHIPPED</option>
+                                <option value='COMPLETED'>COMPLETED</option>
+                                <option value='CANCELLED'>CANCELLED</option>
+                              </select>
+                          </label>
+                          <button class="btn btn-val btn-lg fw-bold my-4" name="ordernum" value="{$ordernum}" type="submit">Update Status</button>
+                        </form>
+                      </div>
+                      <div class="col-7">
+                        <form action="" method="POST">
+                          <p class="fs-5">Add note to order</p>
+                          <label class="fs-5" for="note">New Note
+                          <textarea class="form-control form-control-lg" name="note" id="note" rows="1" placeholder="Enter note" required></textarea>
+                          <button class="btn btn-val btn-lg fw-bold my-4" name="ordernum" value="{$ordernum}" type="submit">Update Note</button>
+                        </form>
+                      </div>
+                    </div>
+                    HTML;
+                  }
+              }
+            ?>
+          </div>
+        </div>      
+        <div class="tab-pane" id="nav-outstanding" role="tabpanel">
+          <div>
+            <h1 class="p-2 m-2">Outstanding Customer Orders</h1>
+            <div class="m-2 table-responsive">
+              <?php
+                  $outstanding = $pdo->query("SELECT * FROM ORDERS WHERE STATUS !='CANCELLED' AND STATUS != 'COMPLETED';");
+                  $rows = $outstanding->fetchAll(PDO::FETCH_ASSOC);
+                  if(empty($rows)) { echo "<p>No Outstanding Orders.</p>"; }
+                  else 
+                  {
+                      echo "<table class=\"table table-sm table-bordered table-dark table-striped table-hover\">";
+                      echo "<thead><tr>";
+                      foreach($rows[0] as $key => $value)
+                      {
+                          echo "<th>$key</th>";
+                      }
+                      echo "</tr></thead><tbody class=\"table-group-divider\">";
+                      foreach($rows as $row)
+                      {
+                          echo "<tr>";
+                          foreach($row as $key => $value)
+                          {
+                              echo "<td>$value</td>";
+                          }
+                          echo "</tr>";
+                      }
+                      echo "</tbody></table>";
+                  }
+              ?>
+            </div>
+          </div>
+        </div>
+        <div class="tab-pane" id="nav-inventory" role="tabpanel">
+          <div>
+            <h1 class="p-2 m-2">Drink Inventory</h1>
+            <div class="p-2 m-2">
+              <?php
+                $inventory = $pdo->query("SELECT NAME, PRICE, STOCK, TYPE, CATEGORY, FLAVOR, INGRED FROM DRINKS;");
+                $rows = $inventory->fetchAll(PDO::FETCH_ASSOC);
+                if(empty($rows)) { echo "<p>No results found.</p>"; }
+                else 
+                {
+                    echo "<table class=\"table table-sm table-bordered table-dark table-striped table-hover\">";
+                    echo "<thead><tr>";
+                    foreach($rows[0] as $key => $value)
+                    {
+                        echo "<th>$key</th>";
+                    }
+                    echo "</tr></thead><tbody class=\"table-group-divider\">";
+                    foreach($rows as $row)
+                    {
+                        echo "<tr>";
+                        foreach($row as $key => $value)
+                        {
+                            echo "<td>$value</td>";
+                        }
+                        echo "</tr>";
+                    }
+                    echo "</tbody></table>";
+                }
+              ?>
+              <form action="" method="POST"><br>
+                <button class="btn btn-val btn-lg fw-bold" type="submit" name="restock">Fully Restock</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+      <footer class="pt-2 mt-4 text-muted border-top">
+        Copyright (c) Keeree Joe Group. 2064.
+        CALICOMP and Keeree Joe Group are registered tademarks of Banjo Group.
+      </footer>
+    </div>
   </main>
-  <?php
-  }
-  else
-  {
-  ?>
-    <form method="POST" action="" id="sign_in">
-        <h1>Employee Login</h1>
-            <input type="password" name="pass" placeholder="Subekan" required />
-            <input type="submit" name="submit_password" value="Login" />
-        <p><font style="color:red;"><?php echo $error;?></font></p>
-    </form>
-  <?php	
-  }
-  ?>
-
   <!-- Bootstrap JavaScript Libraries -->
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
     integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous">
@@ -443,4 +371,5 @@ if(isset($_POST['sign_out']))
   </script>
 
 </body>
+
 </html>

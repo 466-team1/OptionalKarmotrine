@@ -32,7 +32,7 @@ require_once '../lib/drinksLib.php';
   <header>
     <nav class="navbar navbar-expand-lg navbar-dark">
       <div class="container-fluid" id="borderCALI">
-        <a class="navbar-brand" href="#">
+        <a class="navbar-brand" href="index.php">
           <img src="assets/Logo.png" alt="CALICOMP" width="69" height="57">
         </a>
         <div class="collapse navbar-collapse" id="collapsibleNavId">
@@ -82,7 +82,7 @@ require_once '../lib/drinksLib.php';
             <img class="d-block mx-auto mb-2" src="assets/Logo.png">
             <h2>Your order has been placed</h2>
             <p class="lead">Thank for for placing an order. Your order number is #$ordernum. Tracking information will be sent to your email and
-              may also be obtained from entering your order number at the <a href="ordertrack.php">Find My Order</a> page.
+              may also be obtained from entering your order number at the <a href="orderTrack.php">Find My Order</a> page.
             </p>
           </div>
           HTML;

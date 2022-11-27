@@ -252,7 +252,7 @@ function drawCheckout(PDO &$pdo)
     }
 }
 
-function drawOrder(PDO &$pdo)
+function drawOrder(PDO &$pdo): bool
 {
     $sql = <<<SQL
     SELECT * FROM ORDERS
@@ -270,24 +270,30 @@ function drawOrder(PDO &$pdo)
         echo "Query Failure: " . $e->getMessage();
     }
 
-    if(empty($rows)) { echo "<p class=\"text-center Adelhyde\">Order not found.</p><img class=\"d-block mx-auto mb-2\" src=\"assets/drinks/ERROR.png\" id=\"borderCALI\"></div>"; }
+    if(empty($rows))
+    { 
+        echo "<p class=\"text-center Adelhyde\">Order not found.</p><img class=\"d-block mx-auto mb-2\" src=\"assets/drinks/ERROR.png\" id=\"borderCALI\">";
+        return false;
+    }
     else 
     {
         foreach($rows as $row)
         {
             echo <<<HTML
-            <h2>Order#{$row['ORDER_NUM']}</h2><span class="Adelhyde fs-5">Email: {$row['CUS_EMAIL']}</span>
-            <li class="list-group-item d-flex justify-content-between lh-sm">
-            <div>
-              <h6 class="my-0 Bronson fs-5">{$row['CUS_NAME']}</h6>
-              <small class="Flanergide fs-5">Address: {$row['CUS_ADDRESS']}</small>
+            <div class="p-2 m-2">
+              <h2>Order#{$row['ORDER_NUM']}</h2><span class="Adelhyde fs-5">Email: {$row['CUS_EMAIL']}</span>
+              <li class="list-group-item d-flex justify-content-between lh-sm">
+              <div>
+                <h6 class="my-0 Bronson fs-5">{$row['CUS_NAME']}</h6>
+                <small class="Flanergide fs-5">Address: {$row['CUS_ADDRESS']}</small>
+              </div>
+              <div>
+                <h6 class="my-0 Flanergide fs-5"><a href="#">Tracking #{$row['TRACKING']}</a></h6>
+                <small class="Delta fs-5">Order Status: {$row['STATUS']}</small>
+              </div>
+              <h2 class="Karmotrine">Order Total:\${$row['COST']}</h2>
+              </li><hr>
             </div>
-            <div>
-              <h6 class="my-0 Flanergide fs-5"><a href="#">Tracking #{$row['TRACKING']}</a></h6>
-              <small class="Delta fs-5">Order Status: {$row['STATUS']}</small>
-            </div>
-            <h2 class="Karmotrine">Order Total:\${$row['COST']}</h2>
-            </li><hr>
             HTML;
         }
 
@@ -319,7 +325,7 @@ function drawOrder(PDO &$pdo)
                 $filename = str_replace(' ', '', $row['NAME']);
                 echo <<<HTML
                 <div class="row d-flex justify-content-between align-items-center">
-                  <div class="col-2 p-2 m-2">
+                  <div class="col-2 p-3 m-3">
                     <img src="assets/drinks/$filename" class="img-fluid rounded-start" id="borderCALI">
                   </div>
                   <div class="col-4">
@@ -341,6 +347,7 @@ function drawOrder(PDO &$pdo)
             echo "</div>";
         }
     }
+    return true;
 }
 
 ?>

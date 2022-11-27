@@ -5,7 +5,7 @@ require_once '../lib/drinksLib.php';
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>Employee Portal</title>
+  <title>Find My Order</title>
   <link rel="icon" type="image/x-icon" href="assets/favicon.ico">
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -36,7 +36,7 @@ require_once '../lib/drinksLib.php';
   <header>
     <nav class="navbar navbar-expand-lg navbar-dark">
       <div class="container-fluid" id="borderCALI">
-        <a class="navbar-brand" href="#">
+        <a class="navbar-brand" href="index.php">
           <img src="assets/Logo.png" alt="CALICOMP" width="69" height="57">
         </a>
         <div class="collapse navbar-collapse" id="collapsibleNavId">
