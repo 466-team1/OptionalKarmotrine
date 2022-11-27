@@ -252,4 +252,102 @@ function drawCheckout(PDO &$pdo)
     }
 }
 
+function drawOrder(PDO &$pdo): bool
+{
+    $sql = <<<SQL
+    SELECT * FROM ORDERS
+    WHERE ORDER_NUM = ?
+    SQL;
+
+    try
+    {   
+        $statement = $pdo->prepare($sql);
+        $statement->execute([$_POST['ordernum']]);
+        $rows = $statement->fetchAll(PDO::FETCH_ASSOC);
+    }
+    catch(PDOException $e)
+    {
+        echo "Query Failure: " . $e->getMessage();
+    }
+
+    if(empty($rows))
+    { 
+        echo "<p class=\"text-center Adelhyde\">Order not found.</p><img class=\"d-block mx-auto mb-2\" src=\"assets/drinks/ERROR.png\" id=\"borderCALI\">";
+        return false;
+    }
+    else 
+    {
+        foreach($rows as $row)
+        {
+            echo <<<HTML
+            <div class="p-2 m-2">
+              <h2>Order#{$row['ORDER_NUM']}</h2><span class="Adelhyde fs-5">Email: {$row['CUS_EMAIL']}</span>
+              <li class="list-group-item d-flex justify-content-between lh-sm">
+              <div>
+                <h6 class="my-0 Bronson fs-5">{$row['CUS_NAME']}</h6>
+                <small class="Flanergide fs-5">Address: {$row['CUS_ADDRESS']}</small>
+              </div>
+              <div>
+                <h6 class="my-0 Flanergide fs-5"><a href="#">Tracking #{$row['TRACKING']}</a></h6>
+                <small class="Delta fs-5">Order Status: {$row['STATUS']}</small>
+              </div>
+              <h2 class="Karmotrine">Order Total:\${$row['COST']}</h2>
+              </li><hr>
+            </div>
+            HTML;
+        }
+
+        $sql = <<<SQL
+        SELECT * FROM HAS
+        JOIN DRINKS USING (NAME)
+        WHERE ORDER_NUM = ?
+        SQL;
+
+        try
+        {   
+            $statement = $pdo->prepare($sql);
+            $statement->execute([$_POST['ordernum']]);
+            $rows = $statement->fetchAll(PDO::FETCH_ASSOC);
+        }
+        catch(PDOException $e)
+        {
+            echo "Query Failure: " . $e->getMessage();
+        }
+
+        if(empty($rows)) { echo "<p>No drinks found in order.</p>"; }
+        else 
+        {   echo"<div id=\"borderTECH\">";
+            echo "<h2 class = \"p-2 m-2\">Order Contents</h2>";
+            foreach($rows as $row)
+            {
+                $floatPrice = number_format((float)$row['PRICE'], 2, '.', '');
+                $adjustedPrice = number_format((float)($row['QTY'] * $floatPrice), 2, '.', '');
+                $filename = str_replace(' ', '', $row['NAME']);
+                echo <<<HTML
+                <div class="row d-flex justify-content-between align-items-center">
+                  <div class="col-2 p-3 m-3">
+                    <img src="assets/drinks/$filename" class="img-fluid rounded-start" id="borderCALI">
+                  </div>
+                  <div class="col-4">
+                    <p class="Adelhyde fs-4">{$row['NAME']}</p>
+                    <p class="Flanergide">
+                      <span class="Bronson">Flavor: </span>{$row['FLAVOR']} <span class="Bronson">Type: </span>{$row['TYPE']}<br>
+                      <span class="Bronson">Catagory: </span>{$row['CATEGORY']} <span class="Karmotrine">Price: \$$floatPrice</span><br>
+                    </p>
+                  </div>
+                  <div class="col-2">
+                    <h2 class="Delta">Quantity:{$row['QTY']}</h2>
+                  </div>
+                  <div class="col-2">
+                    <h2 class="Karmotrine">\$$adjustedPrice</h2>
+                  </div>
+                </div>
+                HTML;
+            }
+            echo "</div>";
+        }
+    }
+    return true;
+}
+
 ?>

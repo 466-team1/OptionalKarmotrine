@@ -78,7 +78,7 @@ require_once '../lib/drinksLib.php';
   <header>
     <nav class="navbar navbar-expand-lg navbar-dark">
       <div class="container-fluid" id="borderCALI">
-        <a class="navbar-brand" href="#">
+        <a class="navbar-brand" href="index.php">
           <img src="assets/Logo.png" alt="CALICOMP" width="69" height="57">
         </a>
         <div class="collapse navbar-collapse" id="collapsibleNavId">
@@ -210,7 +210,7 @@ require_once '../lib/drinksLib.php';
             <button class="nav-link fs-5" id="promo-tab" data-bs-toggle="tab" data-bs-target="#promo-tab-pane" type="button" role="tab">Promo</button>
           </li>
         </ul>
-        <div class="tab-content" id="myTabContent">
+        <div class="tab-content">
           <div class="tab-pane fade" id="classic-tab-pane" role="tabpanel">
             <div id="borderIMG">
               <?php selectType($pdo, 'Classic')?>
@@ -267,7 +267,7 @@ require_once '../lib/drinksLib.php';
             <button class="nav-link fs-5" id="vintage-tab" data-bs-toggle="tab" data-bs-target="#vintage-tab-pane" type="button" role="tab">Vintage</button>
           </li>
         </ul>
-        <div class="tab-content" id="myTabContent">
+        <div class="tab-content">
           <div class="tab-pane fade" id="bland-tab-pane" role="tabpanel">
             <div id="borderIMG">
               <?php selectCategory($pdo, 'Bland')?>

@@ -40,7 +40,7 @@ if(isset($_POST['code']) && !empty($_POST['code']))
   <header>
     <nav class="navbar navbar-expand-lg navbar-dark">
       <div class="container-fluid" id="borderCALI">
-        <a class="navbar-brand" href="#">
+        <a class="navbar-brand" href="index.php">
           <img src="assets/Logo.png" alt="CALICOMP" width="69" height="57">
         </a>
         <div class="collapse navbar-collapse" id="collapsibleNavId">
@@ -78,8 +78,8 @@ if(isset($_POST['code']) && !empty($_POST['code']))
     </nav>
   </header>
 
-  <main>
-    <div class="container py-5">
+  <main class="container py-5">
+    <div>
       <div class="row d-flex justify-content-center">
         <div class="col-12" id="borderCALI">
           <h3 class="fw-bold m-4">Your Shopping Cart <i class="fas fa-shopping-cart"></i></h3>
