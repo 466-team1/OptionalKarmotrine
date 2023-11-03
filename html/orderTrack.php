@@ -99,7 +99,7 @@ require_once '../lib/drinksLib.php';
     </div>
     <footer class="pt-2 mt-4 text-muted border-top">
       Copyright (c) Keeree Joe Group. 2064.
-      CALICOMP and Keeree Joe Group are registered tademarks of Banjo Group.
+      CALICOMP and Keeree Joe Group are registered trademarks of Banjo Group.
     </footer>
   </main>
   <!-- Bootstrap JavaScript Libraries -->
