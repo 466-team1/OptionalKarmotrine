@@ -118,7 +118,7 @@ function drinkERROR()
             {
                 foreach($rows as $row)
                 {
-                    $filename = str_replace(' ', '', $row['NAME']);
+                    $filename = str_replace(' ', '', $row['NAME']) . ".png";
                 }
             }
         }

@@ -1,11 +1,13 @@
 <?php
 
-$username = 'z1951125';
-$password = '2000Mar30';
+$config = parse_ini_file("../config/config.ini");
+$username = $config['MYSQL_USER'];
+$password = $config['MYSQL_PASSWORD'];
+$dbname = $config['MYSQL_DATABASE'];
 
 try 
 {
-    $dsn = "mysql:host=courses; dbname=z1951125";
+    $dsn = "mysql:host=courses; dbname=$dbname";
     $pdo = new PDO($dsn, $username, $password, [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
 }
 catch(PDOException $e)
