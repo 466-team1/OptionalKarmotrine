@@ -68,7 +68,7 @@ function drawCards($rows)
         echo "<div class=\"row row-cols-1 row-cols-md-3 g-4\">";
         foreach($rows as $row)
         {
-            $filename = str_replace(' ', '', $row['NAME']);
+            $filename = str_replace(' ', '', $row['NAME']) . ".png";
             $urlName = str_replace(' ', '-', $row['NAME']);
 
             echo <<<HTML
