@@ -1,0 +1,36 @@
+version: "2.4"
+services:
+  web:
+    image: optional-karmotrine
+    build: .
+    ports:
+      - "8080:80"
+    volumes:
+      - "./config:/var/www/config"
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+  db:
+    image: mariadb:lts
+    restart: unless-stopped
+    volumes:
+      - db:/var/lib/mysql
+      - ./sql:/docker-entrypoint-initdb.d
+    environment:
+      MYSQL_ROOT_PASSWORD: csci466
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+    healthcheck:
+      test: ["CMD", "mysqladmin", "-u$MYSQL_USER", "-p$MYSQL_PASSWORD", "ping", "--silent"]
+      interval: 5s
+      start_period: 10s
+      timeout: 5s
+      retries: 2
+    networks:
+      default:
+        aliases:
+          - courses
+volumes:
+  db:
